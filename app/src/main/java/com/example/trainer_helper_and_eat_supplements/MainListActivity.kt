@@ -1,5 +1,6 @@
 package com.example.trainer_helper_and_eat_supplements
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -10,7 +11,7 @@ import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
 import com.example.trainer_helper_and_eat_supplements.MainList.MainListFragment
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivityBinding
 
-class MainActivityList : AppCompatActivity() {
+class MainListActivity : AppCompatActivity() {
 
     // объект для обращения к элементам экрана
     lateinit var binding: MainListActivityBinding
@@ -19,7 +20,7 @@ class MainActivityList : AppCompatActivity() {
     lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
     // текущий экран
-    var currentList:CONSTANTS.NavMenuBtns = CONSTANTS.NavMenuBtns.TRAINING_STORY
+    lateinit var currentList:CONSTANTS.NavMenuBtns
 
     // база данных
     var database: MyDatabase? = null
@@ -29,6 +30,16 @@ class MainActivityList : AppCompatActivity() {
 
         // Заполнение объекта экрана
         binding = MainListActivityBinding.inflate(layoutInflater)
+
+        // Запуск базы данных
+        Thread{
+            database =  MyDatabase.getDatabase(this)
+        }.start()
+
+        currentList = CONSTANTS.NavMenuBtns.TRAINING_STORY
+
+
+
 
         actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.mainDrawerLayout, R.string.nav_open, R.string.nav_close)
         binding.mainDrawerLayout.addDrawerListener(actionBarDrawerToggle)
@@ -55,11 +66,8 @@ class MainActivityList : AppCompatActivity() {
             true
         }
 
-        // Запуск базы данных
-        Thread{
-            database =  MyDatabase.getDatabase(this)
-        }.start()
 
+        setListFragment(currentList)
         setContentView(binding.root)
     }
 
@@ -69,6 +77,28 @@ class MainActivityList : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.add_btn){
+            var intent: Intent = when(currentList){
+                CONSTANTS.NavMenuBtns.COMPLEXES->{
+                    Intent(this, EditAddComplexActivity::class.java)
+                }
+                CONSTANTS.NavMenuBtns.EXERCISES->{
+                    Intent(this, EditAddExerciseActivity::class.java)
+                }
+                CONSTANTS.NavMenuBtns.TRAINING_STORY->{
+                    Intent(this, EditTrainActivity::class.java)
+                }
+                CONSTANTS.NavMenuBtns.FOOD_ADDITIVES->{
+                    Intent(this, EditAddFoodAdditiveActivity::class.java)
+                }
+            }
+            startActivity(intent)
+            Toast.makeText(this, "add", Toast.LENGTH_SHORT).show()
+            // Переключаю на окно добавления
+
+            // Запускаю активити
+
+        }
         if(actionBarDrawerToggle.onOptionsItemSelected(item)){
             return true
         }

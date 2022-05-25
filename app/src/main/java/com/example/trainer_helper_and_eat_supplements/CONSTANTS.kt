@@ -1,6 +1,6 @@
 package com.example.trainer_helper_and_eat_supplements
 
-class CONSTANTS {
+object CONSTANTS {
     // Вилы главных списков
     enum class NavMenuBtns{
         COMPLEXES,
