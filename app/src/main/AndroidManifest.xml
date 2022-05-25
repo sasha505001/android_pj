@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Trainer_helper_and_eat_supplements"
         tools:targetApi="31">
         <activity
-            android:name=".activity_list"
+            android:name=".MainActivityList"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
