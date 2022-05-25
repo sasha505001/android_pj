@@ -1,10 +1,73 @@
 <resources>
     <!-- Название приложения -->
-    <string name="app_name">Trainer_helper_and_eat_supplements</string>
+    <string name="app_name">Trainer helper</string>
 
+    <!--Для меню-->
     <string name="training_story">История тренировок</string>
     <string name="training">Тренировка</string>
     <string name="exercises">Упражнения</string>
     <string name="complexes">Комплексы</string>
     <string name="food_additives">Пищевые добавки</string>
+
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+
+    <!-- Для фрагмента -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="desc_for_menu_btn">This is menu button</string>
+
+    <!-- Для popupmenu -->
+    <string name="menu_edit">Редактировать</string>
+    <string name="menu_delete">Удалить</string>
+
+    <string name="add_title">Добавить</string>
+
+    <!-- Для редактирования упражнения -->
+    <!-- Название -->
+    <string name="exercise_name_header">Название упражнения</string>
+    <string name="hint_exercise_name">Введите название</string>
+    <!-- Мера -->
+    <string name="measure_header">Мера измерения</string>
+    <string name="default_value_of_measures">Мера не выбрана</string>
+    <!-- Изображение -->
+    <string name="picture_header_text">Изображение</string>
+    <string name="btn_choose_picture_text">Выберите изображение</string>
+    <!-- Ссылка -->
+    <string name="link_header_text">Ссылка</string>
+    <string name="link_text_hint">Введите ссылку</string>
+
+    <!-- Для редактирования комплекса упражнений -->
+    <!-- Название -->
+    <string name="complex_name_header">Название комплекса</string>
+    <string name="complex_name_hint_text">Введите название комплекса</string>
+    <!-- Упражнения -->
+    <string name="default_text_of_choose_exercises">Не выбраны</string>
+
+    <!-- Для редактирования пищевых добавок -->
+    <!-- Название -->
+    <string name="food_additives_header_text">Название пищевой добавки</string>
+    <string name="food_additives_name_text_hint">Введите название пищ. добавки</string>
+
+    <!-- Мера -->
+    <string name="food_additives_header_measure_text">Мера</string>
+    <string name="description_for_spinner_measure_of_additive">
+        Список выбора меры измерения пищевой добавки
+    </string>
+
+    <!-- Дни приема -->
+    <string name="header_day_of_taking_food_additives_text">Дни приема</string>
+    <string name="description_for_spinner_day_of_taking_food_additives">
+        Выбор дней приема
+    </string>
+
+    <!-- Время принятия пищевой добавки -->
+    <string name="header_time_to_take_food_additive_text">Время приема</string>
+
+    <!-- item времени -->
+    <string name="item_description_for_delete_btn">Кнопка для удаления времени</string>
+
+    <!-- ok menu -->
+    <string name="title_ok_menu">Окей</string>
+
+
 </resources>
