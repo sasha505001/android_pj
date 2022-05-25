@@ -3,14 +3,15 @@ package com.example.trainer_helper_and_eat_supplements
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
-import com.example.trainer_helper_and_eat_supplements.databinding.MainActivityListBinding
+import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivityBinding
 
 class MainActivityList : AppCompatActivity() {
 
     // объект для обращения к элементам экрана
-    lateinit var binding: MainActivityListBinding
+    lateinit var binding: MainListActivityBinding
 
     // Меню
     lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
@@ -22,7 +23,7 @@ class MainActivityList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Заполнение объекта экрана
-        binding = MainActivityListBinding.inflate(layoutInflater)
+        binding = MainListActivityBinding.inflate(layoutInflater)
 
         actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.mainDrawerLayout, R.string.nav_open, R.string.nav_close)
         binding.mainDrawerLayout.addDrawerListener(actionBarDrawerToggle)
@@ -42,5 +43,10 @@ class MainActivityList : AppCompatActivity() {
         return true
     }
 
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(actionBarDrawerToggle.onOptionsItemSelected(item)){
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
