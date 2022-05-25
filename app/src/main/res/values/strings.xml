@@ -1,3 +1,10 @@
 <resources>
+    <!-- Название приложения -->
     <string name="app_name">Trainer_helper_and_eat_supplements</string>
+
+    <string name="training_story">История тренировок</string>
+    <string name="training">Тренировка</string>
+    <string name="exercises">Упражнения</string>
+    <string name="complexes">Комплексы</string>
+    <string name="food_additives">Пищевые добавки</string>
 </resources>
