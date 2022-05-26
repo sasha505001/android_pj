@@ -5,13 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.trainer_helper_and_eat_supplements.CONSTANTS
+import androidx.activity.viewModels
+import androidx.fragment.app.viewModels
+import com.example.trainer_helper_and_eat_supplements.*
 import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
-import com.example.trainer_helper_and_eat_supplements.R
 
 
+class MainListFragment(val app: MyApp) : Fragment() {
 
-class MainListFragment : Fragment() {
+    val myDatamodel:MyDataModel by viewModels{
+        MyDataModelFactory(app)
+    }
 
     // Тип списка который используется
     var typeOfFragment: CONSTANTS.NavMenuBtns? = null
@@ -21,7 +25,6 @@ class MainListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -35,10 +38,9 @@ class MainListFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(typeOfList: CONSTANTS.NavMenuBtns, database: MyDatabase?):Fragment{
-            var myFragment = MainListFragment()
+        fun newInstance(app: MyApp ,typeOfList: CONSTANTS.NavMenuBtns):Fragment{
+            var myFragment = MainListFragment(app)
             myFragment.typeOfFragment = typeOfList
-            myFragment.myDatabase = database
             return myFragment
         }
     }

@@ -10,19 +10,19 @@ import androidx.room.PrimaryKey
         value = ["name"],
         unique = true
     )])
-class ExercisesData (
+data class ExercisesData (
 
     // Название упражнения
     @ColumnInfo(name = "name")
-    var name:String,
+    val name:String,
 
     // Картинка
     @ColumnInfo(name = "image")
-    var myImage: String?,
+    val myImage: String? = null,
 
     // Ссылка
     @ColumnInfo(name = "link")
-    var link: String?,
+    val link: String? = null,
 
     ){
     // ID

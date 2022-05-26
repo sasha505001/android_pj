@@ -9,9 +9,9 @@ import androidx.room.PrimaryKey
         value = ["name"],
         unique = true,
     )])
-class ComplexesData(
+data class ComplexesData(
     @ColumnInfo(name = "name")
-    var name:String
+    val name:String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id:Int = 0

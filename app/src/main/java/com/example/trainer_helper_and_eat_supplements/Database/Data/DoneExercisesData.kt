@@ -22,7 +22,7 @@ import androidx.room.PrimaryKey
         )
     ]
 )
-class DoneExercisesData(
+data class DoneExercisesData(
 
     @ColumnInfo(name = "exercise_id")
     var exercise:Int?,

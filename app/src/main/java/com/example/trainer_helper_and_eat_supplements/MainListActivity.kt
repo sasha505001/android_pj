@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
 import com.example.trainer_helper_and_eat_supplements.MainList.MainListFragment
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivityBinding
 
 class MainListActivity : AppCompatActivity() {
+
+    val myDatamodel:MyDataModel by viewModels{
+        MyDataModelFactory(application as MyApp)
+    }
 
     // объект для обращения к элементам экрана
     lateinit var binding: MainListActivityBinding
@@ -22,8 +26,7 @@ class MainListActivity : AppCompatActivity() {
     // текущий экран
     lateinit var currentList:CONSTANTS.NavMenuBtns
 
-    // база данных
-    var database: MyDatabase? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,15 +34,7 @@ class MainListActivity : AppCompatActivity() {
         // Заполнение объекта экрана
         binding = MainListActivityBinding.inflate(layoutInflater)
 
-        // Запуск базы данных
-        Thread{
-            database =  MyDatabase.getDatabase(this)
-        }.start()
-
         currentList = CONSTANTS.NavMenuBtns.TRAINING_STORY
-
-
-
 
         actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.mainDrawerLayout, R.string.nav_open, R.string.nav_close)
         binding.mainDrawerLayout.addDrawerListener(actionBarDrawerToggle)
@@ -71,6 +66,11 @@ class MainListActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
+    override fun onResume() {
+        super.onResume()
+        setListFragment(currentList)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.add_menu, menu)
         return true
@@ -93,7 +93,7 @@ class MainListActivity : AppCompatActivity() {
                 }
             }
             startActivity(intent)
-            Toast.makeText(this, "add", Toast.LENGTH_SHORT).show()
+
             // Переключаю на окно добавления
 
             // Запускаю активити
@@ -114,11 +114,11 @@ class MainListActivity : AppCompatActivity() {
             CONSTANTS.NavMenuBtns.TRAINING_STORY -> getResources().getString(R.string.training_story)
         }
         supportActionBar?.title = title
-        Toast.makeText(this, title, Toast.LENGTH_SHORT).show()
         supportFragmentManager.beginTransaction().replace(
             R.id.main_frame,
-            MainListFragment.newInstance(typeOfList, database)
+            MainListFragment.newInstance(application as MyApp, typeOfList)
         ).commit()
         binding.mainDrawerLayout.closeDrawers()
     }
 }
+

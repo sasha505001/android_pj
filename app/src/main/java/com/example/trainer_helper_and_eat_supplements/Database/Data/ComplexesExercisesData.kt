@@ -25,7 +25,7 @@ import androidx.room.PrimaryKey
         )
     ]
 )
-class ComplexesExercisesData(
+data class ComplexesExercisesData(
     @ColumnInfo(name = "exercise_id")
     var exercise:Int,
 

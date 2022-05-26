@@ -21,7 +21,7 @@ import java.util.*
         )
     ]
 )
-class TrainsData(
+data class TrainsData(
     @ColumnInfo(name = "name")
     var name:String,
 

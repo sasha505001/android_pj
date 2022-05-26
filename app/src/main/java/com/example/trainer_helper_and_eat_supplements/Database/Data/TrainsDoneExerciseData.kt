@@ -26,7 +26,7 @@ import androidx.room.PrimaryKey
     ]
 
 )
-class TrainsDoneExerciseData (
+data class TrainsDoneExerciseData (
     @ColumnInfo(name = "train_id")
     var train_id:Int,
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
 import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
 import com.example.trainer_helper_and_eat_supplements.databinding.EditAddExerciseActivityBinding
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivityBinding
@@ -38,7 +39,7 @@ class EditAddExerciseActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        setContentView(R.layout.edit_add_exercise_activity)
+        setContentView(binding.root)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -49,9 +50,7 @@ class EditAddExerciseActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.ok_btn){
             // TODO проверка и создание в бд
-            if(binding.nameOfExercise.text.toString() == ""){
-                Toast.makeText(this, "haha", Toast.LENGTH_SHORT).show()
-            }
+            saveInDatabase()
         }
         if(item.itemId == android.R.id.home){
             finish()
@@ -60,7 +59,23 @@ class EditAddExerciseActivity : AppCompatActivity() {
     }
 
     private fun saveInDatabase(){
-        
+        var alertStr:String = ""
+        var data:ExercisesData?
+        // Проверка на заполнение данных
+        if(binding.nameOfExercise.text.toString() == ""){
+            alertStr = alertStr + "Введите имя упражнения\n"
+            Toast.makeText(this, binding.nameOfExercise.text.toString(), Toast.LENGTH_SHORT).show()
+        }
+        /* TODO проверка на одинаковые имена
+        if(binding.mesureText.text.toString() == getString(R.string.default_value_of_measures)){
+            alertStr = alertStr + "Введите меры\n"
+        }*/
+        if(alertStr == ""){
+            data = ExercisesData(binding.nameOfExercise.text.toString())
+
+            finish()
+        }
+
     }
 
 

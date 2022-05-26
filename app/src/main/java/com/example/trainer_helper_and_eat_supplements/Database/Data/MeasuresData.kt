@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
         value = ["name"],
         unique = true
     )])
-class MeasuresData(
+data class MeasuresData(
 
 
     // Название упражнения

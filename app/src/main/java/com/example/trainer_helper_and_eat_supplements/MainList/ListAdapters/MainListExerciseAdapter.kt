@@ -15,11 +15,7 @@ import com.example.trainer_helper_and_eat_supplements.databinding.MainListItemBi
 class MainListExerciseAdapter(database: MyDatabase?): RecyclerView.Adapter<MainListExerciseAdapter.ExercisesHolder>() {
     var exercises = listOf<ExercisesData>()
 
-    init {
-        Thread(Runnable {
-            exercises = database?.ExercisesDao()?.getAllExercises()!!
-        }).start()
-    }
+    // TODO инициализировать данные
 
     class ExercisesHolder (item: View) : RecyclerView.ViewHolder(item){
         var binding = MainListItemBinding.bind(item)

@@ -35,9 +35,12 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
     abstract fun TrainsDoneExercisesDao(): TrainsDoneExercisesDao
 
     companion object{
+        @Volatile
         private var MYINSTANCE: MyDatabase? = null
         @JvmStatic
-        fun getDatabase(context:Context):MyDatabase? {
+        fun getDatabase(
+            context:Context
+        ):MyDatabase? {
             if(MYINSTANCE==null){
                 synchronized(this){
                     MYINSTANCE = Room.databaseBuilder(
@@ -47,70 +50,23 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
                     ).build()
                 }
             }
-            //initFirstData() TODO pain
             deleteAllData()
+            initFirstData()
             return MYINSTANCE
         }
 
-        fun destroyInstance() {
-            MYINSTANCE = null
-        }
+
 
         fun initFirstData(){
-            // Меры по умолчанию
-            MYINSTANCE?.MeasuresDao()?.addAllMeasure(
-                MeasuresData("Вес (кг)"),
-                MeasuresData("Время (с)"),
-                MeasuresData("Повторения (раз)"),
-                MeasuresData("Расстояние (м)")
-            )
-            insertInitData()
-        }
-        fun insertInitData(){
-            MYINSTANCE?.ComplexesDao()?.insertAll(
-                ComplexesData("myComplex")
-            )
-            MYINSTANCE?.ExercisesDao()?.insertAll(
-                ExercisesData("Exercise", null, null)
-            )
-
-            MYINSTANCE?.ComplexesExercisesDao()?.insertAll(
-                ComplexesExercisesData(
-                    MYINSTANCE?.ExercisesDao()?.getExerciseByName("Exercise")?.id!!,
-                    MYINSTANCE?.ComplexesDao()?.getComplex("myComplex")?.id!!
+            if (MYINSTANCE?.MeasuresDao()?.getAllMeasures()==null) {
+                // Меры по умолчанию
+                MYINSTANCE?.MeasuresDao()?.addAllMeasure(
+                    MeasuresData("Вес (кг)"),
+                    MeasuresData("Время (с)"),
+                    MeasuresData("Повторения (раз)"),
+                    MeasuresData("Расстояние (м)")
                 )
-            )
-            MYINSTANCE?.ExerciseMeasuresDao()?.insertAll(
-                ExerciseMeasuresData(
-                    MYINSTANCE?.ExercisesDao()?.getExerciseByName("Exercise")?.id!!,
-                    MYINSTANCE?.MeasuresDao()?.getMeasureByName("Вес (кг)")?.id!!
-                )
-            )
-            MYINSTANCE?.DoneExercisesDao()?.insertAll(
-                DoneExercisesData(
-                    MYINSTANCE?.ExercisesDao()?.getExerciseByName("Exercise")?.id!!,
-                    MYINSTANCE?.MeasuresDao()?.getMeasureByName("Вес (кг)")?.id!!,
-                    10.0f
-                )
-            )
-
-            Log.d("MyLog", "lol")
-            MYINSTANCE?.TrainsDao()?.insertAll(
-                TrainsData(
-                    "MyTrain",
-                    MYINSTANCE?.ComplexesDao()?.getComplex("myComplex")?.id!!,
-                    Calendar.getInstance().time
-                )
-            )
-            // могу получить список и из него взять сделанное упражнение
-
-            //TODO сделать связь тренировка сделанное упражнение - тренировка
-            MYINSTANCE?.TrainsDoneExercisesDao()?.insertAll(
-                TrainsDoneExerciseData(
-                    MYINSTANCE?.TrainsDao()?.getTrainByName("MyTrain")?.id!!,
-                    MYINSTANCE?.DoneExercisesDao()?.getAll()?.last()?.id!!
-            )
-            )
+            }
         }
 
         fun deleteAllData(){
@@ -122,6 +78,10 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
             MYINSTANCE?.MeasuresDao()?.deleteAll()
             MYINSTANCE?.TrainsDao()?.deleteAll()
             MYINSTANCE?.TrainsDoneExercisesDao()?.deleteAll()
+        }
+
+        fun destroyInstance() {
+            MYINSTANCE = null
         }
     }
 }
