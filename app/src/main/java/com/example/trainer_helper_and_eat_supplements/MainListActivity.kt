@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
@@ -16,6 +18,8 @@ import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.Main
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivityBinding
 
 class MainListActivity : AppCompatActivity() {
+
+
 
     // Livedata
     private val myDatamodel:MyDataModel by viewModels{
@@ -70,7 +74,7 @@ class MainListActivity : AppCompatActivity() {
                     var adapter = MainListTrainsAdapter(trainList)
                     supportFragmentManager.beginTransaction().replace(
                         R.id.main_frame,
-                        MainListFragment.newInstance(currentList, adapter)
+                        MainListFragment.newInstance(this, currentList, adapter)
                     ).commit()
                 }
                 R.id.exercises -> {
@@ -78,7 +82,7 @@ class MainListActivity : AppCompatActivity() {
                     var adapter = MainListExerciseAdapter(exerciseList)
                     supportFragmentManager.beginTransaction().replace(
                         R.id.main_frame,
-                        MainListFragment.newInstance(currentList, adapter)
+                        MainListFragment.newInstance(this, currentList, adapter)
                     ).commit()
                 }
                 R.id.complexes -> {
@@ -86,7 +90,7 @@ class MainListActivity : AppCompatActivity() {
                     var adapter = MainListComplexAdapter(complexList)
                     supportFragmentManager.beginTransaction().replace(
                         R.id.main_frame,
-                        MainListFragment.newInstance(currentList, adapter)
+                        MainListFragment.newInstance(this, currentList, adapter)
                     ).commit()
                 }
                 R.id.food_additives -> {
@@ -94,7 +98,7 @@ class MainListActivity : AppCompatActivity() {
                     var adapter = MainListFoodAdditiveAdapter(foodAdditiveList)
                     supportFragmentManager.beginTransaction().replace(
                         R.id.main_frame,
-                        MainListFragment.newInstance(currentList, adapter)
+                        MainListFragment.newInstance(this, currentList, adapter)
                     ).commit()
                 }
             }
@@ -111,6 +115,14 @@ class MainListActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.add_menu, menu)
         return true
+    }
+
+    // Activity for result
+    val editAddExercise = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            result: ActivityResult ->
+        if(result.resultCode == RESULT_OK){
+
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -137,6 +149,9 @@ class MainListActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+
+    // Получение текущего листа
     fun getStringTitle(typeOfList: CONSTANTS.NavMenuBtns):String{
         var str = when(typeOfList){
             CONSTANTS.NavMenuBtns.COMPLEXES -> getResources().getString(R.string.complexes)

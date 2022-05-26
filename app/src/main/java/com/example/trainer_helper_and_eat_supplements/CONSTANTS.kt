@@ -9,5 +9,8 @@ object CONSTANTS {
         TRAINING_STORY,
     }
 
+    // Имя редактируемого объекта
     val NAMEOFEDITOBJ:String = "nameOfEditObj"
+
+
 }

@@ -5,20 +5,24 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
 import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
+import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.databinding.EditAddExerciseActivityBinding
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivityBinding
 
 class EditAddExerciseActivity : AppCompatActivity() {
 
+    // Livedata
+    private val myDatamodel:MyDataModel by viewModels{
+        MyDataModelFactory((MyApplication(this)).myRep)
+    }
+
     lateinit var binding: EditAddExerciseActivityBinding
 
     // Имя объекта(только при редактировании)
     var nameOfEditObject:String? = null
-
-    // База данных
-    var database: MyDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,16 +30,15 @@ class EditAddExerciseActivity : AppCompatActivity() {
         // Заполнение объекта экрана
         binding = EditAddExerciseActivityBinding.inflate(layoutInflater)
 
+        // Получение аргументов при редактировании
         var arguments = intent.extras
-
         if(arguments != null){
-            nameOfEditObject = arguments.getString("")
+            nameOfEditObject = arguments.getString(CONSTANTS.NAMEOFEDITOBJ)
         }
 
 
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         setContentView(binding.root)
     }
 
@@ -72,7 +75,6 @@ class EditAddExerciseActivity : AppCompatActivity() {
 
             finish()
         }
-
     }
 
 
