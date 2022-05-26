@@ -32,10 +32,7 @@ class EditAddExerciseActivity : AppCompatActivity() {
             nameOfEditObject = arguments.getString("")
         }
 
-        // Запуск базы данных
-        Thread{
-            database =  MyDatabase.getDatabase(this)
-        }.start()
+
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

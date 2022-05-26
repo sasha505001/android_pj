@@ -5,25 +5,27 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
-import com.example.trainer_helper_and_eat_supplements.LiveData.MyApp
+import com.example.trainer_helper_and_eat_supplements.LiveData.MyRepository
 import kotlinx.coroutines.launch
 
 
-class MyDataModel(var myApp: MyApp): ViewModel(){
+class MyDataModel(private val myRep: MyRepository): ViewModel(){
 
-    val allExercisesData: LiveData<List<ExercisesData>>? = myApp.allExercises
-    val allExercisesName: LiveData<List<String>>? = myApp.allExerciseName
+
+    val allExercisesData: LiveData<List<ExercisesData>> = myRep.allExercises
+    val allExercisesName: LiveData<List<String>> = myRep.allExerciseName
+
 
     fun insertExercise(exercisesData: ExercisesData) = viewModelScope.launch(){
-        myApp.insertExercise(exercisesData)
+        myRep.insertExercise(exercisesData)
     }
 }
 
-class MyDataModelFactory(private val myApp: MyApp) : ViewModelProvider.Factory {
+class MyDataModelFactory(private val repository: MyRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MyDataModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return MyDataModel(myApp) as T
+            return MyDataModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

@@ -24,7 +24,6 @@ import androidx.room.PrimaryKey
             onDelete = CASCADE
         )
     ]
-
 )
 data class TrainsDoneExerciseData (
     @ColumnInfo(name = "train_id")

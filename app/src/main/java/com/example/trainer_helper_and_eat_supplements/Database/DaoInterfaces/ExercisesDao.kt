@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
+import java.util.concurrent.Flow
 
 @Dao
 interface ExercisesDao {

@@ -8,7 +8,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
-import com.example.trainer_helper_and_eat_supplements.LiveData.MyApp
+import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListComplexAdapter
 import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListExerciseAdapter
 import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListFoodAdditiveAdapter
@@ -17,16 +17,16 @@ import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivi
 
 class MainListActivity : AppCompatActivity() {
 
+    // Livedata
+    private val myDatamodel:MyDataModel by viewModels{
+        MyDataModelFactory((MyApplication(this)).myRep)
+    }
+
     // Списки для загрузки в адаптер
     var complexList:List<String>? = null
     var exerciseList:List<String>? = listOf("exercise")
     var foodAdditiveList:List<String>? = listOf("food additive")
     var trainList:List<String>? = listOf("train")
-
-    // Livedata
-    val myDatamodel:MyDataModel by viewModels{
-        MyDataModelFactory(application as MyApp)
-    }
 
     // объект для обращения к элементам экрана
     lateinit var binding: MainListActivityBinding
@@ -41,17 +41,14 @@ class MainListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // заполнение списков
-        /*
-        if(myDatamodel == null){
-            Toast.makeText(this, "haha", Toast.LENGTH_SHORT)
-        }*/
-/*
-        myDatamodel.allExercisesName?.observe(this){
+        //exerciseList = myDatamodel.allExercisesName.value
+
+
+        myDatamodel.allExercisesName.observe(this){
             exerciseList = it
         }
-*/
+
         // Заполнение объекта экрана
         binding = MainListActivityBinding.inflate(layoutInflater)
 
@@ -78,7 +75,7 @@ class MainListActivity : AppCompatActivity() {
                 }
                 R.id.exercises -> {
                     currentList = CONSTANTS.NavMenuBtns.EXERCISES
-                    var adapter = MainListExerciseAdapter(trainList)
+                    var adapter = MainListExerciseAdapter(exerciseList)
                     supportFragmentManager.beginTransaction().replace(
                         R.id.main_frame,
                         MainListFragment.newInstance(currentList, adapter)
@@ -94,7 +91,7 @@ class MainListActivity : AppCompatActivity() {
                 }
                 R.id.food_additives -> {
                     currentList = CONSTANTS.NavMenuBtns.FOOD_ADDITIVES
-                    var adapter = MainListFoodAdditiveAdapter(trainList)
+                    var adapter = MainListFoodAdditiveAdapter(foodAdditiveList)
                     supportFragmentManager.beginTransaction().replace(
                         R.id.main_frame,
                         MainListFragment.newInstance(currentList, adapter)
@@ -140,7 +137,6 @@ class MainListActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
     fun getStringTitle(typeOfList: CONSTANTS.NavMenuBtns):String{
         var str = when(typeOfList){
             CONSTANTS.NavMenuBtns.COMPLEXES -> getResources().getString(R.string.complexes)

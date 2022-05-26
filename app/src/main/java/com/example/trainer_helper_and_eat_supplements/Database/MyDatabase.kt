@@ -43,19 +43,19 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
         ):MyDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context,
+                    context.applicationContext,
                     MyDatabase::class.java,
                     "mydatabase.db"
                 ).build()
                 INSTANCE = instance
-                initFirstData()
+                //initFirstData()
                 // return instance
                 instance
             }
         }
 
 
-
+/*
         fun initFirstData(){
             if (INSTANCE?.MeasuresDao()?.getAllMeasures()==null) {
                 // Меры по умолчанию
@@ -67,20 +67,7 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
                 )
             }
         }
+*/
 
-        fun deleteAllData(){
-            INSTANCE?.ComplexesDao()?.deleteAll()
-            INSTANCE?.ComplexesExercisesDao()?.deleteAll()
-            INSTANCE?.DoneExercisesDao()?.deleteAll()
-            INSTANCE?.ExerciseMeasuresDao()?.deleteAll()
-            INSTANCE?.ExercisesDao()?.deleteAll()
-            INSTANCE?.MeasuresDao()?.deleteAll()
-            INSTANCE?.TrainsDao()?.deleteAll()
-            INSTANCE?.TrainsDoneExercisesDao()?.deleteAll()
-        }
-
-        fun destroyInstance() {
-            INSTANCE = null
-        }
     }
 }
