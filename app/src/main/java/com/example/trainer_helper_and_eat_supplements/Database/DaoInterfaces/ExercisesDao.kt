@@ -16,7 +16,7 @@ interface ExercisesDao {
 
     // Получение списка названий всех упражнений
     @Query("SELECT name FROM exercise")
-    fun getAllNames():List<String>
+    fun getAllNames():LiveData<List<String>>
 
     // Получения упражнения по имени
     @Query("SELECT * FROM exercise WHERE name = :name")

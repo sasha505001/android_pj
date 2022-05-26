@@ -10,9 +10,9 @@ import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
 import com.example.trainer_helper_and_eat_supplements.R
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListItemBinding
 
-class MainListFoodAdditiveAdapter (database: MyDatabase?) : RecyclerView.Adapter<MainListFoodAdditiveAdapter.FoodAdditivesHolder>(){
+class MainListFoodAdditiveAdapter (myList:List<String>?) : RecyclerView.Adapter<MainListFoodAdditiveAdapter.FoodAdditivesHolder>(){
 
-    var stringList = arrayListOf<String>()
+    var stringList = myList
 
     class FoodAdditivesHolder(item: View) : RecyclerView.ViewHolder(item){
         var binding = MainListItemBinding.bind(item)
@@ -49,11 +49,14 @@ class MainListFoodAdditiveAdapter (database: MyDatabase?) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: FoodAdditivesHolder, position: Int) {
-        holder.bind(stringList[position])
+        holder.bind(stringList?.get(position)!!)
     }
 
     override fun getItemCount(): Int {
-        return stringList.size
+        if (stringList==null){
+            return 0
+        }
+        return stringList?.size!!
     }
 
 

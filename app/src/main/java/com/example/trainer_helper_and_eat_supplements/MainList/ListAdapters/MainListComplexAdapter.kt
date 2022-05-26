@@ -11,8 +11,8 @@ import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
 import com.example.trainer_helper_and_eat_supplements.R
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListItemBinding
 
-class MainListComplexAdapter (database: MyDatabase?) : RecyclerView.Adapter<MainListComplexAdapter.ComplexesHolder>(){
-    var stringList = arrayListOf<String>()
+class MainListComplexAdapter (var myList:List<String>?) : RecyclerView.Adapter<MainListComplexAdapter.ComplexesHolder>(){
+    var stringList = myList
 
     class ComplexesHolder (item: View) : RecyclerView.ViewHolder(item){
         var binding = MainListItemBinding.bind(item)
@@ -52,10 +52,13 @@ class MainListComplexAdapter (database: MyDatabase?) : RecyclerView.Adapter<Main
     }
 
     override fun onBindViewHolder(holder: ComplexesHolder, position: Int) {
-        holder.bind(stringList[position])
+        holder.bind(stringList?.get(position)!!)
     }
 
     override fun getItemCount(): Int {
-        return stringList.size
+        if (stringList==null){
+            return 0
+        }
+        return stringList?.size!!
     }
 }

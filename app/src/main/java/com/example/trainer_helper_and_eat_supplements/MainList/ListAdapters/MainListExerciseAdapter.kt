@@ -12,8 +12,8 @@ import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
 import com.example.trainer_helper_and_eat_supplements.R
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListItemBinding
 
-class MainListExerciseAdapter(database: MyDatabase?): RecyclerView.Adapter<MainListExerciseAdapter.ExercisesHolder>() {
-    var exercises = listOf<ExercisesData>()
+class MainListExerciseAdapter(myList:List<String>?): RecyclerView.Adapter<MainListExerciseAdapter.ExercisesHolder>() {
+    var exercises = myList
 
     // TODO инициализировать данные
 
@@ -54,11 +54,14 @@ class MainListExerciseAdapter(database: MyDatabase?): RecyclerView.Adapter<MainL
     }
 
     override fun onBindViewHolder(holder: ExercisesHolder, position: Int) {
-        holder.bind(exercises[position].name)
+        holder.bind(exercises?.get(position)!!)
     }
 
     override fun getItemCount(): Int {
-        return exercises.size
+        if (exercises==null){
+            return 0
+        }
+        return exercises?.size!!
     }
 
 

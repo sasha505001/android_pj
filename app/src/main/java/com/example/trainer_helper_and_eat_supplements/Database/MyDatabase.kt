@@ -36,31 +36,30 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
 
     companion object{
         @Volatile
-        private var MYINSTANCE: MyDatabase? = null
+        private var INSTANCE: MyDatabase? = null
         @JvmStatic
         fun getDatabase(
             context:Context
-        ):MyDatabase? {
-            if(MYINSTANCE==null){
-                synchronized(this){
-                    MYINSTANCE = Room.databaseBuilder(
-                        context,
-                        MyDatabase::class.java,
-                        "mydatabase.db"
-                    ).build()
-                }
+        ):MyDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context,
+                    MyDatabase::class.java,
+                    "mydatabase.db"
+                ).build()
+                INSTANCE = instance
+                initFirstData()
+                // return instance
+                instance
             }
-            deleteAllData()
-            initFirstData()
-            return MYINSTANCE
         }
 
 
 
         fun initFirstData(){
-            if (MYINSTANCE?.MeasuresDao()?.getAllMeasures()==null) {
+            if (INSTANCE?.MeasuresDao()?.getAllMeasures()==null) {
                 // Меры по умолчанию
-                MYINSTANCE?.MeasuresDao()?.addAllMeasure(
+                INSTANCE?.MeasuresDao()?.addAllMeasure(
                     MeasuresData("Вес (кг)"),
                     MeasuresData("Время (с)"),
                     MeasuresData("Повторения (раз)"),
@@ -70,18 +69,18 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
         }
 
         fun deleteAllData(){
-            MYINSTANCE?.ComplexesDao()?.deleteAll()
-            MYINSTANCE?.ComplexesExercisesDao()?.deleteAll()
-            MYINSTANCE?.DoneExercisesDao()?.deleteAll()
-            MYINSTANCE?.ExerciseMeasuresDao()?.deleteAll()
-            MYINSTANCE?.ExercisesDao()?.deleteAll()
-            MYINSTANCE?.MeasuresDao()?.deleteAll()
-            MYINSTANCE?.TrainsDao()?.deleteAll()
-            MYINSTANCE?.TrainsDoneExercisesDao()?.deleteAll()
+            INSTANCE?.ComplexesDao()?.deleteAll()
+            INSTANCE?.ComplexesExercisesDao()?.deleteAll()
+            INSTANCE?.DoneExercisesDao()?.deleteAll()
+            INSTANCE?.ExerciseMeasuresDao()?.deleteAll()
+            INSTANCE?.ExercisesDao()?.deleteAll()
+            INSTANCE?.MeasuresDao()?.deleteAll()
+            INSTANCE?.TrainsDao()?.deleteAll()
+            INSTANCE?.TrainsDoneExercisesDao()?.deleteAll()
         }
 
         fun destroyInstance() {
-            MYINSTANCE = null
+            INSTANCE = null
         }
     }
 }

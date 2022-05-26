@@ -5,14 +5,25 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
-import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
-import com.example.trainer_helper_and_eat_supplements.MainList.MainListFragment
+import com.example.trainer_helper_and_eat_supplements.LiveData.MyApp
+import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListComplexAdapter
+import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListExerciseAdapter
+import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListFoodAdditiveAdapter
+import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListTrainsAdapter
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivityBinding
 
 class MainListActivity : AppCompatActivity() {
 
+    // Списки для загрузки в адаптер
+    var complexList:List<String>? = null
+    var exerciseList:List<String>? = listOf("exercise")
+    var foodAdditiveList:List<String>? = listOf("food additive")
+    var trainList:List<String>? = listOf("train")
+
+    // Livedata
     val myDatamodel:MyDataModel by viewModels{
         MyDataModelFactory(application as MyApp)
     }
@@ -31,11 +42,23 @@ class MainListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // заполнение списков
+        /*
+        if(myDatamodel == null){
+            Toast.makeText(this, "haha", Toast.LENGTH_SHORT)
+        }*/
+/*
+        myDatamodel.allExercisesName?.observe(this){
+            exerciseList = it
+        }
+*/
         // Заполнение объекта экрана
         binding = MainListActivityBinding.inflate(layoutInflater)
 
+        // Ставлю первый лист TODO livedata должна
         currentList = CONSTANTS.NavMenuBtns.TRAINING_STORY
 
+        // Меню
         actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.mainDrawerLayout, R.string.nav_open, R.string.nav_close)
         binding.mainDrawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
@@ -46,29 +69,46 @@ class MainListActivity : AppCompatActivity() {
         binding.navMenu.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.training_story -> {
-                    setListFragment(CONSTANTS.NavMenuBtns.TRAINING_STORY)
+                    currentList = CONSTANTS.NavMenuBtns.TRAINING_STORY
+                    var adapter = MainListTrainsAdapter(trainList)
+                    supportFragmentManager.beginTransaction().replace(
+                        R.id.main_frame,
+                        MainListFragment.newInstance(currentList, adapter)
+                    ).commit()
                 }
                 R.id.exercises -> {
-                    setListFragment(CONSTANTS.NavMenuBtns.EXERCISES)
+                    currentList = CONSTANTS.NavMenuBtns.EXERCISES
+                    var adapter = MainListExerciseAdapter(trainList)
+                    supportFragmentManager.beginTransaction().replace(
+                        R.id.main_frame,
+                        MainListFragment.newInstance(currentList, adapter)
+                    ).commit()
                 }
                 R.id.complexes -> {
-                    setListFragment(CONSTANTS.NavMenuBtns.COMPLEXES)
+                    currentList = CONSTANTS.NavMenuBtns.COMPLEXES
+                    var adapter = MainListComplexAdapter(complexList)
+                    supportFragmentManager.beginTransaction().replace(
+                        R.id.main_frame,
+                        MainListFragment.newInstance(currentList, adapter)
+                    ).commit()
                 }
                 R.id.food_additives -> {
-                    setListFragment(CONSTANTS.NavMenuBtns.FOOD_ADDITIVES)
+                    currentList = CONSTANTS.NavMenuBtns.FOOD_ADDITIVES
+                    var adapter = MainListFoodAdditiveAdapter(trainList)
+                    supportFragmentManager.beginTransaction().replace(
+                        R.id.main_frame,
+                        MainListFragment.newInstance(currentList, adapter)
+                    ).commit()
                 }
             }
+            supportActionBar?.title = getStringTitle(currentList)
+            binding.mainDrawerLayout.closeDrawers()
             true
         }
 
 
-        setListFragment(currentList)
+        //setListFragment(currentList)
         setContentView(binding.root)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setListFragment(currentList)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -94,10 +134,6 @@ class MainListActivity : AppCompatActivity() {
             }
             startActivity(intent)
 
-            // Переключаю на окно добавления
-
-            // Запускаю активити
-
         }
         if(actionBarDrawerToggle.onOptionsItemSelected(item)){
             return true
@@ -105,20 +141,14 @@ class MainListActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setListFragment(typeOfList: CONSTANTS.NavMenuBtns){
-        currentList = typeOfList
-        var title = when(typeOfList){
+    fun getStringTitle(typeOfList: CONSTANTS.NavMenuBtns):String{
+        var str = when(typeOfList){
             CONSTANTS.NavMenuBtns.COMPLEXES -> getResources().getString(R.string.complexes)
             CONSTANTS.NavMenuBtns.EXERCISES -> getResources().getString(R.string.exercises)
             CONSTANTS.NavMenuBtns.FOOD_ADDITIVES -> getResources().getString(R.string.food_additives)
             CONSTANTS.NavMenuBtns.TRAINING_STORY -> getResources().getString(R.string.training_story)
         }
-        supportActionBar?.title = title
-        supportFragmentManager.beginTransaction().replace(
-            R.id.main_frame,
-            MainListFragment.newInstance(application as MyApp, typeOfList)
-        ).commit()
-        binding.mainDrawerLayout.closeDrawers()
+        return str
     }
 }
 

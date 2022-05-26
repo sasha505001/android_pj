@@ -1,4 +1,4 @@
-package com.example.trainer_helper_and_eat_supplements
+package com.example.trainer_helper_and_eat_supplements.LiveData
 
 import android.app.Application
 import androidx.annotation.WorkerThread
@@ -11,13 +11,18 @@ class MyApp : Application() {
         MyDatabase.getDatabase(this)
     }
 
-    val allExercises: LiveData<List<ExercisesData>> = database?.ExercisesDao()?.getAllExercises()!!
+    // Все на счет упражнений
+    val allExercises: LiveData<List<ExercisesData>> = database.ExercisesDao().getAllExercises()
+    val allExerciseName : LiveData<List<String>> = database.ExercisesDao().getAllNames()
+
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insertExercise(exercisesData: ExercisesData){
-        database?.ExercisesDao()?.insertAll(exercisesData)
+        database.ExercisesDao().insertAll(exercisesData)
     }
+
+
 }
 
 
