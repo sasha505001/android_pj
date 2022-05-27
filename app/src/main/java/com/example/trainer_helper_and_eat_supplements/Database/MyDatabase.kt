@@ -6,8 +6,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.trainer_helper_and_eat_supplements.Database.DaoInterfaces.*
 import com.example.trainer_helper_and_eat_supplements.Database.Data.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.Serializable
 import java.util.*
@@ -39,35 +43,46 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
         private var INSTANCE: MyDatabase? = null
         @JvmStatic
         fun getDatabase(
-            context:Context
+            context:Context,
+            scope: CoroutineScope
         ):MyDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     MyDatabase::class.java,
-                    "mydatabase.db"
-                ).build()
+                    "mydata"
+                )
+                    .addCallback(MyDatabasCallback(scope))
+                    .build()
                 INSTANCE = instance
-                //initFirstData()
-                // return instance
                 instance
             }
         }
 
 
-/*
-        fun initFirstData(){
-            if (INSTANCE?.MeasuresDao()?.getAllMeasures()==null) {
-                // Меры по умолчанию
-                INSTANCE?.MeasuresDao()?.addAllMeasure(
-                    MeasuresData("Вес (кг)"),
-                    MeasuresData("Время (с)"),
-                    MeasuresData("Повторения (раз)"),
-                    MeasuresData("Расстояние (м)")
-                )
-            }
-        }
-*/
+        private class MyDatabasCallback(
+            private val scope: CoroutineScope
+        ): RoomDatabase.Callback(){
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
 
+                INSTANCE?.let { database ->
+                    scope.launch(Dispatchers.IO) {
+                        populateDatabase(database.MeasuresDao())
+                    }
+                }
+            }
+
+        }
+        suspend fun populateDatabase(mesureDao: MeasuresDao) {
+            mesureDao.deleteAll()
+            mesureDao.addAllMeasure(
+                MeasuresData("Вес (кг)"),
+                MeasuresData("Время (с)"),
+                MeasuresData("Повторения (раз)"),
+                MeasuresData("Расстояние (м)")
+            )
+        }
     }
+
 }

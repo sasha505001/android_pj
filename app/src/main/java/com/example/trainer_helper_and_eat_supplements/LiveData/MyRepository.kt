@@ -19,6 +19,7 @@ class MyRepository(
 
     val allExercises: LiveData<List<ExercisesData>> = exercisesDao.getAllExercises()
     val allExerciseName : LiveData<List<String>> = exercisesDao.getAllNames()
+    val allMesuresName:LiveData<List<String>> = measuresDao.getAllMeasuresNames()
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread

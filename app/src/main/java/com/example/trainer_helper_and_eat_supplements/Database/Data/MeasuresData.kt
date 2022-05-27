@@ -11,11 +11,9 @@ import androidx.room.PrimaryKey
         unique = true
     )])
 data class MeasuresData(
-
-
     // Название упражнения
     @ColumnInfo(name = "name")
-    var measure_name:String
+    val measure_name:String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id:Int = 0

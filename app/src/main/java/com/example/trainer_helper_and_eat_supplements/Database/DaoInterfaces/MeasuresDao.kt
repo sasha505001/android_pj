@@ -1,5 +1,6 @@
 package com.example.trainer_helper_and_eat_supplements.Database.DaoInterfaces
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -10,7 +11,11 @@ import com.example.trainer_helper_and_eat_supplements.Database.Data.MeasuresData
 interface MeasuresDao {
     // Получение названий всех мер измерения
     @Query("SELECT * FROM measure")
-    fun getAllMeasures():List<MeasuresData>
+    fun getAllMeasures(): LiveData<List<MeasuresData>>
+
+    @Query("SELECT name FROM measure")
+    fun getAllMeasuresNames(): LiveData<List<String>>
+
 
     // Получение меры измерения по имени
     @Query("SELECT * FROM Measure WHERE name = :name")
@@ -18,14 +23,14 @@ interface MeasuresDao {
 
     // Добавление меры
     @Insert
-    fun addAllMeasure(vararg measure: MeasuresData)
+    suspend fun addAllMeasure(vararg measure: MeasuresData)
 
     // Удаление меры
     @Delete
-    fun deleteMeasure(measure: MeasuresData)
+    suspend fun deleteMeasure(measure: MeasuresData)
 
     // Очищение таблицы
     @Query("DELETE FROM measure")
-    fun deleteAll()
+    suspend fun deleteAll()
 
 }

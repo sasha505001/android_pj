@@ -36,6 +36,7 @@ class EditAddExerciseActivity : AppCompatActivity() {
             nameOfEditObject = arguments.getString(CONSTANTS.NAMEOFEDITOBJ)
         }
 
+        // получение выбранных мер
 
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

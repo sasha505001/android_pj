@@ -39,25 +39,17 @@ class MainListActivity : AppCompatActivity() {
     lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
     // текущий экран
-    lateinit var currentList:CONSTANTS.NavMenuBtns
+    var currentList:CONSTANTS.NavMenuBtns = CONSTANTS.NavMenuBtns.EXERCISES
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // заполнение списков
-        //exerciseList = myDatamodel.allExercisesName.value
 
-
-        myDatamodel.allExercisesName.observe(this){
-            exerciseList = it
-        }
 
         // Заполнение объекта экрана
         binding = MainListActivityBinding.inflate(layoutInflater)
-
-        // Ставлю первый лист TODO livedata должна
-        currentList = CONSTANTS.NavMenuBtns.TRAINING_STORY
 
         // Меню
         actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.mainDrawerLayout, R.string.nav_open, R.string.nav_close)
@@ -65,50 +57,45 @@ class MainListActivity : AppCompatActivity() {
         actionBarDrawerToggle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-
         // слушатель для навигационного меню
         binding.navMenu.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.training_story -> {
-                    currentList = CONSTANTS.NavMenuBtns.TRAINING_STORY
-                    var adapter = MainListTrainsAdapter(trainList)
-                    supportFragmentManager.beginTransaction().replace(
-                        R.id.main_frame,
-                        MainListFragment.newInstance(this, currentList, adapter)
-                    ).commit()
+                    myDatamodel.curList.value = CONSTANTS.NavMenuBtns.TRAINING_STORY
                 }
                 R.id.exercises -> {
-                    currentList = CONSTANTS.NavMenuBtns.EXERCISES
-                    var adapter = MainListExerciseAdapter(exerciseList)
-                    supportFragmentManager.beginTransaction().replace(
-                        R.id.main_frame,
-                        MainListFragment.newInstance(this, currentList, adapter)
-                    ).commit()
+                    myDatamodel.curList.value = CONSTANTS.NavMenuBtns.EXERCISES
                 }
                 R.id.complexes -> {
-                    currentList = CONSTANTS.NavMenuBtns.COMPLEXES
-                    var adapter = MainListComplexAdapter(complexList)
-                    supportFragmentManager.beginTransaction().replace(
-                        R.id.main_frame,
-                        MainListFragment.newInstance(this, currentList, adapter)
-                    ).commit()
+                    myDatamodel.curList.value = CONSTANTS.NavMenuBtns.COMPLEXES
                 }
                 R.id.food_additives -> {
-                    currentList = CONSTANTS.NavMenuBtns.FOOD_ADDITIVES
-                    var adapter = MainListFoodAdditiveAdapter(foodAdditiveList)
-                    supportFragmentManager.beginTransaction().replace(
-                        R.id.main_frame,
-                        MainListFragment.newInstance(this, currentList, adapter)
-                    ).commit()
+                    myDatamodel.curList.value = CONSTANTS.NavMenuBtns.FOOD_ADDITIVES
                 }
             }
-            supportActionBar?.title = getStringTitle(currentList)
+
             binding.mainDrawerLayout.closeDrawers()
             true
         }
 
+        // Обзервер для листа упражнений
+        myDatamodel.allExercisesName.observe(this){
+            exerciseList = it
+            setCurrentFragment()
+        }
 
-        //setListFragment(currentList)
+        
+
+
+        // Обзервер для текущего листа
+        myDatamodel.curList.observe(this){
+            currentList = it
+            setCurrentFragment()
+        }
+
+        // Начальное значение листа
+        myDatamodel.curList.value = CONSTANTS.NavMenuBtns.TRAINING_STORY
+        setCurrentFragment()
         setContentView(binding.root)
     }
 
@@ -160,6 +147,15 @@ class MainListActivity : AppCompatActivity() {
             CONSTANTS.NavMenuBtns.TRAINING_STORY -> getResources().getString(R.string.training_story)
         }
         return str
+    }
+
+    fun setCurrentFragment(){
+        supportActionBar?.title = getStringTitle(currentList)
+        supportFragmentManager.beginTransaction().replace(
+            R.id.main_frame,
+            MainListFragment.newInstance(this, currentList)
+        ).commit()
+
     }
 }
 

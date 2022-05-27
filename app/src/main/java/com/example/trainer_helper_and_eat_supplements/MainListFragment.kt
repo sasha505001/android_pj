@@ -25,12 +25,6 @@ class MainListFragment(context: Context) : Fragment() {
         MyDataModelFactory((MyApplication(context)).myRep)
     }
 
-    // Адаптеры
-    var trainAdapter:MainListTrainsAdapter? = null
-    var exerciseAdapter:MainListExerciseAdapter? = null
-    var complexAdapter:MainListComplexAdapter? = null
-    var foodAdditiveAdapter:MainListFoodAdditiveAdapter? = null
-
     // Тип списка который используется
     var typeOfFragment: CONSTANTS.NavMenuBtns? = null
 
@@ -52,16 +46,16 @@ class MainListFragment(context: Context) : Fragment() {
         binding.fragmentRecyclerView.layoutManager = LinearLayoutManager(this.activity)
         when(typeOfFragment){
             CONSTANTS.NavMenuBtns.COMPLEXES ->{
-                binding.fragmentRecyclerView.adapter = complexAdapter
+                //binding.fragmentRecyclerView.adapter = MainListComplexAdapter(myDatamodel)
             }
             CONSTANTS.NavMenuBtns.EXERCISES ->{
                 binding.fragmentRecyclerView.adapter = MainListExerciseAdapter(myDatamodel.allExercisesName.value)
             }
             CONSTANTS.NavMenuBtns.TRAINING_STORY ->{
-                binding.fragmentRecyclerView.adapter = trainAdapter
+                //binding.fragmentRecyclerView.adapter = MainListTrainsAdapter(myDatamodel)
             }
             CONSTANTS.NavMenuBtns.FOOD_ADDITIVES ->{
-                binding.fragmentRecyclerView.adapter = foodAdditiveAdapter
+                //binding.fragmentRecyclerView.adapter = MainListFoodAdditiveAdapter(myDatamodel)
             }
         }
         return binding.root
@@ -72,44 +66,9 @@ class MainListFragment(context: Context) : Fragment() {
         fun newInstance(
             context: Context,
             typeOfList:CONSTANTS.NavMenuBtns,
-            adapter: MainListTrainsAdapter
         ):Fragment{
             var myFragment = MainListFragment(context)
             myFragment.typeOfFragment = typeOfList
-            myFragment.trainAdapter = adapter
-            return myFragment
-        }
-        @JvmStatic
-        fun newInstance(
-            context: Context,
-            typeOfList:CONSTANTS.NavMenuBtns,
-            adapter: MainListExerciseAdapter
-        ):Fragment{
-            var myFragment = MainListFragment(context)
-            myFragment.typeOfFragment = typeOfList
-            myFragment.exerciseAdapter = adapter
-            return myFragment
-        }
-        @JvmStatic
-        fun newInstance(
-            context: Context,
-            typeOfList:CONSTANTS.NavMenuBtns,
-            adapter: MainListComplexAdapter
-        ):Fragment{
-            var myFragment = MainListFragment(context)
-            myFragment.typeOfFragment = typeOfList
-            myFragment.complexAdapter = adapter
-            return myFragment
-        }
-        @JvmStatic
-        fun newInstance(
-            context: Context,
-            typeOfList:CONSTANTS.NavMenuBtns,
-            adapter: MainListFoodAdditiveAdapter
-        ):Fragment{
-            var myFragment = MainListFragment(context)
-            myFragment.typeOfFragment = typeOfList
-            myFragment.foodAdditiveAdapter = adapter
             return myFragment
         }
     }
