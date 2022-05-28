@@ -25,7 +25,7 @@ interface ExercisesDao {
 
     // Добавление упражнения
     @Insert
-    fun insertAll(vararg exercises: ExercisesData)
+    suspend fun insertAll(vararg exercises: ExercisesData)
 
     // Удаление упражнения
     @Delete

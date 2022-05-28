@@ -93,7 +93,6 @@ class EditAddExerciseActivity : AppCompatActivity() {
             )
 
             finish()
-            var exer:ExercisesData = ExercisesData("haha")
 
         }
     }

@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
         unique = true
     )])
 data class MeasuresData(
-    // Название упражнения
+    // Название меры
     @ColumnInfo(name = "name")
     val measure_name:String
 ) {
