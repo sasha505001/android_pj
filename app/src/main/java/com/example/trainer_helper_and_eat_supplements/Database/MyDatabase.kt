@@ -26,7 +26,7 @@ import java.util.*
     TrainsData::class,
     TrainsDoneExerciseData::class
 ],
-version = 1, exportSchema = false)
+version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class MyDatabase : RoomDatabase(), Serializable{
     abstract fun ComplexesDao():ComplexesDao
@@ -76,12 +76,14 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
         }
         suspend fun populateDatabase(mesureDao: MeasuresDao) {
             mesureDao.deleteAll()
-            mesureDao.addAllMeasure(
-                MeasuresData("Вес (кг)"),
-                MeasuresData("Время (с)"),
-                MeasuresData("Повторения (раз)"),
-                MeasuresData("Расстояние (м)")
-            )
+            if(mesureDao.getAllMeasures().value==null) {
+                mesureDao.addAllMeasure(
+                    MeasuresData("Вес (кг)"),
+                    MeasuresData("Время (с)"),
+                    MeasuresData("Повторения (раз)"),
+                    MeasuresData("Расстояние (м)")
+                )
+            }
         }
     }
 

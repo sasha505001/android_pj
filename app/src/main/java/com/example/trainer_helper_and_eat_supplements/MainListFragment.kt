@@ -42,6 +42,7 @@ class MainListFragment(context: Context) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         binding = MainListFragmentBinding.inflate(inflater)
         binding.fragmentRecyclerView.layoutManager = LinearLayoutManager(this.activity)
         when(typeOfFragment){
@@ -68,7 +69,7 @@ class MainListFragment(context: Context) : Fragment() {
             typeOfList:CONSTANTS.NavMenuBtns,
         ):Fragment{
             var myFragment = MainListFragment(context)
-            myFragment.typeOfFragment = typeOfList
+            myFragment.typeOfFragment = CONSTANTS.NavMenuBtns.EXERCISES// TODO Для дебага
             return myFragment
         }
     }

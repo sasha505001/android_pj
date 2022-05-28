@@ -14,15 +14,15 @@ data class ExercisesData (
 
     // Название упражнения
     @ColumnInfo(name = "name")
-    val name:String,
+    var name:String,
 
     // Картинка
     @ColumnInfo(name = "image")
-    val myImage: String? = null,
+    var myImage: String = "",
 
     // Ссылка
     @ColumnInfo(name = "link")
-    val link: String? = null,
+    var link: String = "",
 
     ){
     // ID

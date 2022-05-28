@@ -84,7 +84,7 @@ class MainListActivity : AppCompatActivity() {
             setCurrentFragment()
         }
 
-        
+
 
 
         // Обзервер для текущего листа
@@ -94,7 +94,7 @@ class MainListActivity : AppCompatActivity() {
         }
 
         // Начальное значение листа
-        myDatamodel.curList.value = CONSTANTS.NavMenuBtns.TRAINING_STORY
+        //myDatamodel.curList.value = CONSTANTS.NavMenuBtns.TRAINING_STORY
         setCurrentFragment()
         setContentView(binding.root)
     }
@@ -155,7 +155,6 @@ class MainListActivity : AppCompatActivity() {
             R.id.main_frame,
             MainListFragment.newInstance(this, currentList)
         ).commit()
-
     }
 }
 

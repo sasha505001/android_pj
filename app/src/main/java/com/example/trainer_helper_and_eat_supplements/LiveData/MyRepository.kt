@@ -26,4 +26,10 @@ class MyRepository(
     suspend fun insertExercise(exercisesData: ExercisesData){
         exercisesDao.insertAll(exercisesData)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertMesure(mesure:MeasuresData){
+        measuresDao.addAllMeasure(mesure)
+    }
 }

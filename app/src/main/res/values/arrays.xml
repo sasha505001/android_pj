@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="multi_mesures">
+        <item>Вес (кг)</item>
+        <item>Время (с)</item>
+        <item>Повторения (раз)</item>
+        <item>Расстояние (м)</item>
+
+    </string-array>
+
+</resources>

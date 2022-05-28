@@ -2,11 +2,13 @@ package com.example.trainer_helper_and_eat_supplements
 
 import androidx.lifecycle.*
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
+import com.example.trainer_helper_and_eat_supplements.Database.Data.FoodAdditiveMesureData
+import com.example.trainer_helper_and_eat_supplements.Database.Data.MeasuresData
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyRepository
 import kotlinx.coroutines.launch
 
 
-open class MyDataModel(private val myRep: MyRepository): ViewModel(){
+class MyDataModel(private val myRep: MyRepository): ViewModel(){
 
 
     val curList:MutableLiveData<CONSTANTS.NavMenuBtns> by lazy {
@@ -19,6 +21,10 @@ open class MyDataModel(private val myRep: MyRepository): ViewModel(){
 
     fun insertExercise(exercisesData: ExercisesData) = viewModelScope.launch(){
         myRep.insertExercise(exercisesData)
+    }
+
+    fun insertSpecMesure(mesureData: MeasuresData) = viewModelScope.launch(){
+        myRep.insertMesure(mesureData)
     }
 }
 
