@@ -16,9 +16,31 @@ class MyRepository(
     private val trainsDao: TrainsDao,
     private val trainsDoneExercisesDao: TrainsDoneExercisesDao,
 ) {
-    // Упражнения
+    // ------------------------------  Упражнения  ------------------------------------
     val allExercises: LiveData<List<ExercisesData>> = exercisesDao.getAllExercises()
     val allExerciseName : LiveData<List<String>> = exercisesDao.getAllNames()
+
+    // Добавление упражнения
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertExercise(exercisesData: ExercisesData){
+        exercisesDao.insertAll(exercisesData)
+    }
+
+    // Удаление упражнения по его имени
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteExerciseByName(exerciseName: String){
+        exercisesDao.deleteByName(exerciseName)
+    }
+
+    // -----------------------------  Меры  -------------------------------------
+    // Получение названия всех мер
+    // Объекты
+    val allMesureData:LiveData<List<MeasuresData>> = measuresDao.getAllMeasures()
+    // Названия
+    val allMesuresName:LiveData<List<String>> = measuresDao.getAllMeasuresNames()
+
 
     // Добавление меры
     @Suppress("RedundantSuspendModifier")
@@ -26,14 +48,15 @@ class MyRepository(
     suspend fun insertMesure(mesure:MeasuresData){
         measuresDao.addAllMeasure(mesure)
     }
-    // Меры
-    val allMesuresName:LiveData<List<String>> = measuresDao.getAllMeasuresNames()
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insertExercise(exercisesData: ExercisesData){
-        exercisesDao.insertAll(exercisesData)
+    suspend fun getMesureByName(name: String):MeasuresData{
+        return measuresDao.getMeasureByName(name)
     }
+
+
+
 
 
 }

@@ -3,6 +3,7 @@ package com.example.trainer_helper_and_eat_supplements
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -42,36 +43,42 @@ class EditAddExerciseActivity : AppCompatActivity() {
         if(arguments != null){
             nameOfEditObject = arguments.getString(CONSTANTS.NAMEOFEDITOBJ)
         }
-
+        // Кнопка возвращения на прошлое меню
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setContentView(binding.root)
     }
 
+    // Добавляю кнопку подтверждения сохранения упражнения
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.ok_menu, menu)
         return true
     }
 
+    // Действия при нажатии на кнопки меню
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // При нажатии галочки
         if (item.itemId == R.id.ok_btn){
             // TODO проверка и создание в бд
             saveInDatabase()
         }
+        // При нажатии кнопки возврата
         if(item.itemId == android.R.id.home){
             finish()
         }
         return super.onOptionsItemSelected(item)
     }
 
+    // Проверка данных и их сохранение в бд
     private fun saveInDatabase(){
+        // Сообщение об ошибки
         var alertStr:String = ""
 
-
-        // Обязательно должно быть выбрано имя и мера
+        // Проверка задано ли имя
         if(binding.nameOfExercise.text.toString() == ""){
             alertStr = alertStr + "Введите имя упражнения;\n"
         }
         else{
+            // Проверка существует ли упражнение с данным именем
             myDatamodel.allExercisesName.observe(this){
                 val list = it
                 if(list.contains(binding.nameOfExercise.text.toString())){
@@ -79,33 +86,50 @@ class EditAddExerciseActivity : AppCompatActivity() {
                 }
             }
         }
+        // Проверка введена ли мера
         if(binding.mesureText.text.toString() == getString(R.string.default_value_of_measures)){
             alertStr = alertStr + "Введите меры;\n"
         }
 
-
-        if(alertStr == ""){
-            var data = ExercisesData(
-                binding.nameOfExercise.text.toString(),
-                "",
-                ""
-            )
-            myDatamodel.insertExercise(data)
-            finish()
-        }
-        else{
-            var alertDialog = AlertDialog.Builder(this)
+        // Проверка заполнены ли все необходимые поля
+        if(alertStr != ""){
+            val alertDialog = AlertDialog.Builder(this)
             alertDialog.setTitle("Невозможно создать упражнение")
             alertDialog.setMessage(alertStr)
             alertDialog.setPositiveButton("Ок"){
-                dialog, id ->
+                    dialog, id ->
                 dialog.dismiss()
             }
             alertDialog.show()
-
         }
+        else{
+            val data = ExercisesData(
+                binding.nameOfExercise.text.toString(),
+                "",// TODO сделать для картинки
+                binding.linkEditText.text.toString()
+            )
+            myDatamodel.insertExercise(data)
+            val text: String = binding.mesureText.text.toString()
+
+            var selectedMesures = text.split(",\n")
+            for (i in selectedMesures){
+                var id:Int = 0
+                myDatamodel.getMesureByName(i).observe(this){
+                    id = it.id
+                }
+
+
+            }
+            myDatamodel.allMesures.observe(this){
+                val list = it
+            }
+
+            finish()
+        }
+
     }
 
+    // При нажатии на выбор меры измерения
     fun onMesureClicked(view:View){
         // получение выбранных мер
         myDatamodel.allMesuresName.observe(this){ choices->

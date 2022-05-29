@@ -1,5 +1,6 @@
 package com.example.trainer_helper_and_eat_supplements
 
+import android.os.Message
 import androidx.lifecycle.*
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
 import com.example.trainer_helper_and_eat_supplements.Database.Data.FoodAdditiveMesureData
@@ -10,22 +11,33 @@ import kotlinx.coroutines.launch
 
 class MyDataModel(private val myRep: MyRepository): ViewModel(){
 
+    // TODO сделать чтобы вид текущего листа запоминался
 
-    val curList:MutableLiveData<CONSTANTS.NavMenuBtns> by lazy {
-        MutableLiveData<CONSTANTS.NavMenuBtns>()
-    }
-
+    // -----------------------------  Упражнения  --------------------------------------------
     val allExercisesData: LiveData<List<ExercisesData>> = myRep.allExercises
     val allExercisesName: LiveData<List<String>> = myRep.allExerciseName
-    val allMesuresName: LiveData<List<String>> = myRep.allMesuresName
-
     fun insertExercise(exercisesData: ExercisesData) = viewModelScope.launch(){
         myRep.insertExercise(exercisesData)
     }
-
-    fun insertSpecMesure(mesureData: MeasuresData) = viewModelScope.launch(){
-        myRep.insertMesure(mesureData)
+    fun deleteExerciseByName(exerciseName:String) = viewModelScope.launch {
+        myRep.deleteExerciseByName(exerciseName)
     }
+
+
+    // --------------------------------- Меры ----------------------------------------------
+    val allMesures:LiveData<List<MeasuresData>> = myRep.allMesureData
+    val allMesuresName: LiveData<List<String>> = myRep.allMesuresName
+
+
+    fun getMesureByName(name:String): LiveData<MeasuresData>{
+        val result = MutableLiveData<MeasuresData>()
+        viewModelScope.launch {
+            val returnRepo = myRep.getMesureByName(name)
+            result.postValue(returnRepo)
+        }
+        return result
+    }
+
 }
 
 class MyDataModelFactory(private val repository: MyRepository) : ViewModelProvider.Factory {

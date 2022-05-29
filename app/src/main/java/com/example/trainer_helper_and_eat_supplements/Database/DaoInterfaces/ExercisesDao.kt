@@ -35,4 +35,7 @@ interface ExercisesDao {
     @Query("DELETE FROM exercise")
     fun deleteAll()
 
+    @Query("DELETE FROM exercise WHERE name = :name")
+    suspend fun deleteByName(name: String)
+
 }

@@ -3,6 +3,7 @@ package com.example.trainer_helper_and_eat_supplements
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -45,6 +46,9 @@ class MainListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
 
 
         // Заполнение объекта экрана
@@ -148,6 +152,7 @@ class MainListActivity : AppCompatActivity() {
     }
 
     fun setCurrentFragment(){
+
         supportActionBar?.title = getStringTitle(currentList)
         supportFragmentManager.beginTransaction().replace(
             R.id.main_frame,

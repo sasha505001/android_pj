@@ -10,7 +10,9 @@ import com.example.trainer_helper_and_eat_supplements.Database.Data.ExerciseMeas
 interface ExerciseMeasuresDao {
     // Добавение
     @Insert
-    fun insertAll(vararg exerciseMeasuresData: ExerciseMeasuresData)
+    suspend fun insertAll(vararg exerciseMeasuresData: ExerciseMeasuresData)
+
+
 
     // Очищение таблицы
     @Query("DELETE FROM exercise_measure")

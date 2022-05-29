@@ -16,10 +16,9 @@ interface MeasuresDao {
     @Query("SELECT name FROM measure")
     fun getAllMeasuresNames(): LiveData<List<String>>
 
-
     // Получение меры измерения по имени
     @Query("SELECT * FROM Measure WHERE name = :name")
-    fun getMeasureByName(name:String):MeasuresData
+    suspend fun getMeasureByName(name:String):MeasuresData
 
     // Добавление меры
     @Insert
@@ -32,5 +31,7 @@ interface MeasuresDao {
     // Очищение таблицы
     @Query("DELETE FROM measure")
     suspend fun deleteAll()
+
+
 
 }

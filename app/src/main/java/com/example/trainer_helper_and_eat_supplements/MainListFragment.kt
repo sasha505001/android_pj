@@ -2,10 +2,12 @@ package com.example.trainer_helper_and_eat_supplements
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,7 +53,7 @@ class MainListFragment(context: Context) : Fragment() {
             }
             CONSTANTS.NavMenuBtns.EXERCISES ->{
                 myDatamodel.allExercisesName.observe(this.viewLifecycleOwner){
-                    binding.fragmentRecyclerView.adapter = MainListExerciseAdapter(it)
+                    binding.fragmentRecyclerView.adapter = MainListExerciseAdapter(it, myDatamodel)
                 }
             }
             CONSTANTS.NavMenuBtns.TRAINING_STORY ->{
@@ -71,6 +73,7 @@ class MainListFragment(context: Context) : Fragment() {
             context: Context,
             typeOfList:CONSTANTS.NavMenuBtns,
         ):Fragment{
+
             var myFragment = MainListFragment(context)
             myFragment.typeOfFragment = typeOfList
             return myFragment
