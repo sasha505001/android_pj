@@ -16,9 +16,17 @@ class MyRepository(
     private val trainsDao: TrainsDao,
     private val trainsDoneExercisesDao: TrainsDoneExercisesDao,
 ) {
-
+    // Упражнения
     val allExercises: LiveData<List<ExercisesData>> = exercisesDao.getAllExercises()
     val allExerciseName : LiveData<List<String>> = exercisesDao.getAllNames()
+
+    // Добавление меры
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertMesure(mesure:MeasuresData){
+        measuresDao.addAllMeasure(mesure)
+    }
+    // Меры
     val allMesuresName:LiveData<List<String>> = measuresDao.getAllMeasuresNames()
 
     @Suppress("RedundantSuspendModifier")
@@ -27,9 +35,5 @@ class MyRepository(
         exercisesDao.insertAll(exercisesData)
     }
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun insertMesure(mesure:MeasuresData){
-        measuresDao.addAllMeasure(mesure)
-    }
+
 }

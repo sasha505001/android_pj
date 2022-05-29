@@ -55,8 +55,7 @@ class EditAddExerciseActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.ok_btn){
             // TODO проверка и создание в бд
-            myDatamodel.insertExercise(ExercisesData("asd","asd", "asd"))
-            //saveInDatabase()
+            saveInDatabase()
         }
         if(item.itemId == android.R.id.home){
             finish()
@@ -66,7 +65,7 @@ class EditAddExerciseActivity : AppCompatActivity() {
 
     private fun saveInDatabase(){
         var alertStr:String = ""
-        var data:ExercisesData?
+
 
         // Обязательно должно быть выбрано имя и мера
         if(binding.nameOfExercise.text.toString() == ""){
@@ -74,9 +73,9 @@ class EditAddExerciseActivity : AppCompatActivity() {
         }
         else{
             myDatamodel.allExercisesName.observe(this){
-                var listExer = it
-                if(listExer.contains(binding.nameOfExercise.text.toString())){
-                    alertStr = alertStr + "Упражнение с данным именем уже существует\n"
+                val list = it
+                if(list.contains(binding.nameOfExercise.text.toString())){
+                    alertStr ="Упражнение с данным именем уже существует\n"
                 }
             }
         }
@@ -86,13 +85,23 @@ class EditAddExerciseActivity : AppCompatActivity() {
 
 
         if(alertStr == ""){
-            data = ExercisesData(
+            var data = ExercisesData(
                 binding.nameOfExercise.text.toString(),
                 "",
                 ""
             )
-
+            myDatamodel.insertExercise(data)
             finish()
+        }
+        else{
+            var alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Невозможно создать упражнение")
+            alertDialog.setMessage(alertStr)
+            alertDialog.setPositiveButton("Ок"){
+                dialog, id ->
+                dialog.dismiss()
+            }
+            alertDialog.show()
 
         }
     }
@@ -139,7 +148,6 @@ class EditAddExerciseActivity : AppCompatActivity() {
                        }
                    }
                 }
-                Toast.makeText(this,"haha", Toast.LENGTH_SHORT).show()
                 selectedItemsOfMesure = checkedItemsArray
                 binding.mesureText.text = resultStr
                 dialog.dismiss()

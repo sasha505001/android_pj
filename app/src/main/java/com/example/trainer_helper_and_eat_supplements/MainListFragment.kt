@@ -26,13 +26,10 @@ class MainListFragment(context: Context) : Fragment() {
     }
 
     // Тип списка который используется
-    var typeOfFragment: CONSTANTS.NavMenuBtns? = null
+    var typeOfFragment: CONSTANTS.NavMenuBtns = CONSTANTS.NavMenuBtns.EXERCISES
 
     // Раздувка
     lateinit var binding: MainListFragmentBinding
-
-    // База данных
-    var myDatabase: MyDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,16 +40,22 @@ class MainListFragment(context: Context) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
+
+        // Заполнение фрагмента
         binding = MainListFragmentBinding.inflate(inflater)
+
         binding.fragmentRecyclerView.layoutManager = LinearLayoutManager(this.activity)
         when(typeOfFragment){
             CONSTANTS.NavMenuBtns.COMPLEXES ->{
                 //binding.fragmentRecyclerView.adapter = MainListComplexAdapter(myDatamodel)
             }
             CONSTANTS.NavMenuBtns.EXERCISES ->{
-                binding.fragmentRecyclerView.adapter = MainListExerciseAdapter(myDatamodel.allExercisesName.value)
+                myDatamodel.allExercisesName.observe(this.viewLifecycleOwner){
+                    binding.fragmentRecyclerView.adapter = MainListExerciseAdapter(it)
+                }
             }
             CONSTANTS.NavMenuBtns.TRAINING_STORY ->{
+
                 //binding.fragmentRecyclerView.adapter = MainListTrainsAdapter(myDatamodel)
             }
             CONSTANTS.NavMenuBtns.FOOD_ADDITIVES ->{
@@ -69,7 +72,7 @@ class MainListFragment(context: Context) : Fragment() {
             typeOfList:CONSTANTS.NavMenuBtns,
         ):Fragment{
             var myFragment = MainListFragment(context)
-            myFragment.typeOfFragment = CONSTANTS.NavMenuBtns.EXERCISES// TODO Для дебага
+            myFragment.typeOfFragment = typeOfList
             return myFragment
         }
     }

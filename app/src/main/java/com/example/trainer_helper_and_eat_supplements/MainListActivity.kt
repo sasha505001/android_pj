@@ -17,20 +17,20 @@ import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.Main
 import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListTrainsAdapter
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivityBinding
 
+// TODO ошибка при повороте экрана, ошибка при возвращение на это activity
 class MainListActivity : AppCompatActivity() {
-
-
 
     // Livedata
     private val myDatamodel:MyDataModel by viewModels{
         MyDataModelFactory((MyApplication(this)).myRep)
     }
-
+/*
     // Списки для загрузки в адаптер
     var complexList:List<String>? = null
     var exerciseList:List<String>? = listOf("exercise")
     var foodAdditiveList:List<String>? = listOf("food additive")
     var trainList:List<String>? = listOf("train")
+*/
 
     // объект для обращения к элементам экрана
     lateinit var binding: MainListActivityBinding
@@ -45,7 +45,6 @@ class MainListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // заполнение списков
 
 
         // Заполнение объекта экрана
@@ -61,16 +60,21 @@ class MainListActivity : AppCompatActivity() {
         binding.navMenu.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.training_story -> {
-                    myDatamodel.curList.value = CONSTANTS.NavMenuBtns.TRAINING_STORY
+                    currentList = CONSTANTS.NavMenuBtns.TRAINING_STORY
+                    setCurrentFragment()
                 }
                 R.id.exercises -> {
-                    myDatamodel.curList.value = CONSTANTS.NavMenuBtns.EXERCISES
+                    currentList = CONSTANTS.NavMenuBtns.EXERCISES
+                    setCurrentFragment()
                 }
                 R.id.complexes -> {
-                    myDatamodel.curList.value = CONSTANTS.NavMenuBtns.COMPLEXES
+                    currentList = CONSTANTS.NavMenuBtns.COMPLEXES
+                    setCurrentFragment()
+
                 }
                 R.id.food_additives -> {
-                    myDatamodel.curList.value = CONSTANTS.NavMenuBtns.FOOD_ADDITIVES
+                    currentList = CONSTANTS.NavMenuBtns.FOOD_ADDITIVES
+                    setCurrentFragment()
                 }
             }
 
@@ -78,21 +82,15 @@ class MainListActivity : AppCompatActivity() {
             true
         }
 
-        // Обзервер для листа упражнений
-        myDatamodel.allExercisesName.observe(this){
-            exerciseList = it
-            setCurrentFragment()
-        }
-
-
-
-
+        // TODO начинаю с определенного листа
+        currentList = CONSTANTS.NavMenuBtns.EXERCISES
         // Обзервер для текущего листа
+        /*
         myDatamodel.curList.observe(this){
             currentList = it
             setCurrentFragment()
         }
-
+*/
         // Начальное значение листа
         //myDatamodel.curList.value = CONSTANTS.NavMenuBtns.TRAINING_STORY
         setCurrentFragment()
