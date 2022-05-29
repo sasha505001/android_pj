@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import com.example.trainer_helper_and_eat_supplements.Database.Data.ExerciseMeasuresData
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
 import com.example.trainer_helper_and_eat_supplements.Database.Data.MeasuresData
 import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
@@ -77,54 +78,55 @@ class EditAddExerciseActivity : AppCompatActivity() {
         if(binding.nameOfExercise.text.toString() == ""){
             alertStr = alertStr + "Введите имя упражнения;\n"
         }
-        else{
-            // Проверка существует ли упражнение с данным именем
-            myDatamodel.allExercisesName.observe(this){
-                val list = it
-                if(list.contains(binding.nameOfExercise.text.toString())){
-                    alertStr ="Упражнение с данным именем уже существует\n"
-                }
-            }
-        }
+
+
+
         // Проверка введена ли мера
         if(binding.mesureText.text.toString() == getString(R.string.default_value_of_measures)){
             alertStr = alertStr + "Введите меры;\n"
         }
-
-        // Проверка заполнены ли все необходимые поля
-        if(alertStr != ""){
-            val alertDialog = AlertDialog.Builder(this)
-            alertDialog.setTitle("Невозможно создать упражнение")
-            alertDialog.setMessage(alertStr)
-            alertDialog.setPositiveButton("Ок"){
-                    dialog, id ->
-                dialog.dismiss()
+        // Проверка существует ли упражнение с данным именем
+        myDatamodel.allExercisesName.observe(this){ allExercises->
+            if(allExercises.contains(binding.nameOfExercise.text.toString())){
+                alertStr ="Упражнение с данным именем уже существует\n"
             }
-            alertDialog.show()
-        }
-        else{
-            val data = ExercisesData(
-                binding.nameOfExercise.text.toString(),
-                "",// TODO сделать для картинки
-                binding.linkEditText.text.toString()
-            )
-            myDatamodel.insertExercise(data)
-            val text: String = binding.mesureText.text.toString()
-
-            var selectedMesures = text.split(",\n")
-            for (i in selectedMesures){
-                var id:Int = 0
-                myDatamodel.getMesureByName(i).observe(this){
-                    id = it.id
+            // Проверка заполнены ли все необходимые поля
+            if(alertStr != ""){
+                val alertDialog = AlertDialog.Builder(this)
+                alertDialog.setTitle("Невозможно создать упражнение")
+                alertDialog.setMessage(alertStr)
+                alertDialog.setPositiveButton("Ок"){
+                        dialog, id ->
+                    dialog.dismiss()
                 }
-
-
+                alertDialog.show()
             }
-            myDatamodel.allMesures.observe(this){
-                val list = it
+            else{
+                val data = ExercisesData(
+                    binding.nameOfExercise.text.toString(),
+                    "",// TODO сделать для картинки
+                    binding.linkEditText.text.toString()
+                )
+                myDatamodel.insertExercise(data)
+                val text: String = binding.mesureText.text.toString()
+                myDatamodel.getExerciseByName(data.name).observe(this){ exercise->
+                    Log.d("MyLog", "id:${exercise.id}")
+                    val selectedMesures = text.split(",\n")
+                    for (i in selectedMesures){
+                        var mesuareId:Int = 0
+                        myDatamodel.getMesureByName(i).observe(this){ mesure->
+                            Log.d("MyLog", "${mesure.id}, ${mesure.measure_name}")
+                            myDatamodel.insertExerciseMeasure(
+                                ExerciseMeasuresData(
+                                    exercise.id, mesure.id
+                                )
+                            )
+                        }
+                    }
+                }
+                finish()
             }
 
-            finish()
         }
 
     }

@@ -21,7 +21,7 @@ interface ExercisesDao {
 
     // Получения упражнения по имени
     @Query("SELECT * FROM exercise WHERE name = :name")
-    fun getExerciseByName(name:String):ExercisesData
+    suspend fun getExerciseByName(name:String):ExercisesData
 
     // Добавление упражнения
     @Insert

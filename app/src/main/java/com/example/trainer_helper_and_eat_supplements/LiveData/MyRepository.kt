@@ -34,6 +34,12 @@ class MyRepository(
         exercisesDao.deleteByName(exerciseName)
     }
 
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getExerciseByName(exerciseName: String): ExercisesData{
+        return exercisesDao.getExerciseByName(exerciseName)
+    }
+
     // -----------------------------  Меры  -------------------------------------
     // Получение названия всех мер
     // Объекты
@@ -57,6 +63,11 @@ class MyRepository(
 
 
 
-
+    // --------------------------  Упражнение - мера  ------------------------
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertMesureExercise(data:ExerciseMeasuresData){
+        exerciseMeasuresDao.insertAll(data)
+    }
 
 }

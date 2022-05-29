@@ -13,7 +13,6 @@ interface ExerciseMeasuresDao {
     suspend fun insertAll(vararg exerciseMeasuresData: ExerciseMeasuresData)
 
 
-
     // Очищение таблицы
     @Query("DELETE FROM exercise_measure")
     fun deleteAll()

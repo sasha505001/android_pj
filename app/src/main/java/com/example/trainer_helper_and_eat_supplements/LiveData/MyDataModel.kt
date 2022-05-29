@@ -2,6 +2,7 @@ package com.example.trainer_helper_and_eat_supplements
 
 import android.os.Message
 import androidx.lifecycle.*
+import com.example.trainer_helper_and_eat_supplements.Database.Data.ExerciseMeasuresData
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
 import com.example.trainer_helper_and_eat_supplements.Database.Data.FoodAdditiveMesureData
 import com.example.trainer_helper_and_eat_supplements.Database.Data.MeasuresData
@@ -23,11 +24,18 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
         myRep.deleteExerciseByName(exerciseName)
     }
 
+    fun getExerciseByName(exerciseName: String):LiveData<ExercisesData>{
+        val result = MutableLiveData<ExercisesData>()
+        viewModelScope.launch {
+            val returnRepo = myRep.getExerciseByName(exerciseName)
+            result.postValue(returnRepo)
+        }
+        return result
+    }
 
     // --------------------------------- Меры ----------------------------------------------
     val allMesures:LiveData<List<MeasuresData>> = myRep.allMesureData
     val allMesuresName: LiveData<List<String>> = myRep.allMesuresName
-
 
     fun getMesureByName(name:String): LiveData<MeasuresData>{
         val result = MutableLiveData<MeasuresData>()
@@ -36,6 +44,11 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
             result.postValue(returnRepo)
         }
         return result
+    }
+
+    // Мера - упражнение
+    fun insertExerciseMeasure(data:ExerciseMeasuresData)= viewModelScope.launch(){
+        myRep.insertMesureExercise(data)
     }
 
 }

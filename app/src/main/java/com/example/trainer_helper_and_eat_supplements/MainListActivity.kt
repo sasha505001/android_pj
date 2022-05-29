@@ -46,8 +46,11 @@ class MainListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        var id = 1
+        myDatamodel.getMesureByName("Вес (кг)").observe(this){
+            id = it.id
+        }
+        Log.d("MyLog", "$id")
 
 
 
