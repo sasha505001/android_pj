@@ -107,23 +107,9 @@ class EditAddExerciseActivity : AppCompatActivity() {
                     "",// TODO сделать для картинки
                     binding.linkEditText.text.toString()
                 )
-                myDatamodel.insertExercise(data)
                 val text: String = binding.mesureText.text.toString()
-                myDatamodel.getExerciseByName(data.name).observe(this){ exercise->
-                    Log.d("MyLog", "id:${exercise.id}")
-                    val selectedMesures = text.split(",\n")
-                    for (i in selectedMesures){
-                        var mesuareId:Int = 0
-                        myDatamodel.getMesureByName(i).observe(this){ mesure->
-                            Log.d("MyLog", "${mesure.id}, ${mesure.measure_name}")
-                            myDatamodel.insertExerciseMeasure(
-                                ExerciseMeasuresData(
-                                    exercise.id, mesure.id
-                                )
-                            )
-                        }
-                    }
-                }
+                val selectedMesures = text.split(",\n")
+                myDatamodel.addFullyExercise(data, selectedMesures)
                 finish()
             }
 

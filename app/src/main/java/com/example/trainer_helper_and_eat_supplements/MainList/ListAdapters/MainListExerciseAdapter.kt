@@ -32,6 +32,7 @@ class MainListExerciseAdapter(myList:List<String>, myModel:MyDataModel): Recycle
                 popupMenu.setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_delete_btn -> {
+                            // TODO удаление из ExerciseMesure
                             myDataModel.deleteExerciseByName(str)
                             Log.d("MyLog", "delete")
                         }

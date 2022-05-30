@@ -33,6 +33,11 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
         return result
     }
 
+    fun addFullyExercise(exerciseData: ExercisesData, measureNames:List<String>) =
+        viewModelScope.launch {
+            myRep.addFullyExercise(exerciseData, measureNames)
+    }
+
     // --------------------------------- Меры ----------------------------------------------
     val allMesures:LiveData<List<MeasuresData>> = myRep.allMesureData
     val allMesuresName: LiveData<List<String>> = myRep.allMesuresName

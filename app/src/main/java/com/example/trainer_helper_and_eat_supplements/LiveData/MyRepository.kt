@@ -24,14 +24,14 @@ class MyRepository(
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insertExercise(exercisesData: ExercisesData){
-        exercisesDao.insertAll(exercisesData)
+        exercisesDao.insertAllExercises(exercisesData)
     }
 
     // Удаление упражнения по его имени
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun deleteExerciseByName(exerciseName: String){
-        exercisesDao.deleteByName(exerciseName)
+        exercisesDao.deleteExerciseByName(exerciseName)
     }
 
     @Suppress("RedundantSuspendModifier")
@@ -59,6 +59,13 @@ class MyRepository(
     @WorkerThread
     suspend fun getMesureByName(name: String):MeasuresData{
         return measuresDao.getMeasureByName(name)
+    }
+
+    // Добавление упражнения
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun addFullyExercise(exerciseData: ExercisesData, measureNames:List<String>){
+        exercisesDao.insertNewExercise(exerciseData, measureNames)
     }
 
 
