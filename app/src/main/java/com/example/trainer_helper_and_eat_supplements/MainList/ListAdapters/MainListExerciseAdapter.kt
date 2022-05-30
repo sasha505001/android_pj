@@ -13,11 +13,12 @@ import com.example.trainer_helper_and_eat_supplements.MyDataModel
 import com.example.trainer_helper_and_eat_supplements.R
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListItemBinding
 
-class MainListExerciseAdapter(myList:List<String>, myModel:MyDataModel): RecyclerView.Adapter<MainListExerciseAdapter.ExercisesHolder>() {
+class MainListExerciseAdapter(myList:List<String>, myModel:MyDataModel)
+    : RecyclerView.Adapter<MainListExerciseAdapter.ExercisesHolder>() {
     var exercises = myList
     val myDataModel = myModel
 
-    // TODO инициализировать данные
+
 
     class ExercisesHolder (item: View, var parent: ViewGroup, itemModel:MyDataModel) : RecyclerView.ViewHolder(item){
         var binding = MainListItemBinding.bind(item)

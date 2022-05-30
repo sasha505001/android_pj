@@ -5,8 +5,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 
 @Entity(
-    tableName = "taking_time_food_additive",
-    primaryKeys = ["taking_time_id", "food_additive_id"],
+    tableName = "week_days_food_additive_data",
+    primaryKeys = ["week_days_id", "food_additive_id"],
     foreignKeys = [
         ForeignKey(
             entity = FoodAdditiveData::class,
@@ -15,18 +15,17 @@ import androidx.room.ForeignKey
             onDelete = ForeignKey.NO_ACTION
         ),
         ForeignKey(
-            entity = TakingTimeData::class,
-            childColumns = ["taking_time_id"],
+            entity = WeekDaysData::class,
+            childColumns = ["week_days_id"],
             parentColumns = ["id"],
             onDelete = ForeignKey.NO_ACTION
         ),
     ]
 )
-class TakingTimeFoodAdditiveData(
-    @ColumnInfo(name = "taking_time_id")
-    var taking_time_id: Int,
+class WeekDaysFoodAdditiveData(
+    @ColumnInfo(name = "week_days_id")
+    var week_days_id: Int,
     @ColumnInfo(name = "food_additive_id")
     var food_additive_id: Int
 ) {
-
 }

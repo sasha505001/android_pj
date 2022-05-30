@@ -26,7 +26,7 @@ import java.util.*
     TrainsData::class,
     TrainsDoneExerciseData::class
 ],
-version = 2, exportSchema = false)
+version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class MyDatabase : RoomDatabase(), Serializable{
     abstract fun ComplexesDao():ComplexesDao

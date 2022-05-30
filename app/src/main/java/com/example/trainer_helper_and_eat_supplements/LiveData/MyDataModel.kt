@@ -1,10 +1,8 @@
 package com.example.trainer_helper_and_eat_supplements
 
-import android.os.Message
 import androidx.lifecycle.*
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ExerciseMeasuresData
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
-import com.example.trainer_helper_and_eat_supplements.Database.Data.FoodAdditiveMesureData
 import com.example.trainer_helper_and_eat_supplements.Database.Data.MeasuresData
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyRepository
 import kotlinx.coroutines.launch

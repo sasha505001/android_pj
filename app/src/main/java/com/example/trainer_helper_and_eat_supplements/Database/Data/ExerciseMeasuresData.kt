@@ -13,13 +13,13 @@ import androidx.room.PrimaryKey
             entity = ExercisesData::class,
             childColumns = ["exercise_id"],
             parentColumns = ["id"],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.NO_ACTION
         ),
         ForeignKey(
             entity = MeasuresData::class,
             childColumns = ["measure_id"],
             parentColumns = ["id"],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.NO_ACTION
         )
     ]
 )

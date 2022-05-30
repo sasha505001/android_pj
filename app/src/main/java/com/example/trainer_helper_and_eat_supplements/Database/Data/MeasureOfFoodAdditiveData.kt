@@ -4,10 +4,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "ScheduleData")
-class ScheduleData(
+@Entity(tableName = "measure_of_food_additive")
+class MeasureOfFoodAdditiveData(
     @ColumnInfo(name = "name")
-    val name:String,
+    val name:String
+
 ) {
     // ID
     @PrimaryKey(autoGenerate = true)

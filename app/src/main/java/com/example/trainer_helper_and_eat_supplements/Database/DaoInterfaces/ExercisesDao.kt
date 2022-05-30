@@ -46,7 +46,6 @@ interface ExercisesDao {
                 ExerciseMeasuresData(exerciseId, mesureData.id)
             )
         }
-
     }
 
     // Добавение
