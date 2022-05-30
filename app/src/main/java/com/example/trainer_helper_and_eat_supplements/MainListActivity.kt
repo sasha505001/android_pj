@@ -25,13 +25,8 @@ class MainListActivity : AppCompatActivity() {
     private val myDatamodel:MyDataModel by viewModels{
         MyDataModelFactory((MyApplication(this)).myRep)
     }
-/*
-    // Списки для загрузки в адаптер
-    var complexList:List<String>? = null
-    var exerciseList:List<String>? = listOf("exercise")
-    var foodAdditiveList:List<String>? = listOf("food additive")
-    var trainList:List<String>? = listOf("train")
-*/
+
+
 
     // объект для обращения к элементам экрана
     lateinit var binding: MainListActivityBinding
@@ -42,21 +37,11 @@ class MainListActivity : AppCompatActivity() {
     // текущий экран
     var currentList:CONSTANTS.NavMenuBtns = CONSTANTS.NavMenuBtns.EXERCISES
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var id = 1
-        myDatamodel.getMesureByName("Вес (кг)").observe(this){
-            id = it.id
-        }
-        Log.d("MyLog", "$id")
-
-
 
         // Заполнение объекта экрана
         binding = MainListActivityBinding.inflate(layoutInflater)
-
         // Меню
         actionBarDrawerToggle = ActionBarDrawerToggle(this, binding.mainDrawerLayout, R.string.nav_open, R.string.nav_close)
         binding.mainDrawerLayout.addDrawerListener(actionBarDrawerToggle)
@@ -98,8 +83,7 @@ class MainListActivity : AppCompatActivity() {
             setCurrentFragment()
         }
 */
-        // Начальное значение листа
-        //myDatamodel.curList.value = CONSTANTS.NavMenuBtns.TRAINING_STORY
+
         setCurrentFragment()
         setContentView(binding.root)
     }
@@ -155,12 +139,28 @@ class MainListActivity : AppCompatActivity() {
     }
 
     fun setCurrentFragment(){
+        when(currentList) {
+            CONSTANTS.NavMenuBtns.COMPLEXES -> {
 
-        supportActionBar?.title = getStringTitle(currentList)
-        supportFragmentManager.beginTransaction().replace(
-            R.id.main_frame,
-            MainListFragment.newInstance(this, currentList)
-        ).commit()
+            }
+            CONSTANTS.NavMenuBtns.EXERCISES -> {
+                myDatamodel.allExercisesName.observe(this){
+                    var adapter = MainListExerciseAdapter(it, myDatamodel)
+                    supportActionBar?.title = getStringTitle(currentList)
+                    supportFragmentManager.beginTransaction().replace(
+                        R.id.main_frame,
+                        MainListFragment.newInstance(adapter, currentList)
+                    ).commit()
+                }
+            }
+            CONSTANTS.NavMenuBtns.TRAINING_STORY -> {
+
+            }
+            CONSTANTS.NavMenuBtns.FOOD_ADDITIVES -> {
+
+            }
+        }
+
     }
 }
 

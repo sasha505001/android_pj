@@ -21,11 +21,13 @@ import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.Main
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListFragmentBinding
 
 
-class MainListFragment(context: Context) : Fragment() {
-    // Livedata
-    private val myDatamodel:MyDataModel by viewModels{
-        MyDataModelFactory((MyApplication(context)).myRep)
-    }
+class MainListFragment : Fragment() {
+    // Адаптеры
+    var complexAdapter:MainListComplexAdapter? = null
+    var exerciseAdapter:MainListExerciseAdapter? = null
+    var foodAdditiveAdapter:MainListFoodAdditiveAdapter? = null
+    var trainsAdapter:MainListTrainsAdapter? = null
+
 
     // Тип списка который используется
     var typeOfFragment: CONSTANTS.NavMenuBtns = CONSTANTS.NavMenuBtns.EXERCISES
@@ -52,9 +54,8 @@ class MainListFragment(context: Context) : Fragment() {
                 //binding.fragmentRecyclerView.adapter = MainListComplexAdapter(myDatamodel)
             }
             CONSTANTS.NavMenuBtns.EXERCISES ->{
-                myDatamodel.allExercisesName.observe(this.viewLifecycleOwner){
-                    binding.fragmentRecyclerView.adapter = MainListExerciseAdapter(it, myDatamodel)
-                }
+                binding.fragmentRecyclerView.adapter = exerciseAdapter
+
             }
             CONSTANTS.NavMenuBtns.TRAINING_STORY ->{
 
@@ -70,11 +71,11 @@ class MainListFragment(context: Context) : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance(
-            context: Context,
+            adapter: MainListExerciseAdapter,
             typeOfList:CONSTANTS.NavMenuBtns,
         ):Fragment{
-
-            var myFragment = MainListFragment(context)
+            var myFragment = MainListFragment()
+            myFragment.exerciseAdapter = adapter
             myFragment.typeOfFragment = typeOfList
             return myFragment
         }
