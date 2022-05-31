@@ -54,18 +54,27 @@ class MyRepository(
 
 
 
-    // Удаление упражнения по его имени
+    // Удаление упражнения по его имени(без связей
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun deleteExerciseByName(exerciseName: String){
         exercisesDao.deleteExerciseByName(exerciseName)
     }
 
+
+
     // Получение объекта упражнения по имени
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun getExerciseByName(exerciseName: String): ExercisesData{
         return exercisesDao.getExerciseByName(exerciseName)
+    }
+
+    // Получение объекта упражнения по имени
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteFullyExerciseByName(exerciseName: String){
+        exercisesDao.deleteFullyExercise(exerciseName)
     }
 
     // Получение объекта упражнения по имени

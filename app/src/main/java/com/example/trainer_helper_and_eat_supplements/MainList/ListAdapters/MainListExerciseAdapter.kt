@@ -37,7 +37,7 @@ class MainListExerciseAdapter(myList:List<String>, myModel:MyDataModel)
                     when(it.itemId){
                         R.id.menu_delete_btn -> {
                             // TODO удаление из ExerciseMesure
-                            myDataModel.deleteExerciseByName(str)
+                            myDataModel.deleteFullyExerciseByName(str)
                             Log.d("MyLog", "delete")
                         }
                         R.id.menu_edit_btn ->{

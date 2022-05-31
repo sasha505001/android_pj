@@ -43,6 +43,10 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
         myRep.deleteExerciseByName(exerciseName)
     }
 
+    fun deleteFullyExerciseByName(exerciseName:String) = viewModelScope.launch {
+        myRep.deleteFullyExerciseByName(exerciseName)
+    }
+
     // Получение упражнения по имени
     fun getExerciseByName(exerciseName: String):LiveData<ExercisesData>{
         val result = MutableLiveData<ExercisesData>()
