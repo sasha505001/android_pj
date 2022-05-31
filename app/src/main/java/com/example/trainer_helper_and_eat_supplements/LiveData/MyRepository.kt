@@ -24,8 +24,10 @@ class MyRepository(
     private val weekDaysDao: WeekDaysDao,
     private val weekDaysFoodAdditiveDao: WeekDaysFoodAdditiveDao,
 ) {
-    // ------------------------------  Упражнения  ------------------------------------
+    // TODO ------------------------------  Упражнения  ---------------------------------
+    // Все объекты упражнений
     val allExercises: LiveData<List<ExercisesData>> = exercisesDao.getAllExercises()
+    // Все имена упражнений
     val allExerciseName : LiveData<List<String>> = exercisesDao.getAllNames()
 
     // Добавление упражнения
@@ -35,6 +37,13 @@ class MyRepository(
         exercisesDao.insertAllExercises(exercisesData)
     }
 
+    /* Добавление упражнения(упражнения-мера)*/
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun addFullyExercise(exerciseData: ExercisesData, measureNames:List<String>){
+        exercisesDao.insertNewExercise(exerciseData, measureNames)
+    }
+
     // Удаление упражнения по его имени
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -42,13 +51,14 @@ class MyRepository(
         exercisesDao.deleteExerciseByName(exerciseName)
     }
 
+    // Получение объекта упражнения по имени
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun getExerciseByName(exerciseName: String): ExercisesData{
         return exercisesDao.getExerciseByName(exerciseName)
     }
 
-    // -----------------------------  Меры  -------------------------------------
+    // TODO -----------------------------  Меры  -------------------------------------
     // Получение названия всех мер
     // Объекты
     val allMesureData:LiveData<List<MeasuresData>> = measuresDao.getAllMeasures()
@@ -63,26 +73,27 @@ class MyRepository(
         measuresDao.addAllMeasure(mesure)
     }
 
+
+    // Получение объекта меры по имени
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun getMesureByName(name: String):MeasuresData{
         return measuresDao.getMeasureByName(name)
     }
 
-    // Добавление упражнения
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun addFullyExercise(exerciseData: ExercisesData, measureNames:List<String>){
-        exercisesDao.insertNewExercise(exerciseData, measureNames)
-    }
 
 
-
-    // --------------------------  Упражнение - мера  ------------------------
+    // TODO --------------------------  Упражнение - мера  ------------------------
+    // Добавление
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insertMesureExercise(data:ExerciseMeasuresData){
         exerciseMeasuresDao.insertAll(data)
     }
 
+
+    // TODO ---------------------------------- Комплексы  ------------------------------
+
+    // TODO ---------------------------------- Тренировки  ------------------------------
+    // TODO ---------------------------------- Пищ. добавки  ------------------------------
 }
