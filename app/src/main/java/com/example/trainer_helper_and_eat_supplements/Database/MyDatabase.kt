@@ -1,7 +1,6 @@
 package com.example.trainer_helper_and_eat_supplements.Database
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -12,19 +11,18 @@ import com.example.trainer_helper_and_eat_supplements.Database.Data.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
 import java.io.Serializable
-import java.util.*
 
 @Database(entities = [
     ComplexesData::class,
     ComplexesExercisesData::class,
-    DoneExercisesData::class,
+    DoneExercisePartOfItData::class,
     ExerciseMeasuresData::class,
     ExercisesData::class,
     FoodAdditiveData::class,
     MeasureOfFoodAdditiveData::class,
     MeasuresData::class,
+    PartOfDoneExercisesData::class,
     ScheduleData::class,
     TakingTimeData::class,
     TakingTimeFoodAdditiveData::class,
@@ -38,12 +36,13 @@ version = 3, exportSchema = false)
 abstract class MyDatabase : RoomDatabase(), Serializable{
     abstract fun ComplexesDao():ComplexesDao
     abstract fun ComplexesExercisesDao(): ComplexesExercisesDao
-    abstract fun DoneExercisesDao():DoneExercisesDao
+    abstract fun DoneExercisePartOfItDao():DoneExercisePartOfItDao
     abstract fun ExerciseMeasuresDao():ExerciseMeasuresDao
     abstract fun ExercisesDao(): ExercisesDao
     abstract fun FoodAdditiveDao(): FoodAdditiveDao
     abstract fun MeasureOfFoodAdditiveDao(): MeasureOfFoodAdditiveDao
     abstract fun MeasuresDao(): MeasuresDao
+    abstract fun PartOfDoneExercisesDao(): PartOfDoneExercisesDao
     abstract fun ScheduleDao(): ScheduleDao
     abstract fun TakingTimeDao(): TakingTimeDao
     abstract fun TakingTimeFoodAdditiveDao(): TakingTimeFoodAdditiveDao

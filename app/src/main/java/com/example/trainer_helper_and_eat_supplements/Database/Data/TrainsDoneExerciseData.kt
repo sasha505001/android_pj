@@ -9,7 +9,6 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "train_done_exercise",
-    primaryKeys = ["train_id", "done_exercise"],
     foreignKeys = [
         ForeignKey(
             entity = TrainsData::class,
@@ -18,8 +17,8 @@ import androidx.room.PrimaryKey
             onDelete = ForeignKey.NO_ACTION
         ),
         ForeignKey(
-            entity = DoneExercisesData::class,
-            childColumns = ["done_exercise"],
+            entity = ExercisesData::class,
+            childColumns = ["exercise_id"],
             parentColumns = ["id"],
             onDelete = ForeignKey.NO_ACTION
         )
@@ -29,7 +28,9 @@ data class TrainsDoneExerciseData (
     @ColumnInfo(name = "train_id")
     var train_id:Int,
 
-    @ColumnInfo(name = "done_exercise")
-    var doneExercise_id:Int,
+    @ColumnInfo(name = "exercise_id")
+    var exercise_id:Int,
     ){
+    @PrimaryKey(autoGenerate = true)
+    var approach:Int = 0
 }

@@ -6,14 +6,8 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "done_exercise",
+    tableName = "PartOfDoneExercisesData",
     foreignKeys = [
-        ForeignKey(
-            entity = ExercisesData::class,
-            parentColumns = ["id"],
-            childColumns = ["exercise_id"],
-            onDelete = ForeignKey.NO_ACTION
-        ),
         ForeignKey(
             entity = MeasuresData::class,
             parentColumns = ["id"],
@@ -22,13 +16,10 @@ import androidx.room.PrimaryKey
         )
     ]
 )
-data class DoneExercisesData(
-
-    @ColumnInfo(name = "exercise_id")
-    var exercise:Int?,
+data class PartOfDoneExercisesData(
 
     @ColumnInfo(name = "measure_id")
-    var mesure:Int?,
+    var mesure:Int,
 
     @ColumnInfo(name = "count")
     var count:Float,

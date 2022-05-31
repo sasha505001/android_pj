@@ -9,12 +9,20 @@ import com.example.trainer_helper_and_eat_supplements.Database.Data.*
 class MyRepository(
     private val complexesDao: ComplexesDao,
     private val complexesExercisesDao: ComplexesExercisesDao,
-    private val doneExercisesDao: DoneExercisesDao,
+    private val doneExercisePartOfItDao: DoneExercisePartOfItDao,
     private val exerciseMeasuresDao: ExerciseMeasuresDao,
     private val exercisesDao: ExercisesDao,
+    private val foodAdditiveDao: FoodAdditiveDao,
+    private val measureOfFoodAdditiveDao: MeasureOfFoodAdditiveDao,
     private val measuresDao: MeasuresDao,
+    private val partOfDoneExercisesDao: PartOfDoneExercisesDao,
+    private val scheduleDao: ScheduleDao,
+    private val takingTimeDao: TakingTimeDao,
+    private val takingTimeFoodAdditiveDao: TakingTimeFoodAdditiveDao,
     private val trainsDao: TrainsDao,
     private val trainsDoneExercisesDao: TrainsDoneExercisesDao,
+    private val weekDaysDao: WeekDaysDao,
+    private val weekDaysFoodAdditiveDao: WeekDaysFoodAdditiveDao,
 ) {
     // ------------------------------  Упражнения  ------------------------------------
     val allExercises: LiveData<List<ExercisesData>> = exercisesDao.getAllExercises()

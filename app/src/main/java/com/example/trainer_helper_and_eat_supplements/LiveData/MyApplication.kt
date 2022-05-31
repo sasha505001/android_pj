@@ -21,12 +21,21 @@ class MyApplication(context: Context) {
         MyRepository(
             database.ComplexesDao(),
             database.ComplexesExercisesDao(),
-            database.DoneExercisesDao(),
+            database.DoneExercisePartOfItDao(),
             database.ExerciseMeasuresDao(),
             database.ExercisesDao(),
+            database.FoodAdditiveDao(),
+            database.MeasureOfFoodAdditiveDao(),
             database.MeasuresDao(),
+            database.PartOfDoneExercisesDao(),
+            database.ScheduleDao(),
+            database.TakingTimeDao(),
+            database.TakingTimeFoodAdditiveDao(),
             database.TrainsDao(),
             database.TrainsDoneExercisesDao(),
+            database.WeekDaysDao(),
+            database.WeekDaysFoodAdditiveDao()
+
         )
     }
 
