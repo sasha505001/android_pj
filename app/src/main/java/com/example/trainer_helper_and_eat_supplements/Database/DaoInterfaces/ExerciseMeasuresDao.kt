@@ -11,6 +11,8 @@ interface ExerciseMeasuresDao {
     @Insert
     suspend fun insertAll(vararg exerciseMeasuresData: ExerciseMeasuresData)
 
+    @Query("SELECT * FROM exercise_measure Where exercise_id = :id")
+    suspend fun getAllExerciseMesureById(id:Int) :List<ExerciseMeasuresData>
 
     // Очищение таблицы
     @Query("DELETE FROM exercise_measure")

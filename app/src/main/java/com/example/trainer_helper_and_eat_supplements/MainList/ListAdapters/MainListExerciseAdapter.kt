@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
+import com.example.trainer_helper_and_eat_supplements.CONSTANTS
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
 import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
+import com.example.trainer_helper_and_eat_supplements.EditAddExerciseActivity
 import com.example.trainer_helper_and_eat_supplements.MyDataModel
 import com.example.trainer_helper_and_eat_supplements.R
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListItemBinding
@@ -39,8 +41,9 @@ class MainListExerciseAdapter(myList:List<String>, myModel:MyDataModel)
                             Log.d("MyLog", "delete")
                         }
                         R.id.menu_edit_btn ->{
-                            //val intent = Intent(parent.context, EditAddExercise::class.java)
-                            //parent.context.startActivity(intent)
+                            val intent = Intent(parent.context, EditAddExerciseActivity::class.java)
+                            intent.putExtra(CONSTANTS.NAMEOFEDITOBJ, str)
+                            parent.context.startActivity(intent)
                             Log.d("MyLog", "edit")
                         }
                     }

@@ -3,7 +3,6 @@ package com.example.trainer_helper_and_eat_supplements
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -12,10 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
-import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListComplexAdapter
 import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListExerciseAdapter
-import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListFoodAdditiveAdapter
-import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListTrainsAdapter
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivityBinding
 
 // TODO ошибка при повороте экрана, ошибка при возвращение на это activity
@@ -103,12 +99,13 @@ class MainListActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.add_btn){
-            var intent: Intent = when(currentList){
+            when(currentList){ // TODO сделать добавления для каждого
                 CONSTANTS.NavMenuBtns.COMPLEXES->{
                     Intent(this, EditAddComplexActivity::class.java)
                 }
                 CONSTANTS.NavMenuBtns.EXERCISES->{
-                    Intent(this, EditAddExerciseActivity::class.java)
+                    val intent = Intent(this, EditAddExerciseActivity::class.java)
+                    startActivity(intent)
                 }
                 CONSTANTS.NavMenuBtns.TRAINING_STORY->{
                     Intent(this, EditTrainActivity::class.java)
@@ -117,8 +114,6 @@ class MainListActivity : AppCompatActivity() {
                     Intent(this, EditAddFoodAdditiveActivity::class.java)
                 }
             }
-            startActivity(intent)
-
         }
         if(actionBarDrawerToggle.onOptionsItemSelected(item)){
             return true
@@ -160,7 +155,8 @@ class MainListActivity : AppCompatActivity() {
 
             }
         }
-
     }
+
+
 }
 

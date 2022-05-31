@@ -29,6 +29,15 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
             myRep.addFullyExercise(exerciseData, measureNames)
         }
 
+    // Фуникция редактирования
+    fun updateOldExercise(nameOfOldExercise:String,
+                          exercise: ExercisesData,
+                          measureNames:List<String>) =
+        viewModelScope.launch {
+            myRep.updateExercise(nameOfOldExercise, exercise, measureNames)
+        }
+
+
     // Удаление упражнения(без связей)
     fun deleteExerciseByName(exerciseName:String) = viewModelScope.launch {
         myRep.deleteExerciseByName(exerciseName)
@@ -62,8 +71,17 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
         return result
     }
 
+    fun getMesuresFromExerciseId(exerciseId:Int): LiveData<List<String>>{
+        val result = MutableLiveData<List<String>>()
+        viewModelScope.launch {
+            val returnRepo = myRep.getMesureOfExerciseById(exerciseId)
+            result.postValue(returnRepo)
+        }
+        return result
+    }
+
     // TODO --------------------------------------- Мера - упражнение -----------------------------
-    // Добавление
+    // Добавление меры
     fun insertExerciseMeasure(data:ExerciseMeasuresData)= viewModelScope.launch(){
         myRep.insertMesureExercise(data)
     }

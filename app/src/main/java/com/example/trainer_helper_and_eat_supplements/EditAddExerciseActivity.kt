@@ -1,6 +1,7 @@
 package com.example.trainer_helper_and_eat_supplements
 
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -43,7 +44,40 @@ class EditAddExerciseActivity : AppCompatActivity() {
         var arguments = intent.extras
         if(arguments != null){
             nameOfEditObject = arguments.getString(CONSTANTS.NAMEOFEDITOBJ)
+            binding.nameOfExercise.setText(nameOfEditObject)
+            myDatamodel.getExerciseByName(nameOfEditObject!!).observe(this){ exercise->
+                binding.linkEditText.setText(exercise.link)
+                Log.d("myLog", "${exercise.id}")
+
+                myDatamodel.getMesuresFromExerciseId(exercise.id).observe(this){ mesureList->
+                    mesureList.forEach(){
+                        Log.d("MyLog", "$it")
+                    }
+
+
+                    var textOfMesures = ""
+                    mesureList.forEach(){ curMesure ->
+                        if(textOfMesures !=""){
+                            textOfMesures = textOfMesures + ",\n" + curMesure
+                        }else{
+                            textOfMesures = curMesure
+                        }
+
+                    }
+                    binding.mesureText.setText(textOfMesures)
+                    myDatamodel.allMesuresName.observe(this) { choices ->
+                        selectedItemsOfMesure = BooleanArray(choices.size){false}
+                        mesureList.forEach(){ str->
+                            val index = choices.indexOf(str)
+                            selectedItemsOfMesure!![index] = true
+                        }
+
+
+                    }
+                }
+            }
         }
+
         // Кнопка возвращения на прошлое меню
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setContentView(binding.root)
@@ -79,16 +113,22 @@ class EditAddExerciseActivity : AppCompatActivity() {
             alertStr = alertStr + "Введите имя упражнения;\n"
         }
 
-
-
         // Проверка введена ли мера
         if(binding.mesureText.text.toString() == getString(R.string.default_value_of_measures)){
             alertStr = alertStr + "Введите меры;\n"
         }
         // Проверка существует ли упражнение с данным именем
         myDatamodel.allExercisesName.observe(this){ allExercises->
-            if(allExercises.contains(binding.nameOfExercise.text.toString())){
-                alertStr ="Упражнение с данным именем уже существует\n"
+            if(nameOfEditObject != null){
+                if(binding.nameOfExercise.text.toString() != nameOfEditObject &&
+                    allExercises.contains(binding.nameOfExercise.text.toString())){
+                    alertStr ="Упражнение с данным именем уже существует\n"
+                }
+            }
+            else{
+                if(allExercises.contains(binding.nameOfExercise.text.toString())){
+                    alertStr ="Упражнение с данным именем уже существует\n"
+                }
             }
             // Проверка заполнены ли все необходимые поля
             if(alertStr != ""){
@@ -109,7 +149,12 @@ class EditAddExerciseActivity : AppCompatActivity() {
                 )
                 val text: String = binding.mesureText.text.toString()
                 val selectedMesures = text.split(",\n")
-                myDatamodel.addFullyExercise(data, selectedMesures)
+                if(nameOfEditObject != null){
+                    myDatamodel.updateOldExercise(nameOfEditObject!!,data, selectedMesures)
+                }
+                else{
+                    myDatamodel.addFullyExercise(data, selectedMesures)
+                }
                 finish()
             }
 

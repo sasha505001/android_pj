@@ -13,9 +13,15 @@ interface ExercisesDao {
     @Query("SELECT * FROM exercise")
     fun getAllExercises(): LiveData<List<ExercisesData>>
 
+    @Query("Select name From EXERCISE_MEASURE JOIN measure on id = measure_id where exercise_id = :id ")
+    suspend fun getAllMesureNamesFromExerciseId(id:Int):List<String>
+
     // Получение списка названий всех упражнений
     @Query("SELECT name FROM exercise")
     fun getAllNames():LiveData<List<String>>
+
+    @Query("SELECT ID FROM EXERCISE WHERE NAME = :name")
+    fun getExerciseIdByName(name: String):Int
 
     // Получения упражнения по имени
     @Query("SELECT * FROM exercise WHERE name = :name")
@@ -24,6 +30,9 @@ interface ExercisesDao {
     // Добавление упражнения
     @Insert
     suspend fun insertAllExercises(vararg exercises: ExercisesData)
+
+    @Update
+    suspend fun updateExercise(exercises: ExercisesData)
 
     // Удаление упражнения
     @Delete
@@ -48,7 +57,31 @@ interface ExercisesDao {
         }
     }
 
-    // Добавение
+
+    // Обновление в бд
+    @Transaction
+    open suspend fun updateOldExercise(nameOfOldExercise:String,
+                                       exercise: ExercisesData,
+                                       measureNames:List<String>
+    ){
+        val updatingExerciseId = getExerciseIdByName(nameOfOldExercise)
+        val newExercise = exercise
+        newExercise.id = updatingExerciseId
+        updateExercise(newExercise)
+        deleteAllExerciseMesureByExerciseId(updatingExerciseId)
+        for (item in measureNames){
+            val mesureData = getMeasureByName(item)
+            insertAllExerciseMesureData(
+                ExerciseMeasuresData(updatingExerciseId, mesureData.id)
+            )
+        }
+    }
+
+    // Удаление всех мера упражнение из бд
+    @Query("DELETE FROM exercise_measure Where exercise_id = :id")
+    suspend fun deleteAllExerciseMesureByExerciseId(id:Int)
+
+    // Добавение мера - упражнение
     @Insert
     suspend fun insertAllExerciseMesureData(vararg exerciseMeasuresData: ExerciseMeasuresData)
 
