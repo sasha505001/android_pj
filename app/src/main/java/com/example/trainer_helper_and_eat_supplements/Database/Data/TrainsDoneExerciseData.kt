@@ -15,13 +15,13 @@ import androidx.room.PrimaryKey
             entity = TrainsData::class,
             childColumns = ["train_id"],
             parentColumns = ["id"],
-            onDelete = CASCADE
+            onDelete = ForeignKey.NO_ACTION
         ),
         ForeignKey(
             entity = DoneExercisesData::class,
             childColumns = ["done_exercise"],
             parentColumns = ["id"],
-            onDelete = CASCADE
+            onDelete = ForeignKey.NO_ACTION
         )
     ]
 )

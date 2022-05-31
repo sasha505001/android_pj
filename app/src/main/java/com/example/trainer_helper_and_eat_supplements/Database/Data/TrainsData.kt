@@ -17,7 +17,7 @@ import java.util.*
             entity = ComplexesData::class,
             childColumns = ["complex_id"],
             parentColumns = ["id"],
-            onDelete = ForeignKey.SET_NULL
+            onDelete = ForeignKey.NO_ACTION
         )
     ]
 )

@@ -23,18 +23,18 @@ class MainListComplexAdapter (myList:List<String>, myModel: MyDataModel)
 
         fun bind(str:String){
             binding.textView.text = str
+
             binding.imageButton.setOnClickListener(){
                 val popupMenu = PopupMenu(parent.context,it)
                 popupMenu.inflate(R.menu.popup_menu)
                 popupMenu.setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_delete_btn -> {
-                            // TODO удаление из
+                            // TODO удаление
                             Log.d("MyLog", "delete")
                         }
                         R.id.menu_edit_btn ->{
-                            //val intent = Intent(parent.context, EditAddExercise::class.java)
-                            //parent.context.startActivity(intent)
+                            // TODO редактирование
                             Log.d("MyLog", "edit")
                         }
                     }
@@ -47,31 +47,7 @@ class MainListComplexAdapter (myList:List<String>, myModel: MyDataModel)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComplexesHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.main_list_item, parent, false)
-        var binding = MainListItemBinding.bind(view)
-
-        binding.imageButton.setOnClickListener(){
-            var popupMenu = PopupMenu(parent.context,it)
-            popupMenu.inflate(R.menu.popup_menu)
-            popupMenu.setOnMenuItemClickListener {
-                when(it.itemId){
-                    R.id.menu_delete_btn -> {
-                        Log.d("MyLog", "delete")
-                    }
-                    R.id.menu_edit_btn ->{
-                        //val intent = Intent(parent.context, EditAddCompex::class.java)
-                        //parent.context.startActivity(intent)
-                        // TODO с интентом передавать имя комплекса
-                        Log.d("MyLog", "edit")
-                    }
-                }
-                true
-            }
-            val popup = PopupMenu::class.java.getDeclaredField("mPopup")
-            popup.isAccessible = true
-            val myMenu = popup.get(popupMenu)
-            myMenu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java).invoke(myMenu, true)
-            popupMenu.show()
-        }
+        val binding = MainListItemBinding.bind(view)
         return MainListComplexAdapter.ComplexesHolder(binding.root, parent, myDataModel)
     }
 

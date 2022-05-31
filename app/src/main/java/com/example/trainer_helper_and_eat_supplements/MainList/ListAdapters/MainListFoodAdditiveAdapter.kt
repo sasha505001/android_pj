@@ -6,57 +6,60 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
-import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
+import com.example.trainer_helper_and_eat_supplements.MyDataModel
 import com.example.trainer_helper_and_eat_supplements.R
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListItemBinding
 
-class MainListFoodAdditiveAdapter (myList:List<String>?) : RecyclerView.Adapter<MainListFoodAdditiveAdapter.FoodAdditivesHolder>(){
+class MainListFoodAdditiveAdapter (myList:List<String>, myModel: MyDataModel)
+    : RecyclerView.Adapter<MainListFoodAdditiveAdapter.FoodAdditivesHolder>(){
+    var foodAdditiveList = myList
+    val myDataModel = myModel
 
-    var stringList = myList
 
-    class FoodAdditivesHolder(item: View) : RecyclerView.ViewHolder(item){
+
+
+    class FoodAdditivesHolder(item: View, var parent: ViewGroup, itemModel:MyDataModel)
+        : RecyclerView.ViewHolder(item){
         var binding = MainListItemBinding.bind(item)
+        val myDataModel = itemModel
+
         fun bind(str:String){
             binding.textView.text = str
+
+            binding.imageButton.setOnClickListener(){
+                val popupMenu = PopupMenu(parent.context,it)
+                popupMenu.inflate(R.menu.popup_menu)
+                popupMenu.setOnMenuItemClickListener {
+                    when(it.itemId){
+                        R.id.menu_delete_btn -> {
+                            // TODO удаление
+                            Log.d("MyLog", "delete")
+                        }
+                        R.id.menu_edit_btn ->{
+                            // TODO редактирование
+                            Log.d("MyLog", "edit")
+                        }
+                    }
+                    true
+                }
+                popupMenu.show()
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodAdditivesHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.main_list_item, parent, false)
         var binding = MainListItemBinding.bind(view)
-
-        binding.imageButton.setOnClickListener(){
-            var popupMenu = PopupMenu(parent.context,it)
-            popupMenu.inflate(R.menu.popup_menu)
-            popupMenu.setOnMenuItemClickListener {
-                when(it.itemId){
-                    R.id.menu_delete_btn -> {
-                        Log.d("MyLog", "delete")
-                    }
-                    R.id.menu_edit_btn ->{
-                        Log.d("MyLog", "edit")
-                    }
-                }
-                true
-            }
-            val popup = PopupMenu::class.java.getDeclaredField("mPopup")
-            popup.isAccessible = true
-            val myMenu = popup.get(popupMenu)
-            myMenu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java).invoke(myMenu, true)
-            popupMenu.show()
-        }
-        return MainListFoodAdditiveAdapter.FoodAdditivesHolder(binding.root)
+        return MainListFoodAdditiveAdapter.FoodAdditivesHolder(binding.root, parent, myDataModel)
     }
 
     override fun onBindViewHolder(holder: FoodAdditivesHolder, position: Int) {
-        holder.bind(stringList?.get(position)!!)
+        holder.bind(foodAdditiveList.get(position))
     }
 
     override fun getItemCount(): Int {
-        if (stringList==null){
-            return 0
-        }
-        return stringList?.size!!
+
+        return foodAdditiveList.size
     }
 
 

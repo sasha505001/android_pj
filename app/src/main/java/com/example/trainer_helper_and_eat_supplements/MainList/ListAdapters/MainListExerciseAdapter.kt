@@ -20,7 +20,8 @@ class MainListExerciseAdapter(myList:List<String>, myModel:MyDataModel)
 
 
 
-    class ExercisesHolder (item: View, var parent: ViewGroup, itemModel:MyDataModel) : RecyclerView.ViewHolder(item){
+    class ExercisesHolder (item: View, var parent: ViewGroup, itemModel:MyDataModel)
+        : RecyclerView.ViewHolder(item){
         var binding = MainListItemBinding.bind(item)
         val myDataModel = itemModel
 

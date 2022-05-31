@@ -22,9 +22,16 @@ import java.util.*
     DoneExercisesData::class,
     ExerciseMeasuresData::class,
     ExercisesData::class,
+    FoodAdditiveData::class,
+    MeasureOfFoodAdditiveData::class,
     MeasuresData::class,
+    ScheduleData::class,
+    TakingTimeData::class,
+    TakingTimeFoodAdditiveData::class,
     TrainsData::class,
-    TrainsDoneExerciseData::class
+    TrainsDoneExerciseData::class,
+    WeekDaysData::class,
+    WeekDaysFoodAdditiveData::class
 ],
 version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
@@ -34,9 +41,17 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
     abstract fun DoneExercisesDao():DoneExercisesDao
     abstract fun ExerciseMeasuresDao():ExerciseMeasuresDao
     abstract fun ExercisesDao(): ExercisesDao
+    abstract fun FoodAdditiveDao(): FoodAdditiveDao
+    abstract fun MeasureOfFoodAdditiveDao(): MeasureOfFoodAdditiveDao
     abstract fun MeasuresDao(): MeasuresDao
+    abstract fun ScheduleDao(): ScheduleDao
+    abstract fun TakingTimeDao(): TakingTimeDao
+    abstract fun TakingTimeFoodAdditiveDao(): TakingTimeFoodAdditiveDao
     abstract fun TrainsDao(): TrainsDao
     abstract fun TrainsDoneExercisesDao(): TrainsDoneExercisesDao
+    abstract fun WeekDaysDao(): WeekDaysDao
+    abstract fun WeekDaysFoodAdditiveDao(): WeekDaysFoodAdditiveDao
+
 
     companion object{
         @Volatile
