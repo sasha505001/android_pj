@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "PartOfDoneExercisesData",
+    tableName = "part_of_done_exercises",
     foreignKeys = [
         ForeignKey(
             entity = MeasuresData::class,

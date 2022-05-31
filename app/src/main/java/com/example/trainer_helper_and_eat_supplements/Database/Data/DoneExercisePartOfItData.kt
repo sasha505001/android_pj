@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "DoneExerciseAndPartData",
+    tableName = "done_exercise_and_part",
     foreignKeys = [
         ForeignKey(
             entity = TrainsDoneExerciseData::class,

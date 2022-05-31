@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity(tableName = "TakingTimeData")
+@Entity(tableName = "taking_time")
 class TakingTimeData(
 
     @ColumnInfo(name = "dose_taken")
