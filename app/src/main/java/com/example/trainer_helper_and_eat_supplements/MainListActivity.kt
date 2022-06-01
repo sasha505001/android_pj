@@ -22,8 +22,6 @@ class MainListActivity : AppCompatActivity() {
         MyDataModelFactory((MyApplication(this)).myRep)
     }
 
-
-
     // объект для обращения к элементам экрана
     lateinit var binding: MainListActivityBinding
 
@@ -136,7 +134,7 @@ class MainListActivity : AppCompatActivity() {
     fun setCurrentFragment(){
         when(currentList) {
             CONSTANTS.NavMenuBtns.COMPLEXES -> {
-
+                
             }
             CONSTANTS.NavMenuBtns.EXERCISES -> {
                 myDatamodel.allExercisesName.observe(this){

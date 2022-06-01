@@ -43,6 +43,7 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
         myRep.deleteExerciseByName(exerciseName)
     }
 
+    // Полностью удаляю упражнение включая все его связи
     fun deleteFullyExerciseByName(exerciseName:String) = viewModelScope.launch {
         myRep.deleteFullyExerciseByName(exerciseName)
     }
@@ -75,6 +76,7 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
         return result
     }
 
+    // Получение всех мер(строка) из упражнения
     fun getMesuresFromExerciseId(exerciseId:Int): LiveData<List<String>>{
         val result = MutableLiveData<List<String>>()
         viewModelScope.launch {

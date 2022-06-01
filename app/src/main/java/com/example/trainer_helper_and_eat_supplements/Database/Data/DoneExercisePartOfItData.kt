@@ -11,19 +11,19 @@ import androidx.room.PrimaryKey
         ForeignKey(
             entity = TrainsDoneExerciseData::class,
             parentColumns = ["approach"],
-            childColumns = ["done_exercise_id"],
+            childColumns = ["approach_id"],
             onDelete = ForeignKey.NO_ACTION
         ),
         ForeignKey(
             entity = PartOfDoneExercisesData::class,
             parentColumns = ["id"],
             childColumns = ["part_of_done_exercise"],
-            onDelete = ForeignKey.NO_ACTION
+            onDelete = ForeignKey.CASCADE
         )
     ])
 class DoneExercisePartOfItData (
-    @ColumnInfo(name = "done_exercise_id")
-    val done_exercise_id:Int,
+    @ColumnInfo(name = "approach_id")
+    val approach_id:Int,
     @ColumnInfo(name = "part_of_done_exercise")
     val part_of_done_exercise:Int
 ){
