@@ -19,12 +19,14 @@ data class ExercisesData (
 
     // Картинка
     @ColumnInfo(name = "image")
-    val myImage: String,
+    val myImage: String = "",
 
     // Ссылка
     @ColumnInfo(name = "link")
-    val link: String,
+    val link: String = "",
 
+    @ColumnInfo(name = "rest_time")
+    val rest_time:Int = 90
     ){
     // ID
     @PrimaryKey(autoGenerate = true)

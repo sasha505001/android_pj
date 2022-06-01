@@ -31,18 +31,19 @@ class ObserverOfExerciseActivity : AppCompatActivity() {
             val nameOfExercise = arguments.getString(CONSTANTS.NAMEOFOBSERVE)
             supportActionBar?.title = "Упражнение"
                 myDatamodel.getExerciseByName(nameOfExercise!!).observe(this){ exercise ->
-                // Задаю имя
-                binding.nameText.setText(exercise.name)
-                // Задаю все меры
-                myDatamodel.getMesuresFromExerciseId(exercise.id).observe(this){ mesures->
-                    var mesuresString:String = ""
-                    mesures.forEach(){
-                        if (mesuresString == ""){
-                            mesuresString = it
-                        }
-                        else{
-                            mesuresString = mesuresString + ",\n" + it
-                        }
+                    // Задаю имя
+                    binding.nameText.setText(exercise.name)
+                    binding.timerRestText.setText(exercise.rest_time.toString())
+                    // Задаю все меры
+                    myDatamodel.getMesuresFromExerciseId(exercise.id).observe(this){ mesures->
+                        var mesuresString:String = ""
+                        mesures.forEach(){
+                            if (mesuresString == ""){
+                                mesuresString = it
+                            }
+                            else{
+                                mesuresString = mesuresString + ",\n" + it
+                            }
                     }
                     binding.mesureText.setText(mesuresString)
                 }

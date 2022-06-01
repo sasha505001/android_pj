@@ -35,6 +35,9 @@
     <!-- Ссылка -->
     <string name="link_header_text">Ссылка</string>
     <string name="link_text_hint">Введите ссылку</string>
+    <!-- Для таймера отдыха -->
+    <string name="header_for_rest_timer">Время отдыха(От 1 до 600 сек.)</string>
+    <string name="hint_text_for_rest_timer">По умолчанию(90 сек.)</string>
 
     <!-- Для редактирования комплекса упражнений -->
     <!-- Название -->

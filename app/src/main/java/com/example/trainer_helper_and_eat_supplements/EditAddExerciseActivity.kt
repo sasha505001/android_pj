@@ -45,10 +45,11 @@ class EditAddExerciseActivity : AppCompatActivity() {
         if(arguments != null){
             nameOfEditObject = arguments.getString(CONSTANTS.NAMEOFEDITOBJ)
             binding.nameOfExercise.setText(nameOfEditObject)
+
             myDatamodel.getExerciseByName(nameOfEditObject!!).observe(this){ exercise->
                 binding.linkEditText.setText(exercise.link)
                 Log.d("myLog", "${exercise.id}")
-
+                binding.timerRestEditText.setText(exercise.rest_time.toString())
                 myDatamodel.getMesuresFromExerciseId(exercise.id).observe(this){ mesureList->
                     mesureList.forEach(){
                         Log.d("MyLog", "$it")
@@ -130,6 +131,14 @@ class EditAddExerciseActivity : AppCompatActivity() {
                     alertStr ="Упражнение с данным именем уже существует\n"
                 }
             }
+            var restTime:Int = 90
+            if(binding.timerRestEditText.text.toString() !=""){
+                restTime = binding.timerRestEditText.text.toString().toInt()
+                if(restTime<1 || restTime > 600){
+                    alertStr = "Недопустимое значение таймера"
+                }
+            }
+
             // Проверка заполнены ли все необходимые поля
             if(alertStr != ""){
                 val alertDialog = AlertDialog.Builder(this)
@@ -142,10 +151,15 @@ class EditAddExerciseActivity : AppCompatActivity() {
                 alertDialog.show()
             }
             else{
+
+                if(binding.timerRestEditText.text.toString() != ""){
+                    restTime = binding.timerRestEditText.text.toString().toInt()
+                }
                 val data = ExercisesData(
                     binding.nameOfExercise.text.toString(),
                     "",// TODO сделать для картинки
-                    binding.linkEditText.text.toString()
+                    binding.linkEditText.text.toString(),
+                    restTime
                 )
                 val text: String = binding.mesureText.text.toString()
                 val selectedMesures = text.split(",\n")
