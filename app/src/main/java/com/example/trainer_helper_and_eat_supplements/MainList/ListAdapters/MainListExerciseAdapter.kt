@@ -1,34 +1,45 @@
 package com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.trainer_helper_and_eat_supplements.CONSTANTS
+import com.example.trainer_helper_and_eat_supplements.*
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
 import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
-import com.example.trainer_helper_and_eat_supplements.EditAddExerciseActivity
-import com.example.trainer_helper_and_eat_supplements.MyDataModel
-import com.example.trainer_helper_and_eat_supplements.R
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListItemBinding
 
-class MainListExerciseAdapter(myList:List<String>, myModel:MyDataModel)
-    : RecyclerView.Adapter<MainListExerciseAdapter.ExercisesHolder>() {
+class MainListExerciseAdapter(
+    myList:List<String>,
+    myModel:MyDataModel,
+    context: Context
+): RecyclerView.Adapter<MainListExerciseAdapter.ExercisesHolder>() {
     var exercises = myList
     val myDataModel = myModel
+    val curContext = context
 
 
-
-    class ExercisesHolder (item: View, var parent: ViewGroup, itemModel:MyDataModel)
+    class ExercisesHolder (item: View, var parent: ViewGroup,
+                           itemModel:MyDataModel,
+                           context: Context)
         : RecyclerView.ViewHolder(item){
         var binding = MainListItemBinding.bind(item)
         val myDataModel = itemModel
+        val curContext = context
 
         fun bind(str:String, position: Int){
             binding.textView.text = str
+
+            binding.itemConstraint.setOnClickListener(){
+                val intent = Intent(curContext, ObserverOfExerciseActivity::class.java)
+                intent.putExtra(CONSTANTS.NAMEOFOBSERVE, str)
+                curContext.startActivity(intent)
+            }
 
             binding.imageButton.setOnClickListener(){
                 val popupMenu = PopupMenu(parent.context,it)
@@ -57,7 +68,7 @@ class MainListExerciseAdapter(myList:List<String>, myModel:MyDataModel)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExercisesHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.main_list_item, parent, false)
         val binding = MainListItemBinding.bind(view)
-        return MainListExerciseAdapter.ExercisesHolder(binding.root, parent, myDataModel)
+        return MainListExerciseAdapter.ExercisesHolder(binding.root, parent, myDataModel, curContext)
     }
 
     override fun onBindViewHolder(holder: ExercisesHolder, position: Int) {

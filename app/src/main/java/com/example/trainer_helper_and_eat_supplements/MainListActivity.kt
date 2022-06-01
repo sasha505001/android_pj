@@ -134,11 +134,11 @@ class MainListActivity : AppCompatActivity() {
     fun setCurrentFragment(){
         when(currentList) {
             CONSTANTS.NavMenuBtns.COMPLEXES -> {
-                
+
             }
             CONSTANTS.NavMenuBtns.EXERCISES -> {
                 myDatamodel.allExercisesName.observe(this){
-                    var adapter = MainListExerciseAdapter(it, myDatamodel)
+                    val adapter = MainListExerciseAdapter(it, myDatamodel, this)
                     supportActionBar?.title = getStringTitle(currentList)
                     supportFragmentManager.beginTransaction().replace(
                         R.id.main_frame,

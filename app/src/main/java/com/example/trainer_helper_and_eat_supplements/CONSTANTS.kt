@@ -11,6 +11,7 @@ object CONSTANTS {
 
     // Имя редактируемого объекта
     val NAMEOFEDITOBJ:String = "nameOfEditObj"
+    val NAMEOFOBSERVE:String = "nameOfObserve"
 
 
 }
