@@ -11,7 +11,7 @@ interface ComplexesExercisesDao {
 
     // Добавление
     @Insert
-    fun insertAll(vararg complexerExercisesData: ComplexesExercisesData)
+    suspend fun insertAll(vararg complexerExercisesData: ComplexesExercisesData)
 
     // Очищение таблицы
     @Query("DELETE FROM complex_exercise")

@@ -18,11 +18,11 @@ interface ComplexesDao {
 
     // Получения упражнения по имени
     @Query("SELECT * FROM complex WHERE name = :name")
-    fun getComplex(name:String):ComplexesData
+    suspend fun getComplex(name:String):ComplexesData
 
     // Заполнение комплекса
     @Insert
-    fun insertAll(vararg exercises: ComplexesData)
+    suspend fun insertAll(vararg exercises: ComplexesData)
 
     // Удаление комплекса
     @Delete

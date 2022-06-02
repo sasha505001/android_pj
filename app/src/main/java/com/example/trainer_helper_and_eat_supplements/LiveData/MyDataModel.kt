@@ -105,6 +105,12 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
     // TODO ---------------------------------- Тренировки  ------------------------------
     // TODO ---------------------------------- Пищ. добавки  ------------------------------
 
+
+
+    // TODO специально для выбора упражнений из комплекса
+    val allBoolExercise:MutableLiveData<BooleanArray> by lazy {
+        MutableLiveData<BooleanArray>()
+    }
 }
 
 class MyDataModelFactory(private val repository: MyRepository) : ViewModelProvider.Factory {

@@ -1,5 +1,6 @@
 package com.example.trainer_helper_and_eat_supplements.LiveData
 
+import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.example.trainer_helper_and_eat_supplements.Database.DaoInterfaces.*
@@ -122,12 +123,14 @@ class MyRepository(
     val allComplexesNames:LiveData<List<String>> = complexesDao.getAllComplexesNames()
     val allComplexes:LiveData<List<ComplexesData>> = complexesDao.getAllComplexes()
 
+
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insertFullComplex(complex: ComplexesData, namesOfExercises:List<String>){
         complexesDao.insertAll(complex)
         val curComplex = complexesDao.getComplex(complex.name)
         namesOfExercises.forEach(){ exerciseName ->
-            val exerciseId = exercisesDao.getExerciseIdByName(exerciseName)
+            val exerciseId = exercisesDao.getExerciseIdByNameSuspend(exerciseName)
             complexesExercisesDao.insertAll(
                 ComplexesExercisesData(
                     exerciseId,

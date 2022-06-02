@@ -15,9 +15,7 @@ object CONSTANTS {
 
 
     val SELECT_OF_MANY_EXERCISES:String = "select_of_many_exercises"
-    enum class TypeOfSelect{
-
-    }
+    val LAST_EXERCISES_STR:String = "last_exercises_str"
 
 
 }
