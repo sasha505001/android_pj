@@ -123,8 +123,11 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
 
     // TODO ---------------------------------- Тренировки  ------------------------------
     // TODO ---------------------------------- Пищ. добавки  ------------------------------
+    val allFoodAdditiveNames = myRep.allFoodAdditiveNames
 
 
+
+    // -------------------------------------- Другое ---------------------------------
 
     // TODO специально для выбора упражнений из комплекса
     val allBoolExercise:MutableLiveData<BooleanArray> by lazy {

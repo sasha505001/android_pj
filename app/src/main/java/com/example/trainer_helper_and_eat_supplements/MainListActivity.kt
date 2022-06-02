@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListComplexAdapter
 import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListExerciseAdapter
+import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListFoodAdditiveAdapter
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivityBinding
 
 // TODO ошибка при повороте экрана, ошибка при возвращение на это activity
@@ -159,7 +160,14 @@ class MainListActivity : AppCompatActivity() {
 
             }
             CONSTANTS.NavMenuBtns.FOOD_ADDITIVES -> {
-
+                myDatamodel.allFoodAdditiveNames.observe(this){
+                    val adapter = MainListFoodAdditiveAdapter(it, myDatamodel, this)
+                    supportActionBar?.title = getStringTitle(currentList)
+                    supportFragmentManager.beginTransaction().replace(
+                        R.id.main_frame,
+                        MainListFragment.newInstance(adapter, currentList)
+                    ).commit()
+                }
             }
         }
     }

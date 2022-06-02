@@ -166,5 +166,8 @@ class MyRepository(
     }
 
     // TODO ---------------------------------- Тренировки  ------------------------------
+
     // TODO ---------------------------------- Пищ. добавки  ------------------------------
+    val allFoodAdditiveNames:LiveData<List<String>> = foodAdditiveDao.liveGetAllFoodAdditiveNames()
+
 }
