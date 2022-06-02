@@ -40,6 +40,9 @@ class EditAddExerciseActivity : AppCompatActivity() {
         // Заполнение объекта экрана
         binding = EditAddExerciseActivityBinding.inflate(layoutInflater)
 
+        // Заголовок
+        supportActionBar?.title = "Упражнение"
+
         // Получение аргументов при редактировании
         var arguments = intent.extras
         if(arguments != null){
@@ -47,15 +50,12 @@ class EditAddExerciseActivity : AppCompatActivity() {
             binding.nameOfExercise.setText(nameOfEditObject)
 
             myDatamodel.getExerciseByName(nameOfEditObject!!).observe(this){ exercise->
+                // Прописываю ссылку
                 binding.linkEditText.setText(exercise.link)
-                Log.d("myLog", "${exercise.id}")
+
+                // Прописываю время отдыха
                 binding.timerRestEditText.setText(exercise.rest_time.toString())
                 myDatamodel.getMesuresFromExerciseId(exercise.id).observe(this){ mesureList->
-                    mesureList.forEach(){
-                        Log.d("MyLog", "$it")
-                    }
-
-
                     var textOfMesures = ""
                     mesureList.forEach(){ curMesure ->
                         if(textOfMesures !=""){
@@ -63,7 +63,6 @@ class EditAddExerciseActivity : AppCompatActivity() {
                         }else{
                             textOfMesures = curMesure
                         }
-
                     }
                     binding.mesureText.setText(textOfMesures)
                     myDatamodel.allMesuresName.observe(this) { choices ->
@@ -151,7 +150,6 @@ class EditAddExerciseActivity : AppCompatActivity() {
                 alertDialog.show()
             }
             else{
-
                 if(binding.timerRestEditText.text.toString() != ""){
                     restTime = binding.timerRestEditText.text.toString().toInt()
                 }

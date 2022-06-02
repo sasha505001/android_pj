@@ -29,6 +29,9 @@ class EditAddComplexActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Заголовок
+        supportActionBar?.title = "Комплекс"
+
         // Заполнение объекта экрана
         binding = EditAddComplexActivityBinding.inflate(layoutInflater)
 
@@ -63,7 +66,7 @@ class EditAddComplexActivity : AppCompatActivity() {
     }
 
     fun onClickExerciseList(view: View){
-        //editAddExercise.launch()
+        editAddExercise.launch(Intent(this, SelectManyExercisesActivity::class.java))
     }
 
     // Activity for result

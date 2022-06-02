@@ -72,5 +72,7 @@
     <!-- ok menu -->
     <string name="title_ok_menu">Окей</string>
 
+    <!-- Для кнопки инофрмации -->
+    <string name="desc_for_info_btn">Кнопка информации</string>
 
 </resources>

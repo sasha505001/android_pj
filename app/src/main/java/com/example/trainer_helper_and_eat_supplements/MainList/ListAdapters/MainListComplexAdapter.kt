@@ -30,7 +30,7 @@ class MainListComplexAdapter (
         var binding = MainListItemBinding.bind(item)
         val myDataModel = itemModel
 
-        fun bind(str:String){
+            fun bind(str:String){
             binding.textView.text = str
 
             binding.imageButton.setOnClickListener(){

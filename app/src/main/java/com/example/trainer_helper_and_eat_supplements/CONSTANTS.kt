@@ -14,4 +14,10 @@ object CONSTANTS {
     val NAMEOFOBSERVE:String = "nameOfObserve"
 
 
+    val SELECT_OF_MANY_EXERCISES:String = "select_of_many_exercises"
+    enum class TypeOfSelect{
+
+    }
+
+
 }
