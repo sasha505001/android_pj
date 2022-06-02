@@ -1,6 +1,7 @@
 package com.example.trainer_helper_and_eat_supplements
 
 import androidx.lifecycle.*
+import com.example.trainer_helper_and_eat_supplements.Database.Data.ComplexesData
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ExerciseMeasuresData
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
 import com.example.trainer_helper_and_eat_supplements.Database.Data.MeasuresData
@@ -91,6 +92,18 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
     fun insertExerciseMeasure(data:ExerciseMeasuresData)= viewModelScope.launch(){
         myRep.insertMesureExercise(data)
     }
+
+    // TODO ---------------------------------- Комплексы  ------------------------------
+    val allComplexesNames = myRep.allComplexesNames
+    val allComplexes = myRep.allComplexes
+
+    fun insertFullComplex(complex: ComplexesData, namesOfExercises:List<String>)
+    = viewModelScope.launch {
+        myRep.insertFullComplex(complex, namesOfExercises)
+    }
+
+    // TODO ---------------------------------- Тренировки  ------------------------------
+    // TODO ---------------------------------- Пищ. добавки  ------------------------------
 
 }
 

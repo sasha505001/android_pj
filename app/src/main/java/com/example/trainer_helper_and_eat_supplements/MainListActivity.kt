@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
+import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListComplexAdapter
 import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListExerciseAdapter
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivityBinding
 
@@ -29,7 +30,7 @@ class MainListActivity : AppCompatActivity() {
     lateinit var actionBarDrawerToggle: ActionBarDrawerToggle
 
     // текущий экран
-    var currentList:CONSTANTS.NavMenuBtns = CONSTANTS.NavMenuBtns.EXERCISES
+    var currentList:CONSTANTS.NavMenuBtns = CONSTANTS.NavMenuBtns.COMPLEXES
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +70,7 @@ class MainListActivity : AppCompatActivity() {
         }
 
         // TODO начинаю с определенного листа
-        currentList = CONSTANTS.NavMenuBtns.EXERCISES
+        currentList = CONSTANTS.NavMenuBtns.COMPLEXES
         // Обзервер для текущего листа
         /*
         myDatamodel.curList.observe(this){
@@ -99,11 +100,12 @@ class MainListActivity : AppCompatActivity() {
         if(item.itemId == R.id.add_btn){
             when(currentList){ // TODO сделать добавления для каждого
                 CONSTANTS.NavMenuBtns.COMPLEXES->{
-                    Intent(this, EditAddComplexActivity::class.java)
+                    val curIntent =Intent(this, EditAddComplexActivity::class.java)
+                    startActivity(curIntent)
                 }
                 CONSTANTS.NavMenuBtns.EXERCISES->{
-                    val intent = Intent(this, EditAddExerciseActivity::class.java)
-                    startActivity(intent)
+                    val curIntent = Intent(this, EditAddExerciseActivity::class.java)
+                    startActivity(curIntent)
                 }
                 CONSTANTS.NavMenuBtns.TRAINING_STORY->{
                     Intent(this, EditTrainActivity::class.java)
@@ -134,7 +136,14 @@ class MainListActivity : AppCompatActivity() {
     fun setCurrentFragment(){
         when(currentList) {
             CONSTANTS.NavMenuBtns.COMPLEXES -> {
-
+                myDatamodel.allComplexesNames.observe(this){
+                    val adapter = MainListComplexAdapter(it, myDatamodel, this)
+                    supportActionBar?.title = getStringTitle(currentList)
+                    supportFragmentManager.beginTransaction().replace(
+                        R.id.main_frame,
+                        MainListFragment.newInstance(adapter, currentList)
+                    ).commit()
+                }
             }
             CONSTANTS.NavMenuBtns.EXERCISES -> {
                 myDatamodel.allExercisesName.observe(this){

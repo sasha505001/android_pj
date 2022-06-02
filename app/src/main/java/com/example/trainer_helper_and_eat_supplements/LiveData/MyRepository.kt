@@ -119,6 +119,23 @@ class MyRepository(
 
 
     // TODO ---------------------------------- Комплексы  ------------------------------
+    val allComplexesNames:LiveData<List<String>> = complexesDao.getAllComplexesNames()
+    val allComplexes:LiveData<List<ComplexesData>> = complexesDao.getAllComplexes()
+
+    @WorkerThread
+    suspend fun insertFullComplex(complex: ComplexesData, namesOfExercises:List<String>){
+        complexesDao.insertAll(complex)
+        val curComplex = complexesDao.getComplex(complex.name)
+        namesOfExercises.forEach(){ exerciseName ->
+            val exerciseId = exercisesDao.getExerciseIdByName(exerciseName)
+            complexesExercisesDao.insertAll(
+                ComplexesExercisesData(
+                    exerciseId,
+                    curComplex.id
+                )
+            )
+        }
+    }
 
     // TODO ---------------------------------- Тренировки  ------------------------------
     // TODO ---------------------------------- Пищ. добавки  ------------------------------

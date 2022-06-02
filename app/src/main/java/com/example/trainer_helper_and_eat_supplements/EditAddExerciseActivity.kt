@@ -226,9 +226,5 @@ class EditAddExerciseActivity : AppCompatActivity() {
 
             builder.show()
         }
-
-
     }
-
-
 }
