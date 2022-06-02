@@ -87,7 +87,7 @@ class MyRepository(
     // TODO -----------------------------  Меры  -------------------------------------
     // Получение названия всех мер
     // Объекты
-    val allMesureData:LiveData<List<MeasuresData>> = measuresDao.getAllMeasures()
+    val allMesureData:LiveData<List<MeasuresData>> = measuresDao.liveGetAllMeasures()
     // Названия
     val allMesuresName:LiveData<List<String>> = measuresDao.getAllMeasuresNames()
 

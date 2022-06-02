@@ -82,20 +82,55 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
 
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
-                        populateDatabase(database.MeasuresDao())
+                        populateDatabase(
+                            database.MeasuresDao(),
+                            database.WeekDaysDao(),
+                            database.MeasureOfFoodAdditiveDao(),
+                            database.ScheduleDao()
+                        )
                     }
                 }
             }
 
         }
-        suspend fun populateDatabase(mesureDao: MeasuresDao) {
-            mesureDao.deleteAll()
-            if(mesureDao.getAllMeasures().value==null) {
+        suspend fun populateDatabase(
+            mesureDao: MeasuresDao,
+            weekDaysDao: WeekDaysDao,
+            mesureOfFoodAdditiveDao: MeasureOfFoodAdditiveDao,
+            scheduleDao: ScheduleDao
+        ) {
+            if(mesureDao.getAllMeasures().size == 0) {
                 mesureDao.addAllMeasure(
                     MeasuresData("Вес (кг)"),
                     MeasuresData("Время (с)"),
                     MeasuresData("Повторения (раз)"),
                     MeasuresData("Расстояние (м)")
+                )
+            }
+            if(weekDaysDao.getAllWeekDaysObj().size == 0){
+                weekDaysDao.insertAllWeekDays(
+                    WeekDaysData("Понедельник"),
+                    WeekDaysData("Вторник"),
+                    WeekDaysData("Среда"),
+                    WeekDaysData("Четверг"),
+                    WeekDaysData("Пятница"),
+                    WeekDaysData("Суббота"),
+                    WeekDaysData("Воскресенье"),
+                )
+            }
+            if(mesureOfFoodAdditiveDao.getAllFoodAdditiveMesuresObj().size == 0){
+                mesureOfFoodAdditiveDao.insertAllFoodAdditiveMesures(
+                    MeasureOfFoodAdditiveData("капсул"),
+                    MeasureOfFoodAdditiveData("мл."),
+                    MeasureOfFoodAdditiveData("гр."),
+                )
+            }
+            if(scheduleDao.getAllScheduleObj().size == 0){
+                scheduleDao.insertAllSchedule(
+                    ScheduleData("В определенный день"),
+                    ScheduleData("Каждый день"),
+                    ScheduleData("По определенным дням недели"),
+                    ScheduleData("Интервал в днях"),
                 )
             }
         }

@@ -11,7 +11,11 @@ import com.example.trainer_helper_and_eat_supplements.Database.Data.MeasuresData
 interface MeasuresDao {
     // Получение названий всех мер измерения
     @Query("SELECT * FROM measure")
-    fun getAllMeasures(): LiveData<List<MeasuresData>>
+    fun liveGetAllMeasures(): LiveData<List<MeasuresData>>
+
+    // Получение названий всех мер измерения
+    @Query("SELECT * FROM measure")
+    fun getAllMeasures(): List<MeasuresData>
 
     @Query("SELECT name FROM measure")
     fun getAllMeasuresNames(): LiveData<List<String>>
