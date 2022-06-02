@@ -1,14 +1,14 @@
 package com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
-import com.example.trainer_helper_and_eat_supplements.MyDataModel
-import com.example.trainer_helper_and_eat_supplements.R
+import com.example.trainer_helper_and_eat_supplements.*
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListItemBinding
 
 class MainListComplexAdapter (
@@ -39,11 +39,13 @@ class MainListComplexAdapter (
                 popupMenu.setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_delete_btn -> {
-                            // TODO удаление
+                            myDataModel.deleteFullComplex(str)
                             Log.d("MyLog", "delete")
                         }
                         R.id.menu_edit_btn ->{
-                            // TODO редактирование
+                            val intent = Intent(parent.context, EditAddComplexActivity::class.java)
+                            intent.putExtra(CONSTANTS.NAMEOFEDITOBJ, str)
+                            parent.context.startActivity(intent)
                             Log.d("MyLog", "edit")
                         }
                     }

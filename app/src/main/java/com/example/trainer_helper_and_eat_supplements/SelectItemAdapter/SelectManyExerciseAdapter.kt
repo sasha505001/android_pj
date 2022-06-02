@@ -1,13 +1,16 @@
 package com.example.trainer_helper_and_eat_supplements.SelectItemAdapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
+import com.example.trainer_helper_and_eat_supplements.CONSTANTS
 import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListComplexAdapter
 import com.example.trainer_helper_and_eat_supplements.MyDataModel
+import com.example.trainer_helper_and_eat_supplements.ObserverOfExerciseActivity
 import com.example.trainer_helper_and_eat_supplements.R
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListItemBinding
 import com.example.trainer_helper_and_eat_supplements.databinding.SelectManyExerciseItemBinding
@@ -38,6 +41,11 @@ class SelectManyExerciseAdapter(
             binding.textView.setText(str)
             curDataModel.allBoolExercise.observe(curContext as LifecycleOwner){ bools->
                 binding.checkBtn.isChecked = bools.get(pos)
+            }
+            binding.imageBtn.setOnClickListener(){
+                val intent = Intent(curContext, ObserverOfExerciseActivity::class.java)
+                intent.putExtra(CONSTANTS.NAMEOFOBSERVE, str)
+                curContext.startActivity(intent)
             }
         }
     }

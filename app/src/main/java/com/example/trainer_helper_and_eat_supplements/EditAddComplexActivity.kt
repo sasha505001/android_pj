@@ -3,11 +3,9 @@ package com.example.trainer_helper_and_eat_supplements
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -41,7 +39,27 @@ class EditAddComplexActivity : AppCompatActivity() {
         // Получение аргументов при редактировании
         var arguments = intent.extras
 
+        if(arguments != null){
+            nameOfEditObject = arguments.getString(CONSTANTS.NAMEOFEDITOBJ)
+        }
 
+        if(nameOfEditObject!=null){
+            binding.complexNameEditText.setText(nameOfEditObject!!)
+            var resultList = ""
+            myDatamodel.getExercisesNamesByComplexName(nameOfEditObject!!).observe(this){ exerciseNames->
+                exerciseNames.forEach(){
+                    if(resultList == ""){
+                        resultList = it
+                    }
+                    else{
+                        resultList = resultList + ",\n" + it
+                    }
+                }
+                if(resultList != ""){
+                    binding.exercisesText.setText(resultList)
+                }
+            }
+        }
         // Кнопка возвращения на прошлое меню
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -60,7 +78,6 @@ class EditAddComplexActivity : AppCompatActivity() {
         if (item.itemId == R.id.ok_btn){
             // TODO проверка и создание в бд
             saveInDatabase()
-            Toast.makeText(this, "Сохранение", Toast.LENGTH_SHORT).show()
         }
         // При нажатии кнопки возврата
         if(item.itemId == android.R.id.home){
@@ -81,7 +98,7 @@ class EditAddComplexActivity : AppCompatActivity() {
     // Activity for result
     val editAddExercise = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
         if (result.resultCode == RESULT_OK) {
-            var exerciseString = result.data?.getStringExtra(CONSTANTS.SELECT_OF_MANY_EXERCISES)
+            val exerciseString = result.data?.getStringExtra(CONSTANTS.SELECT_OF_MANY_EXERCISES)
             if(exerciseString != ""){
                 binding.exercisesText.setText(exerciseString)
             }else{
@@ -92,45 +109,54 @@ class EditAddComplexActivity : AppCompatActivity() {
     }
 
     fun saveInDatabase(){
-        // Сообщение об ошибки
-        var alertStr:String = ""
-
-
-        val nameOfCreatingComplex = binding.complexNameEditText.text.toString()
-        // Проверка задано ли имя
-        if(nameOfCreatingComplex == ""){
-            alertStr = alertStr + "Введите имя комплекса;\n"
-        }
-
-        // Проверка введено ли имя комплекса
-        val chosenExercisesNames = binding.exercisesText.text.toString()
-        if(chosenExercisesNames ==
-            getString(R.string.default_text_of_choose_exercises)){
-            alertStr = alertStr + "Выберете упражнение;\n"
-        }
-
         myDatamodel.allComplexesNames.observe(this){ allComplexes ->
-            if(allComplexes.contains(nameOfCreatingComplex)){
-                alertStr = "Комплекс с введенным именем уже существует"
+            // Сообщение об ошибки
+            var alertStr:String = ""
+
+            val nameOfCreatingComplex = binding.complexNameEditText.text.toString()
+            // Проверка задано ли имя
+            if(nameOfCreatingComplex == ""){
+                alertStr = alertStr + "Введите имя комплекса;\n"
+            }
+
+            // Проверка введено ли имя комплекса
+            val chosenExercisesNames = binding.exercisesText.text.toString()
+            if(chosenExercisesNames ==
+                getString(R.string.default_text_of_choose_exercises)){
+                alertStr = alertStr + "Выберете упражнение;\n"
+            }
+
+            if (nameOfEditObject!=null){
+                if(nameOfCreatingComplex!= nameOfEditObject && allComplexes.contains(nameOfCreatingComplex)){
+                    alertStr = "Комплекс с введенным именем уже существует"
+                }
+            }else{
+                if(allComplexes.contains(nameOfCreatingComplex)){
+                    alertStr = "Комплекс с введенным именем уже существует"
+                }
+            }
+            if(alertStr != ""){
+                val alertDialog = AlertDialog.Builder(this)
+                alertDialog.setTitle("Невозможно создать упражнение")
+                alertDialog.setMessage(alertStr)
+                alertDialog.setPositiveButton("Ок"){
+                        dialog, id ->
+                    dialog.dismiss()
+                }
+                alertDialog.show()
+            }
+            else{
+                val data = ComplexesData(nameOfCreatingComplex)
+                val exercisesNames = chosenExercisesNames.split(",\n")
+                if(nameOfEditObject==null){
+                    myDatamodel.insertFullComplex(data, exercisesNames)
+                }
+                else{
+                    myDatamodel.updateComplex(nameOfEditObject!!, data, exercisesNames)
+                }
+
+                finish()
             }
         }
-
-        if(alertStr != ""){
-            val alertDialog = AlertDialog.Builder(this)
-            alertDialog.setTitle("Невозможно создать упражнение")
-            alertDialog.setMessage(alertStr)
-            alertDialog.setPositiveButton("Ок"){
-                    dialog, id ->
-                dialog.dismiss()
-            }
-            alertDialog.show()
-        }
-        else{
-            val data = ComplexesData(nameOfCreatingComplex)
-            val exercisesNames = chosenExercisesNames.split(",\n")
-            myDatamodel.insertFullComplex(data, exercisesNames)
-            finish()
-        }
-
     }
 }

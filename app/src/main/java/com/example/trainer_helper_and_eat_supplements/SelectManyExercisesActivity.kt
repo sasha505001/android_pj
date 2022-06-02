@@ -36,9 +36,7 @@ class SelectManyExercisesActivity : AppCompatActivity() {
         var arguments = intent.extras
         // Получение имени комлпекса
         if(arguments != null){
-            // TODO передавать имя комплекса при редактировании
             lastExercises = arguments.getString(CONSTANTS.LAST_EXERCISES_STR)
-
         }
 
         myDatamodel.allExercisesName.observe(this){ exercises ->

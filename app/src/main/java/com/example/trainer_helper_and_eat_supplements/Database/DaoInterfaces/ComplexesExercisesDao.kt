@@ -13,6 +13,13 @@ interface ComplexesExercisesDao {
     @Insert
     suspend fun insertAll(vararg complexerExercisesData: ComplexesExercisesData)
 
+    // Получение всех имен упражнений принадлежащих комплексу(по имени комплекса)
+    @Query("SELECT exercise.name FROM complex JOIN complex_exercise on complex.id = complex_id JOIN exercise on exercise_id = exercise.id where complex.name = :complex_name")
+    suspend fun getAllExerciseNamesWithComplexName(complex_name:String):List<String>
+
+    @Query("DELETE FROM complex_exercise WHERE complex_id = :complexId")
+    suspend fun deleteObjWithComplex(complexId:Int)
+
     // Очищение таблицы
     @Query("DELETE FROM complex_exercise")
     fun deleteAll()

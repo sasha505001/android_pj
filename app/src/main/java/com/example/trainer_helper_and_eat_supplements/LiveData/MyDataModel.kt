@@ -102,6 +102,25 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
         myRep.insertFullComplex(complex, namesOfExercises)
     }
 
+    fun deleteFullComplex(complexName:String) = viewModelScope.launch {
+        myRep.fullDeleteComplex(complexName)
+    }
+
+    fun getExercisesNamesByComplexName(complexName: String):LiveData<List<String>>{
+        val result = MutableLiveData<List<String>>()
+        viewModelScope.launch {
+            val returnRepo = myRep.getAllExercisesNamesByComplexName(complexName)
+            result.postValue(returnRepo)
+        }
+        return result
+    }
+
+    fun updateComplex(oldComplexName: String,
+                      complex: ComplexesData,
+                      namesOfExercises:List<String>) = viewModelScope.launch {
+                          myRep.updateComplex(oldComplexName, complex, namesOfExercises)
+    }
+
     // TODO ---------------------------------- Тренировки  ------------------------------
     // TODO ---------------------------------- Пищ. добавки  ------------------------------
 

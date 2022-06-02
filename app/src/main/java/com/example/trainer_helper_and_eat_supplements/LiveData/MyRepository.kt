@@ -1,6 +1,5 @@
 package com.example.trainer_helper_and_eat_supplements.LiveData
 
-import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.example.trainer_helper_and_eat_supplements.Database.DaoInterfaces.*
@@ -120,15 +119,15 @@ class MyRepository(
 
 
     // TODO ---------------------------------- Комплексы  ------------------------------
-    val allComplexesNames:LiveData<List<String>> = complexesDao.getAllComplexesNames()
-    val allComplexes:LiveData<List<ComplexesData>> = complexesDao.getAllComplexes()
+    val allComplexesNames:LiveData<List<String>> = complexesDao.LiveGetAllComplexesNames()
+    val allComplexes:LiveData<List<ComplexesData>> = complexesDao.liveGetAllComplexes()
 
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insertFullComplex(complex: ComplexesData, namesOfExercises:List<String>){
         complexesDao.insertAll(complex)
-        val curComplex = complexesDao.getComplex(complex.name)
+        val curComplex = complexesDao.getComplexByName(complex.name)
         namesOfExercises.forEach(){ exerciseName ->
             val exerciseId = exercisesDao.getExerciseIdByNameSuspend(exerciseName)
             complexesExercisesDao.insertAll(
@@ -138,6 +137,32 @@ class MyRepository(
                 )
             )
         }
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun fullDeleteComplex(complexName: String){
+        // Получаю комлпекс
+        val complex = complexesDao.getComplexByName(complexName)
+        // Удаляю связи
+        complexesExercisesDao.deleteObjWithComplex(complex.id)
+        // Удаляю сам комлпекс
+        complexesDao.delete(complex)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getAllExercisesNamesByComplexName(complexName: String):List<String>{
+        return complexesExercisesDao.getAllExerciseNamesWithComplexName(complexName)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateComplex(
+        oldComplexName: String,
+        complex: ComplexesData,
+        namesOfExercises:List<String>){
+        complexesDao.updateOldComplex(oldComplexName, complex, namesOfExercises)
     }
 
     // TODO ---------------------------------- Тренировки  ------------------------------
