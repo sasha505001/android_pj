@@ -78,4 +78,6 @@
     <!-- Для пищ добавки -->
     <string name="default_text_of_taking_time">Время приема не выбрано</string>
 
+    <string name="add_time_of_taking_food_additive_btn">Добавить время принятия</string>
+
 </resources>

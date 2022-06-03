@@ -1,10 +1,7 @@
 package com.example.trainer_helper_and_eat_supplements
 
 import androidx.lifecycle.*
-import com.example.trainer_helper_and_eat_supplements.Database.Data.ComplexesData
-import com.example.trainer_helper_and_eat_supplements.Database.Data.ExerciseMeasuresData
-import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
-import com.example.trainer_helper_and_eat_supplements.Database.Data.MeasuresData
+import com.example.trainer_helper_and_eat_supplements.Database.Data.*
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyRepository
 import kotlinx.coroutines.launch
 
@@ -136,6 +133,11 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
     // TODO специально для выбора упражнений из комплекса
     val allBoolExercise:MutableLiveData<BooleanArray> by lazy {
         MutableLiveData<BooleanArray>()
+    }
+
+    // TODO специально для времени
+    val allTakingTimeForFoodAdditive:MutableLiveData<MutableList<TakingTimeData>> by lazy{
+        MutableLiveData<MutableList<TakingTimeData>>()
     }
 }
 

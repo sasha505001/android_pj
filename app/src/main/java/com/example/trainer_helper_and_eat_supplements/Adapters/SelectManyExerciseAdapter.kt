@@ -49,7 +49,8 @@ class SelectManyExerciseAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectManyExerciseHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.select_many_exercise_item, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.select_many_exercise_item, parent, false)
 
         val binding = SelectManyExerciseItemBinding.bind(view)
         return SelectManyExerciseHolder(
