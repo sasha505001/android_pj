@@ -62,6 +62,12 @@ class TimeOfTakingEditAdd : AppCompatActivity() {
 
     fun onTimeOfTakingClick(view: View){
         val cal = Calendar.getInstance()
+        val curTime = binding.takingTimeText.text.toString()
+        if(curTime!=getString(R.string.default_taking_time_text)){
+            val hoursAndMin = curTime.split(":")
+            cal.set(Calendar.HOUR_OF_DAY, hoursAndMin[0].toInt())
+            cal.set(Calendar.MINUTE, hoursAndMin[1].toInt())
+        }
             val timePickerDialog = TimePickerDialog.OnTimeSetListener(){
                     timePicker, hour, minute ->
                 cal.set(Calendar.HOUR_OF_DAY, hour)
@@ -107,7 +113,7 @@ class TimeOfTakingEditAdd : AppCompatActivity() {
             val resStr = takingTimeStr + " - " + countStr
             val intent = Intent()
             intent.putExtra(CONSTANTS.RESULT_EDIT_ADD_TAKING_TIME, resStr)
-            setResult(RESULT_OK)
+            setResult(RESULT_OK, intent)
             finish()
         }
     }

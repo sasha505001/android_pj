@@ -18,11 +18,11 @@ import com.example.trainer_helper_and_eat_supplements.databinding.SelectManyExer
 import com.example.trainer_helper_and_eat_supplements.databinding.TimeOfTakingFoodAdditiveItemBinding
 
 class TimeOfTakingFoodAdapter(
-    exerciseNames:MutableList<TakingTimeData>,
+    takingTimes:MutableList<TakingTimeData>,
     datamodel: MyDataModel,
     context: Context
 ): RecyclerView.Adapter<TimeOfTakingFoodAdapter.TimeOfTakingFoodHolder>() {
-    val allExercisesNames = exerciseNames
+    val allTakingTimes = takingTimes
     val curDataModel = datamodel
     val curContext = context
 
@@ -37,7 +37,8 @@ class TimeOfTakingFoodAdapter(
         val curContext = holdContext
 
         fun bind(data:TakingTimeData, pos:Int){
-            binding.imageButton.setOnClickListener(){
+
+            /*binding.imageButton.setOnClickListener(){
                 val popupMenu = PopupMenu(parent.context,it)
                 popupMenu.inflate(R.menu.popup_menu)
                 popupMenu.setOnMenuItemClickListener {
@@ -53,7 +54,7 @@ class TimeOfTakingFoodAdapter(
                     true
                 }
                 popupMenu.show()
-            }
+            }*/
         }
     }
 
@@ -62,6 +63,7 @@ class TimeOfTakingFoodAdapter(
             .inflate(R.layout.time_of_taking_food_additive_item, parent, false)
 
         val binding = TimeOfTakingFoodAdditiveItemBinding.bind(view)
+
         return TimeOfTakingFoodAdapter.TimeOfTakingFoodHolder(
             binding.root,
             parent,
@@ -71,10 +73,10 @@ class TimeOfTakingFoodAdapter(
     }
 
     override fun onBindViewHolder(holder: TimeOfTakingFoodHolder, position: Int) {
-        holder.bind(allExercisesNames.get(position), position)
+        holder.bind(allTakingTimes.get(position), position)
     }
 
     override fun getItemCount(): Int {
-        return allExercisesNames.size
+        return allTakingTimes.size
     }
 }

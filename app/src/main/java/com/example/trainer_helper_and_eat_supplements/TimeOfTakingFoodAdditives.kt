@@ -10,9 +10,13 @@ import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.trainer_helper_and_eat_supplements.Adapters.TimeOfTakingFoodAdapter
+import com.example.trainer_helper_and_eat_supplements.Database.Data.TakingTimeData
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.databinding.SelectManyExercisesActivityBinding
 import com.example.trainer_helper_and_eat_supplements.databinding.TimeOfTakingFoodAdditivesActivityBinding
+import java.util.*
 
 class TimeOfTakingFoodAdditives : AppCompatActivity() {
 
@@ -34,6 +38,19 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
         // Заголовок
         supportActionBar?.title = "Все времена приёма"
 
+        myDatamodel.allTakingTimeForFoodAdditive.value = mutableListOf<TakingTimeData>()
+        binding.TimeOfTakingrecyclerView.layoutManager = LinearLayoutManager(this)
+
+
+        myDatamodel.allTakingTimeForFoodAdditive.observe(this){
+            binding.TimeOfTakingrecyclerView.adapter = TimeOfTakingFoodAdapter(
+                it,
+                myDatamodel,
+                this
+            )
+        }
+
+
         // Кнопка возвращения на прошлое меню
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -50,7 +67,6 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // При нажатии галочки
         if (item.itemId == R.id.ok_btn){
-            Log.d("MyLog", "Ok")
             // TODO проверка и создание в бд
             //saveInDatabase()
         }
@@ -73,10 +89,20 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
         if (result.resultCode == RESULT_OK) {
-            val exerciseString = result.data?.getStringExtra(CONSTANTS.SELECT_OF_MANY_EXERCISES)
-            if(exerciseString != ""){
-                // binding.exercisesText.setText(exerciseString)
-            }
+            val timeOfTakingString = result.data?.getStringExtra(CONSTANTS.RESULT_EDIT_ADD_TAKING_TIME)
+
+
+            val myRes = timeOfTakingString!!.split(" - ")
+            val hoursAndMin = myRes[0].split(":")
+            val cal = Calendar.getInstance()
+            cal.set(Calendar.HOUR_OF_DAY, hoursAndMin[0].toInt())
+            cal.set(Calendar.MINUTE, hoursAndMin[1].toInt())
+            val resultData = TakingTimeData(
+                myRes[1].toFloat(),
+                cal.time
+            )
+            myDatamodel.allTakingTimeForFoodAdditive.value!!.add(resultData)
+
         }
     }
 
