@@ -1,32 +1,24 @@
 package com.example.trainer_helper_and_eat_supplements
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.trainer_helper_and_eat_supplements.*
-import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
-import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
-import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListComplexAdapter
-import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListExerciseAdapter
-import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListFoodAdditiveAdapter
-import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListTrainsAdapter
+import com.example.trainer_helper_and_eat_supplements.Adapters.MainList.MainListComplexAdapter
+import com.example.trainer_helper_and_eat_supplements.Adapters.MainList.MainListExerciseAdapter
+import com.example.trainer_helper_and_eat_supplements.Adapters.MainList.MainListFoodAdditiveAdapter
+import com.example.trainer_helper_and_eat_supplements.Adapters.MainList.MainListTrainsAdapter
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListFragmentBinding
 
 
 class MainListFragment : Fragment() {
     // Адаптеры
-    var complexAdapter:MainListComplexAdapter? = null
-    var exerciseAdapter:MainListExerciseAdapter? = null
-    var foodAdditiveAdapter:MainListFoodAdditiveAdapter? = null
-    var trainsAdapter:MainListTrainsAdapter? = null
+    var complexAdapter: MainListComplexAdapter? = null
+    var exerciseAdapter: MainListExerciseAdapter? = null
+    var foodAdditiveAdapter: MainListFoodAdditiveAdapter? = null
+    var trainsAdapter: MainListTrainsAdapter? = null
 
     // Тип списка который используется
     var typeOfFragment: CONSTANTS.NavMenuBtns = CONSTANTS.NavMenuBtns.EXERCISES

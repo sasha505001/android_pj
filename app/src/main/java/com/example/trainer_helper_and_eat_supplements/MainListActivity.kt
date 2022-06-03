@@ -5,15 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
-import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListComplexAdapter
-import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListExerciseAdapter
-import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListFoodAdditiveAdapter
+import com.example.trainer_helper_and_eat_supplements.Adapters.MainList.MainListComplexAdapter
+import com.example.trainer_helper_and_eat_supplements.Adapters.MainList.MainListExerciseAdapter
+import com.example.trainer_helper_and_eat_supplements.Adapters.MainList.MainListFoodAdditiveAdapter
 import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivityBinding
 
 // TODO ошибка при повороте экрана, ошибка при возвращение на это activity

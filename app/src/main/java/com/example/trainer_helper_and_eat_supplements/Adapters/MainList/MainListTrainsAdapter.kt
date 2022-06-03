@@ -1,4 +1,4 @@
-package com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters
+package com.example.trainer_helper_and_eat_supplements.Adapters.MainList
 
 import android.util.Log
 import android.view.LayoutInflater

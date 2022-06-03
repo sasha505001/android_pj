@@ -1,4 +1,4 @@
-package com.example.trainer_helper_and_eat_supplements.SelectItemAdapter
+package com.example.trainer_helper_and_eat_supplements.Adapters
 
 import android.content.Context
 import android.content.Intent
@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trainer_helper_and_eat_supplements.CONSTANTS
-import com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters.MainListComplexAdapter
 import com.example.trainer_helper_and_eat_supplements.MyDataModel
 import com.example.trainer_helper_and_eat_supplements.ObserverOfExerciseActivity
 import com.example.trainer_helper_and_eat_supplements.R
-import com.example.trainer_helper_and_eat_supplements.databinding.MainListItemBinding
 import com.example.trainer_helper_and_eat_supplements.databinding.SelectManyExerciseItemBinding
 
 class SelectManyExerciseAdapter(
@@ -54,7 +52,7 @@ class SelectManyExerciseAdapter(
         val view = LayoutInflater.from(parent.context).inflate(R.layout.select_many_exercise_item, parent, false)
 
         val binding = SelectManyExerciseItemBinding.bind(view)
-        return SelectManyExerciseAdapter.SelectManyExerciseHolder(
+        return SelectManyExerciseHolder(
             binding.root,
             curDataModel,
             curContext

@@ -14,6 +14,9 @@
         android:theme="@style/Theme.Trainer_helper_and_eat_supplements"
         tools:targetApi="31">
         <activity
+            android:name=".TimeOfTakingFoodAdditives"
+            android:exported="false" />
+        <activity
             android:name=".SelectManyExercisesActivity"
             android:exported="false" />
         <activity

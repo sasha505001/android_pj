@@ -59,7 +59,7 @@ class EditAddFoodAdditiveActivity : AppCompatActivity() {
 
     // При нажатии на время
     fun onTimeClicked(view: View){
-        
+
 
     }
 

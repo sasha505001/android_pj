@@ -9,8 +9,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
-import com.example.trainer_helper_and_eat_supplements.SelectItemAdapter.SelectManyExerciseAdapter
-import com.example.trainer_helper_and_eat_supplements.databinding.EditAddComplexActivityBinding
+import com.example.trainer_helper_and_eat_supplements.Adapters.SelectManyExerciseAdapter
 import com.example.trainer_helper_and_eat_supplements.databinding.SelectManyExercisesActivityBinding
 
 class SelectManyExercisesActivity : AppCompatActivity() {

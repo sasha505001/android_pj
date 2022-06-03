@@ -1,4 +1,4 @@
-package com.example.trainer_helper_and_eat_supplements.MainList.ListAdapters
+package com.example.trainer_helper_and_eat_supplements.Adapters.MainList
 
 import android.content.Context
 import android.util.Log
@@ -58,7 +58,7 @@ class MainListFoodAdditiveAdapter (
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodAdditivesHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.main_list_item, parent, false)
         val binding = MainListItemBinding.bind(view)
-        return MainListFoodAdditiveAdapter.FoodAdditivesHolder(binding.root, parent, myDataModel, curContext)
+        return FoodAdditivesHolder(binding.root, parent, myDataModel, curContext)
     }
 
     override fun onBindViewHolder(holder: FoodAdditivesHolder, position: Int) {
