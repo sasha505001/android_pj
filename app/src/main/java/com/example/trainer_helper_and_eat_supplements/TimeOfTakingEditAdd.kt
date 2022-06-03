@@ -1,15 +1,19 @@
 package com.example.trainer_helper_and_eat_supplements
 
+import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import com.example.trainer_helper_and_eat_supplements.Database.Data.TakingTimeData
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.databinding.TimeOfTakingEditAddActivityBinding
 import com.example.trainer_helper_and_eat_supplements.databinding.TimeOfTakingFoodAdditivesActivityBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TimeOfTakingEditAdd : AppCompatActivity() {
 
@@ -53,9 +57,25 @@ class TimeOfTakingEditAdd : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    fun onTimeOfTakingClick(view: View){
+        val cal = Calendar.getInstance()
+            val timePickerDialog = TimePickerDialog.OnTimeSetListener(){
+                    timePicker, hour, minute ->
+                cal.set(Calendar.HOUR_OF_DAY, hour)
+                cal.set(Calendar.MINUTE, minute)
+                binding.takingTimeText.setText(SimpleDateFormat("HH:mm").format(cal.time))
+
+            }
+        TimePickerDialog(this, timePickerDialog, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
+    }
+
     // Добавляю кнопку подтверждения сохранения упражнения
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.ok_menu, menu)
         return true
+    }
+
+    fun returnResult(){
+        
     }
 }
