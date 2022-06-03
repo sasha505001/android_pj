@@ -1,10 +1,14 @@
 package com.example.trainer_helper_and_eat_supplements
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.databinding.SelectManyExercisesActivityBinding
@@ -28,7 +32,7 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
         binding = TimeOfTakingFoodAdditivesActivityBinding.inflate(layoutInflater)
 
         // Заголовок
-        supportActionBar?.title = "Время приёма"
+        supportActionBar?.title = "Все времена приёма"
 
         // Кнопка возвращения на прошлое меню
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -55,6 +59,25 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
             finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    // Функция для нажатия добавления нового
+    fun addNewTakingTime(view: View){
+        val intent = Intent(this, TimeOfTakingEditAdd::class.java)
+        editAddNewTakingTime.launch(intent)
+    }
+
+
+    // TODO получить результирующую строку
+    val editAddNewTakingTime = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == RESULT_OK) {
+            val exerciseString = result.data?.getStringExtra(CONSTANTS.SELECT_OF_MANY_EXERCISES)
+            if(exerciseString != ""){
+                // binding.exercisesText.setText(exerciseString)
+            }
+        }
     }
 
 

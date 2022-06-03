@@ -80,4 +80,10 @@
 
     <string name="add_time_of_taking_food_additive_btn">Добавить время принятия</string>
 
+
+    <!-- Для добавления одного item TimeOfTaking -->
+    <string name="taking_count_text">Принимаема доза</string>
+    <string name="hint_taking_count_text">Введите дозу</string>
+    <string name="header_taking_time_text">Время принятия дозы</string>
+    <string name="default_taking_time_text">Введите время принятия</string>
 </resources>

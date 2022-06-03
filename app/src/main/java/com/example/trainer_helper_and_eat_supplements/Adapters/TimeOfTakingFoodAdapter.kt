@@ -1,13 +1,19 @@
 package com.example.trainer_helper_and_eat_supplements.Adapters
 
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
+import com.example.trainer_helper_and_eat_supplements.CONSTANTS
 import com.example.trainer_helper_and_eat_supplements.Database.Data.TakingTimeData
+import com.example.trainer_helper_and_eat_supplements.EditAddExerciseActivity
 import com.example.trainer_helper_and_eat_supplements.MyDataModel
 import com.example.trainer_helper_and_eat_supplements.R
+import com.example.trainer_helper_and_eat_supplements.databinding.MainListItemBinding
 import com.example.trainer_helper_and_eat_supplements.databinding.SelectManyExerciseItemBinding
 import com.example.trainer_helper_and_eat_supplements.databinding.TimeOfTakingFoodAdditiveItemBinding
 
@@ -22,11 +28,32 @@ class TimeOfTakingFoodAdapter(
 
     class TimeOfTakingFoodHolder(
         item: View,
+        var parent: ViewGroup,
         holdDatamodel:MyDataModel,
         holdContext:Context
     ): RecyclerView.ViewHolder(item){
+        var binding = MainListItemBinding.bind(item)
+        val myDataModel = holdDatamodel
+        val curContext = holdContext
+
         fun bind(data:TakingTimeData, pos:Int){
-            
+            binding.imageButton.setOnClickListener(){
+                val popupMenu = PopupMenu(parent.context,it)
+                popupMenu.inflate(R.menu.popup_menu)
+                popupMenu.setOnMenuItemClickListener {
+                    when(it.itemId){
+                        R.id.menu_delete_btn -> {
+                            // TODO удаление из ExerciseMesure
+                            Log.d("MyLog", "delete")
+                        }
+                        R.id.menu_edit_btn ->{
+                            Log.d("MyLog", "edit")
+                        }
+                    }
+                    true
+                }
+                popupMenu.show()
+            }
         }
     }
 
@@ -37,6 +64,7 @@ class TimeOfTakingFoodAdapter(
         val binding = TimeOfTakingFoodAdditiveItemBinding.bind(view)
         return TimeOfTakingFoodAdapter.TimeOfTakingFoodHolder(
             binding.root,
+            parent,
             curDataModel,
             curContext
         )
