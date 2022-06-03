@@ -75,4 +75,7 @@
     <!-- Для кнопки инофрмации -->
     <string name="desc_for_info_btn">Кнопка информации</string>
 
+    <!-- Для пищ добавки -->
+    <string name="default_text_of_taking_time">Время приема не выбрано</string>
+
 </resources>

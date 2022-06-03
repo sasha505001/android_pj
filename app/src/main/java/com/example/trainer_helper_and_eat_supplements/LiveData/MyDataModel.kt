@@ -125,7 +125,11 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
     // TODO ---------------------------------- Пищ. добавки  ------------------------------
     val allFoodAdditiveNames = myRep.allFoodAdditiveNames
 
+    // TODO ---------------------------------- Меры пищ. добавок  ------------------------------
+    val allFoodAdditiveMeasureNames = myRep.allFoodAdditiveMesures
 
+    // TODO ---------------------------------- Расписания  ------------------------------
+    val allScheduleNames = myRep.allScheduleNames
 
     // -------------------------------------- Другое ---------------------------------
 

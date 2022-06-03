@@ -2,6 +2,8 @@ package com.example.trainer_helper_and_eat_supplements
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.databinding.EditAddComplexActivityBinding
@@ -36,6 +38,30 @@ class EditAddFoodAdditiveActivity : AppCompatActivity() {
             nameOfEditObject = arguments.getString(CONSTANTS.NAMEOFEDITOBJ)
         }
 
-        setContentView(R.layout.edit_add_food_additive_activity)
+        myDatamodel.allFoodAdditiveMeasureNames.observe(this){ mesuresNames ->
+            val mesureSpinAdapter =
+                ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mesuresNames)
+            mesureSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.mesureFoodAdditiveSpinner.adapter = mesureSpinAdapter
+        }
+        //
+
+        myDatamodel.allScheduleNames.observe(this){ scheduleNames ->
+
+            val mesureSpinAdapter =
+                ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, scheduleNames)
+            mesureSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.scheduleSpinner.adapter = mesureSpinAdapter
+        }
+
+        setContentView(binding.root)
     }
+
+    // При нажатии на время
+    fun onTimeClicked(view: View){
+        
+
+    }
+
+
 }

@@ -170,4 +170,9 @@ class MyRepository(
     // TODO ---------------------------------- Пищ. добавки  ------------------------------
     val allFoodAdditiveNames:LiveData<List<String>> = foodAdditiveDao.liveGetAllFoodAdditiveNames()
 
+    // TODO ---------------------------------- Меры пищ. добавок  ------------------------------
+    val allFoodAdditiveMesures = measureOfFoodAdditiveDao.liveGetAllFoodAdditivesMesuresNames()
+
+    // TODO ---------------------------------- Расписания  ------------------------------
+    val allScheduleNames = scheduleDao.liveGetAllScheduleNames()
 }

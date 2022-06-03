@@ -71,7 +71,7 @@ class MainListActivity : AppCompatActivity() {
         }
 
         // TODO начинаю с определенного листа
-        currentList = CONSTANTS.NavMenuBtns.COMPLEXES
+        currentList = CONSTANTS.NavMenuBtns.FOOD_ADDITIVES
         // Обзервер для текущего листа
         /*
         myDatamodel.curList.observe(this){
@@ -112,7 +112,8 @@ class MainListActivity : AppCompatActivity() {
                     Intent(this, EditTrainActivity::class.java)
                 }
                 CONSTANTS.NavMenuBtns.FOOD_ADDITIVES->{
-                    Intent(this, EditAddFoodAdditiveActivity::class.java)
+                    val curIntent = Intent(this, EditAddFoodAdditiveActivity::class.java)
+                    startActivity(curIntent)
                 }
             }
         }
