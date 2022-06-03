@@ -1,6 +1,8 @@
 package com.example.trainer_helper_and_eat_supplements
 
 import android.app.TimePickerDialog
+import android.content.Intent
+import android.icu.util.LocaleData
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import com.example.trainer_helper_and_eat_supplements.Database.Data.TakingTimeData
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.databinding.TimeOfTakingEditAddActivityBinding
@@ -48,7 +51,7 @@ class TimeOfTakingEditAdd : AppCompatActivity() {
         if (item.itemId == R.id.ok_btn){
             Log.d("MyLog", "Ok")
             // TODO проверка и создание в бд
-            //saveInDatabase()
+            returnResult()
         }
         // При нажатии кнопки возврата
         if(item.itemId == android.R.id.home){
@@ -76,6 +79,36 @@ class TimeOfTakingEditAdd : AppCompatActivity() {
     }
 
     fun returnResult(){
-        
+        var alertStr:String = ""
+        //TODO сделать проверку на наличие того же времени
+        //myDatamodel.allTakingTimeForFoodAdditive.observe(this){ takingTimes->}
+
+        val countStr = binding.countEditText.text.toString()
+        if(countStr == ""){
+            alertStr = alertStr + "Введите дозу;\n"
+        }
+
+        val takingTimeStr = binding.takingTimeText.text.toString()
+        if(binding.takingTimeText.text.toString() == getString(R.string.default_taking_time_text)){
+            alertStr = alertStr + "Введите время принятия;\n"
+        }
+
+        if(alertStr!=""){
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Невозможно создать упражнение")
+            alertDialog.setMessage(alertStr)
+            alertDialog.setPositiveButton("Ок"){
+                    dialog, id ->
+                dialog.dismiss()
+            }
+            alertDialog.show()
+        }
+        else{
+            val resStr = takingTimeStr + " - " + countStr
+            val intent = Intent()
+            intent.putExtra(CONSTANTS.RESULT_EDIT_ADD_TAKING_TIME, resStr)
+            setResult(RESULT_OK)
+            finish()
+        }
     }
 }
