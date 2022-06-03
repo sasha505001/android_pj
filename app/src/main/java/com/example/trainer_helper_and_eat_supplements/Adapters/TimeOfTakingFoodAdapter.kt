@@ -32,19 +32,21 @@ class TimeOfTakingFoodAdapter(
         holdDatamodel:MyDataModel,
         holdContext:Context
     ): RecyclerView.ViewHolder(item){
-        var binding = MainListItemBinding.bind(item)
+        var binding = TimeOfTakingFoodAdditiveItemBinding.bind(item)
         val myDataModel = holdDatamodel
         val curContext = holdContext
 
         fun bind(data:TakingTimeData, pos:Int){
-
-            /*binding.imageButton.setOnClickListener(){
+            binding.countText.setText(data.dose_taken.toString())
+            val resString = data.taking_time.hours.toString() + ":" + data.taking_time.minutes.toString()
+            binding.timeText.setText(resString)
+            binding.btnPopupMenu.setOnClickListener(){
                 val popupMenu = PopupMenu(parent.context,it)
                 popupMenu.inflate(R.menu.popup_menu)
                 popupMenu.setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_delete_btn -> {
-                            // TODO удаление из ExerciseMesure
+
                             Log.d("MyLog", "delete")
                         }
                         R.id.menu_edit_btn ->{
@@ -54,7 +56,7 @@ class TimeOfTakingFoodAdapter(
                     true
                 }
                 popupMenu.show()
-            }*/
+            }
         }
     }
 

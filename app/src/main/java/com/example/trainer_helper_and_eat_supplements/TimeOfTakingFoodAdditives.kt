@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -27,6 +28,8 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
 
     var lastFoodAdditive:String? = null
 
+    var copyOfMutableList:MutableList<TakingTimeData> = mutableListOf<TakingTimeData>()
+
     // Для выбора элементов
     lateinit var binding: TimeOfTakingFoodAdditivesActivityBinding
 
@@ -38,9 +41,8 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
         // Заголовок
         supportActionBar?.title = "Все времена приёма"
 
-        myDatamodel.allTakingTimeForFoodAdditive.value = mutableListOf<TakingTimeData>()
-        binding.TimeOfTakingrecyclerView.layoutManager = LinearLayoutManager(this)
 
+        binding.TimeOfTakingrecyclerView.layoutManager = LinearLayoutManager(this)
 
         myDatamodel.allTakingTimeForFoodAdditive.observe(this){
             binding.TimeOfTakingrecyclerView.adapter = TimeOfTakingFoodAdapter(
@@ -51,6 +53,7 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
         }
 
 
+        myDatamodel.allTakingTimeForFoodAdditive.value = copyOfMutableList
         // Кнопка возвращения на прошлое меню
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -101,8 +104,8 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
                 myRes[1].toFloat(),
                 cal.time
             )
-            myDatamodel.allTakingTimeForFoodAdditive.value!!.add(resultData)
-
+            copyOfMutableList.add(resultData)
+            myDatamodel.allTakingTimeForFoodAdditive.value = copyOfMutableList
         }
     }
 
