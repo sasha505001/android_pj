@@ -89,4 +89,8 @@
     <string name="hint_taking_count_text">Введите дозу</string>
     <string name="header_taking_time_text">Время принятия дозы</string>
     <string name="default_taking_time_text">Введите время принятия</string>
+
+    <!-- Для alert диалога -->
+    <string name="default_alert_dialog_ok">Ок</string>
+    <string name="default_alert_dialog_cancle">Отмена</string>
 </resources>

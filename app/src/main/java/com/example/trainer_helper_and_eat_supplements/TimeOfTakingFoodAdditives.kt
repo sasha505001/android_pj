@@ -3,20 +3,22 @@ package com.example.trainer_helper_and_eat_supplements
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.trainer_helper_and_eat_supplements.Adapters.TimeOfTakingFoodAdapter
 import com.example.trainer_helper_and_eat_supplements.Database.Data.TakingTimeData
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
-import com.example.trainer_helper_and_eat_supplements.databinding.SelectManyExercisesActivityBinding
+import com.example.trainer_helper_and_eat_supplements.databinding.SingleEditAddTakingTimeBinding
 import com.example.trainer_helper_and_eat_supplements.databinding.TimeOfTakingFoodAdditivesActivityBinding
+import java.text.SimpleDateFormat
 import java.util.*
 
 class TimeOfTakingFoodAdditives : AppCompatActivity() {
@@ -48,10 +50,19 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
             binding.TimeOfTakingrecyclerView.adapter = TimeOfTakingFoodAdapter(
                 it,
                 myDatamodel,
-                this
+                this,
+                copyOfMutableList
             )
         }
 
+        myDatamodel.editTime.value = null
+
+        myDatamodel.editTime.observe(this){
+            if(it!=null){
+                addEditTakingTimeData(it)
+            }
+
+        }
 
         myDatamodel.allTakingTimeForFoodAdditive.value = copyOfMutableList
         // Кнопка возвращения на прошлое меню
@@ -82,24 +93,74 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
 
     // Функция для нажатия добавления нового
     fun addNewTakingTime(view: View){
-        var allTimes = ""
-        copyOfMutableList.forEach(){
-            val curTime = it.taking_time.hours.toString() + ":" + it.taking_time.minutes.toString()
-            if (allTimes == ""){
-                allTimes = curTime
+        addEditTakingTimeData(null)
+    }
+
+    fun addEditTakingTimeData(editData:TakingTimeData?){
+        val dialog = AlertDialog.Builder(this)
+        var alertBinding = SingleEditAddTakingTimeBinding.inflate(layoutInflater)
+
+
+
+        alertBinding.timePicker.setIs24HourView(true)
+        val cal = Calendar.getInstance()
+        val timeFormat = SimpleDateFormat("hh:mm")
+        //alertBinding.timePicker.currentHour = cal.time.hours
+        //alertBinding.timePicker.currentMinute = cal.time.minutes
+
+        if (editData!=null){
+            alertBinding.timePicker.currentMinute = editData.taking_time.minutes
+            alertBinding.timePicker.currentHour = editData.taking_time.hours
+            alertBinding.countEditText.setText(editData.dose_taken.toString())
+        }
+
+        dialog.setPositiveButton("Ок")
+        { dialog, curI ->
+            var alertStr:String = ""
+            val gotCountString = alertBinding.countEditText.text.toString()
+            if(gotCountString == ""){
+                alertStr = "Введите дозу"
+            }
+
+            cal.set(Calendar.HOUR_OF_DAY, alertBinding.timePicker.currentHour)
+            cal.set(Calendar.MINUTE, alertBinding.timePicker.currentMinute)
+            val gotTimeString =
+                timeFormat.format(cal.time)
+
+            copyOfMutableList.forEach(){
+                val curTimeString = timeFormat.format(it.taking_time.time)
+                if(curTimeString == gotTimeString && editData == null){
+                    alertStr = "Время принятия уже существует"
+                }
+            }
+            if(alertStr==""){
+                if(editData!=null){
+                    copyOfMutableList.removeAt(editData.id)
+                    myDatamodel.allTakingTimeForFoodAdditive.value = copyOfMutableList
+                }
+                val data = TakingTimeData(
+                    gotCountString.toFloat(),
+                    cal.time
+                )
+                copyOfMutableList.add(data)
+                myDatamodel.allTakingTimeForFoodAdditive.value = copyOfMutableList
+                dialog.dismiss()
             }
             else{
-                allTimes = allTimes + "|" + curTime
+                Toast.makeText(this, alertStr, Toast.LENGTH_SHORT).show()
             }
         }
-        val intent = Intent(this, TimeOfTakingEditAdd::class.java)
-        intent.putExtra(CONSTANTS.ALL_STRING_TIMES, allTimes)
-        editAddNewTakingTime.launch(intent)
+        dialog.setNegativeButton("Отмена"){ dialog, curI ->
+            dialog.dismiss()
+        }
+        dialog.setView(alertBinding.root)
+
+        dialog.show()
     }
 
 
     // TODO получить результирующую строку
-    val editAddNewTakingTime = registerForActivityResult(
+    val editAddNewTakingTime:ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
         if (result.resultCode == RESULT_OK) {

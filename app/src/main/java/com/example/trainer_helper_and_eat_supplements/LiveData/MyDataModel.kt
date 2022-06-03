@@ -139,6 +139,10 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
     val allTakingTimeForFoodAdditive:MutableLiveData<MutableList<TakingTimeData>> by lazy{
         MutableLiveData<MutableList<TakingTimeData>>()
     }
+
+    val editTime:MutableLiveData<TakingTimeData> by lazy{
+        MutableLiveData<TakingTimeData>()
+    }
 }
 
 class MyDataModelFactory(private val repository: MyRepository) : ViewModelProvider.Factory {
