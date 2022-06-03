@@ -82,7 +82,18 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
 
     // Функция для нажатия добавления нового
     fun addNewTakingTime(view: View){
+        var allTimes = ""
+        copyOfMutableList.forEach(){
+            val curTime = it.taking_time.hours.toString() + ":" + it.taking_time.minutes.toString()
+            if (allTimes == ""){
+                allTimes = curTime
+            }
+            else{
+                allTimes = allTimes + "|" + curTime
+            }
+        }
         val intent = Intent(this, TimeOfTakingEditAdd::class.java)
+        intent.putExtra(CONSTANTS.ALL_STRING_TIMES, allTimes)
         editAddNewTakingTime.launch(intent)
     }
 

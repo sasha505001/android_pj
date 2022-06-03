@@ -17,6 +17,7 @@ object CONSTANTS {
     val SELECT_OF_MANY_EXERCISES:String = "select_of_many_exercises"
     val LAST_EXERCISES_STR:String = "last_exercises_str"
     val RESULT_EDIT_ADD_TAKING_TIME = "result_edit_add_taking_time"
+    val ALL_STRING_TIMES = "all_string_times"
 
 
 }

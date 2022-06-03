@@ -27,6 +27,8 @@ class TimeOfTakingEditAdd : AppCompatActivity() {
 
     var lastFoodAdditive:TakingTimeData? = null
 
+    var allTimes:String? = null
+
     // Для выбора элементов
     lateinit var binding: TimeOfTakingEditAddActivityBinding
 
@@ -37,6 +39,12 @@ class TimeOfTakingEditAdd : AppCompatActivity() {
 
         // Заголовок
         supportActionBar?.title = "Время приёма"
+
+        // Получение аргументов при редактировании
+        var arguments = intent.extras
+        if(arguments!=null){
+            allTimes = arguments.getString(CONSTANTS.ALL_STRING_TIMES)
+        }
 
 
         // Кнопка возвращения на прошлое меню
@@ -86,8 +94,7 @@ class TimeOfTakingEditAdd : AppCompatActivity() {
 
     fun returnResult(){
         var alertStr:String = ""
-        //TODO сделать проверку на наличие того же времени
-        //myDatamodel.allTakingTimeForFoodAdditive.observe(this){ takingTimes->}
+
 
         val countStr = binding.countEditText.text.toString()
         if(countStr == ""){
@@ -97,6 +104,14 @@ class TimeOfTakingEditAdd : AppCompatActivity() {
         val takingTimeStr = binding.takingTimeText.text.toString()
         if(binding.takingTimeText.text.toString() == getString(R.string.default_taking_time_text)){
             alertStr = alertStr + "Введите время принятия;\n"
+        }
+
+        //TODO сделать проверку на наличие того же времени
+        if(allTimes!=null){
+            val splitedTimesStr = allTimes!!.split("|")
+            if(splitedTimesStr.contains(takingTimeStr)){
+                alertStr = alertStr + "Данное время уже назначено"
+            }
         }
 
         if(alertStr!=""){
