@@ -84,8 +84,13 @@ interface ExercisesDao {
     open suspend fun deleteFullyExercise(name:String){
         val oldExerciseId = getExerciseIdByName(name)
         deleteAllExerciseMesureByExerciseId(oldExerciseId)
+        deleteExerciseFromAllComplexes(oldExerciseId)
         deleteExercise(getExerciseByName(name))
     }
+
+    // Для удаления упражнения из всех комплексов
+    @Query("DELETE FROM complex_exercise WHERE exercise_id = :id")
+    suspend fun deleteExerciseFromAllComplexes(id:Int)
 
     // Удаление всех мера упражнение из бд
     @Query("DELETE FROM exercise_measure Where exercise_id = :id")

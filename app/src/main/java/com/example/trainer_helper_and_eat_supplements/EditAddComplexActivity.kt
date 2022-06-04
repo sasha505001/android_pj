@@ -109,18 +109,21 @@ class EditAddComplexActivity : AppCompatActivity() {
     }
 
     fun saveInDatabase(){
+        // Сообщение об ошибки
+        var alertStr:String = ""
+        val nameOfCreatingComplex = binding.complexNameEditText.text.toString()
+        val chosenExercisesNames = binding.exercisesText.text.toString()
         myDatamodel.allComplexesNames.observe(this){ allComplexes ->
-            // Сообщение об ошибки
-            var alertStr:String = ""
 
-            val nameOfCreatingComplex = binding.complexNameEditText.text.toString()
+
+
             // Проверка задано ли имя
             if(nameOfCreatingComplex == ""){
                 alertStr = alertStr + "Введите имя комплекса;\n"
             }
 
             // Проверка введено ли имя комплекса
-            val chosenExercisesNames = binding.exercisesText.text.toString()
+
             if(chosenExercisesNames ==
                 getString(R.string.default_text_of_choose_exercises)){
                 alertStr = alertStr + "Выберете упражнение;\n"
@@ -135,28 +138,29 @@ class EditAddComplexActivity : AppCompatActivity() {
                     alertStr = "Комплекс с введенным именем уже существует"
                 }
             }
-            if(alertStr != ""){
-                val alertDialog = AlertDialog.Builder(this)
-                alertDialog.setTitle("Невозможно создать упражнение")
-                alertDialog.setMessage(alertStr)
-                alertDialog.setPositiveButton("Ок"){
-                        dialog, id ->
-                    dialog.dismiss()
-                }
-                alertDialog.show()
+
+        }
+        if(alertStr != ""){
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Невозможно создать упражнение")
+            alertDialog.setMessage(alertStr)
+            alertDialog.setPositiveButton("Ок"){
+                    dialog, id ->
+                dialog.dismiss()
+            }
+            alertDialog.show()
+        }
+        else{
+            val data = ComplexesData(nameOfCreatingComplex)
+            val exercisesNames = chosenExercisesNames.split(",\n")
+            if(nameOfEditObject==null){
+                myDatamodel.insertFullComplex(data, exercisesNames)
             }
             else{
-                val data = ComplexesData(nameOfCreatingComplex)
-                val exercisesNames = chosenExercisesNames.split(",\n")
-                if(nameOfEditObject==null){
-                    myDatamodel.insertFullComplex(data, exercisesNames)
-                }
-                else{
-                    myDatamodel.updateComplex(nameOfEditObject!!, data, exercisesNames)
-                }
-
-                finish()
+                myDatamodel.updateComplex(nameOfEditObject!!, data, exercisesNames)
             }
+
+            finish()
         }
     }
 }
