@@ -127,8 +127,8 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
             }
             if(scheduleDao.getAllScheduleObj().size == 0){
                 scheduleDao.insertAllSchedule(
-                    ScheduleData("В определенный день"),
                     ScheduleData("Каждый день"),
+                    ScheduleData("В определенный день"),
                     ScheduleData("По определенным дням недели"),
                     ScheduleData("Интервал в днях"),
                 )
