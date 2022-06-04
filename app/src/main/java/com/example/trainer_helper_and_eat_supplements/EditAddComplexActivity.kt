@@ -113,7 +113,7 @@ class EditAddComplexActivity : AppCompatActivity() {
         var alertStr:String = ""
         val nameOfCreatingComplex = binding.complexNameEditText.text.toString()
         val chosenExercisesNames = binding.exercisesText.text.toString()
-        myDatamodel.allComplexesNames.observe(this){ allComplexes ->
+
 
 
 
@@ -128,7 +128,7 @@ class EditAddComplexActivity : AppCompatActivity() {
                 getString(R.string.default_text_of_choose_exercises)){
                 alertStr = alertStr + "Выберете упражнение;\n"
             }
-
+        myDatamodel.allComplexesNames.observe(this){ allComplexes ->
             if (nameOfEditObject!=null){
                 if(nameOfCreatingComplex!= nameOfEditObject && allComplexes.contains(nameOfCreatingComplex)){
                     alertStr = "Комплекс с введенным именем уже существует"
@@ -138,7 +138,6 @@ class EditAddComplexActivity : AppCompatActivity() {
                     alertStr = "Комплекс с введенным именем уже существует"
                 }
             }
-
         }
         if(alertStr != ""){
             val alertDialog = AlertDialog.Builder(this)

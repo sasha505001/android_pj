@@ -21,10 +21,7 @@ interface ExercisesDao {
     fun getAllNames():LiveData<List<String>>
 
     @Query("SELECT ID FROM EXERCISE WHERE NAME = :name")
-    fun getExerciseIdByName(name: String):Int
-
-    @Query("SELECT ID FROM EXERCISE WHERE NAME = :name")
-    suspend fun getExerciseIdByNameSuspend(name: String):Int
+    suspend fun getExerciseIdByName(name: String):Int
 
     // Получения упражнения по имени
     @Query("SELECT * FROM exercise WHERE name = :name")

@@ -129,7 +129,7 @@ class MyRepository(
         complexesDao.insertAll(complex)
         val curComplex = complexesDao.getComplexByName(complex.name)
         namesOfExercises.forEach(){ exerciseName ->
-            val exerciseId = exercisesDao.getExerciseIdByNameSuspend(exerciseName)
+            val exerciseId = exercisesDao.getExerciseIdByName(exerciseName)
             complexesExercisesDao.insertAll(
                 ComplexesExercisesData(
                     exerciseId,
