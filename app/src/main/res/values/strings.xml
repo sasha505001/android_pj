@@ -64,7 +64,7 @@
     </string>
 
     <!-- Время принятия пищевой добавки -->
-    <string name="header_time_to_take_food_additive_text">Время приема</string>
+    <string name="header_time_to_take_food_additive_text">Время приема и количество дозы</string>
 
     <!-- item времени -->
     <string name="item_description_for_delete_btn">Кнопка для удаления времени</string>
@@ -85,7 +85,7 @@
     <string name="main_header_count_text">Колличество</string>
 
     <!-- Для добавления одного item TimeOfTaking -->
-    <string name="taking_count_text">Принимаема доза</string>
+    <string name="taking_count_text">Принимаемая доза</string>
     <string name="hint_taking_count_text">Введите дозу</string>
     <string name="header_taking_time_text">Время принятия дозы</string>
     <string name="default_taking_time_text">Введите время принятия</string>

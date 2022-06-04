@@ -3,6 +3,7 @@ package com.example.trainer_helper_and_eat_supplements
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -43,6 +44,40 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
         // Заголовок
         supportActionBar?.title = "Все времена приёма"
 
+        // Получение аргументов при редактировании
+        var arguments = intent.extras
+
+        var oldTimeAndCounts:String? = null
+
+
+
+        if(arguments != null){
+            oldTimeAndCounts = arguments.getString(CONSTANTS.OLD_TIME_AND_COUNT)
+        }
+        if(oldTimeAndCounts!=null){
+            val oldObjs = oldTimeAndCounts.split(",\n")
+            oldObjs.forEach(){
+                Log.d("MyLog", it)
+            }
+
+            oldObjs.forEach(){ obj->
+                val cal = Calendar.getInstance()
+                val mySplitedObj = obj.split(" - ")
+
+                val time = mySplitedObj[0].split(":")
+                cal.set(Calendar.HOUR_OF_DAY, time[0].toInt())
+                cal.set(Calendar.MINUTE, time[1].toInt())
+
+                copyOfMutableList.add(
+                    TakingTimeData(
+                        mySplitedObj[1].toFloat(),
+                        cal.time
+                    )
+                )
+
+            }
+        }
+
 
         binding.TimeOfTakingrecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -80,9 +115,24 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
     // Действия при нажатии на кнопки меню
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // При нажатии галочки
-        if (item.itemId == R.id.ok_btn){
-            // TODO проверка и создание в бд
-            //saveInDatabase()
+        if (item.itemId == R.id.ok_btn){  // TODO проверка и создание в бд
+            val timeFormat = SimpleDateFormat("hh:mm")
+
+            var resStr:String = ""
+            copyOfMutableList.forEach(){
+                var itemStr:String = timeFormat.format(it.taking_time.time) + " - "
+                itemStr = itemStr + it.dose_taken.toString()
+                if (resStr == ""){
+                    resStr = itemStr
+                }
+                else{
+                    resStr = resStr + ",\n" + itemStr
+                }
+            }
+            val myIntent = Intent()
+            myIntent.putExtra(CONSTANTS.RESULT_MANY_TIME_COUNT_STRING, resStr)
+            setResult(RESULT_OK, myIntent)
+            finish()
         }
         // При нажатии кнопки возврата
         if(item.itemId == android.R.id.home){
@@ -98,9 +148,7 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
 
     fun addEditTakingTimeData(editData:TakingTimeData?){
         val dialog = AlertDialog.Builder(this)
-        var alertBinding = SingleEditAddTakingTimeBinding.inflate(layoutInflater)
-
-
+        val alertBinding = SingleEditAddTakingTimeBinding.inflate(layoutInflater)
 
         alertBinding.timePicker.setIs24HourView(true)
         val cal = Calendar.getInstance()
@@ -157,29 +205,4 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
 
         dialog.show()
     }
-
-
-    // TODO получить результирующую строку
-    val editAddNewTakingTime:ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result: ActivityResult ->
-        if (result.resultCode == RESULT_OK) {
-            val timeOfTakingString = result.data?.getStringExtra(CONSTANTS.RESULT_EDIT_ADD_TAKING_TIME)
-
-
-            val myRes = timeOfTakingString!!.split(" - ")
-            val hoursAndMin = myRes[0].split(":")
-            val cal = Calendar.getInstance()
-            cal.set(Calendar.HOUR_OF_DAY, hoursAndMin[0].toInt())
-            cal.set(Calendar.MINUTE, hoursAndMin[1].toInt())
-            val resultData = TakingTimeData(
-                myRes[1].toFloat(),
-                cal.time
-            )
-            copyOfMutableList.add(resultData)
-            myDatamodel.allTakingTimeForFoodAdditive.value = copyOfMutableList
-        }
-    }
-
-
 }

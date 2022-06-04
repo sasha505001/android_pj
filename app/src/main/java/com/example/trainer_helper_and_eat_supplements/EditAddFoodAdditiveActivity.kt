@@ -89,17 +89,22 @@ class EditAddFoodAdditiveActivity : AppCompatActivity() {
 
     // При нажатии на время
     fun onTimeClicked(view: View){
-        val intent = Intent(this, TimeOfTakingFoodAdditives::class.java)
-        setTimeOftakingFoodAdditive.launch(intent)
+        val textOfTime:String = binding.timeOfTakingText.text.toString()
+        val myIntent = Intent(this, TimeOfTakingFoodAdditives::class.java)
+        if (textOfTime != getString(R.string.default_text_of_taking_time)){
+            myIntent.putExtra(CONSTANTS.OLD_TIME_AND_COUNT, textOfTime)
+        }
+        setTimeOftakingFoodAdditive.launch(myIntent)
 
     }
+
     val setTimeOftakingFoodAdditive = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
         if (result.resultCode == RESULT_OK) {
-            val exerciseString = result.data?.getStringExtra(CONSTANTS.SELECT_OF_MANY_EXERCISES)
+            val exerciseString = result.data?.getStringExtra(CONSTANTS.RESULT_MANY_TIME_COUNT_STRING)
             if(exerciseString != ""){
-                // binding.exercisesText.setText(exerciseString)
+                binding.timeOfTakingText.setText(exerciseString)
             }else{
                 binding.timeOfTakingText.setText(getString(R.string.default_text_of_taking_time))
             }

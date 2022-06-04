@@ -66,13 +66,11 @@ class TimeOfTakingFoodAdapter(
                         R.id.menu_delete_btn -> {
                             curAllTimeOfTaking.removeAt(pos)
                             myDataModel.allTakingTimeForFoodAdditive.value = curAllTimeOfTaking
-                            Log.d("MyLog", "delete")
                         }
                         R.id.menu_edit_btn ->{
                             val editData = curAllTimeOfTaking.get(pos)
                             editData.id = pos
                             myDataModel.editTime.value = editData
-                            Log.d("MyLog", "edit")
                         }
                     }
                     true
