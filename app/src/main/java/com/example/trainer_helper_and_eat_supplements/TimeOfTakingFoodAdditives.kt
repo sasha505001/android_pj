@@ -7,10 +7,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,9 +54,6 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
         }
         if(oldTimeAndCounts!=null){
             val oldObjs = oldTimeAndCounts.split(",\n")
-            oldObjs.forEach(){
-                Log.d("MyLog", it)
-            }
 
             oldObjs.forEach(){ obj->
                 val cal = Calendar.getInstance()
@@ -116,7 +111,7 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // При нажатии галочки
         if (item.itemId == R.id.ok_btn){  // TODO проверка и создание в бд
-            val timeFormat = SimpleDateFormat("hh:mm")
+            val timeFormat = SimpleDateFormat("HH:mm")
 
             var resStr:String = ""
             copyOfMutableList.forEach(){
@@ -147,12 +142,12 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
     }
 
     fun addEditTakingTimeData(editData:TakingTimeData?){
-        val dialog = AlertDialog.Builder(this)
+
         val alertBinding = SingleEditAddTakingTimeBinding.inflate(layoutInflater)
 
         alertBinding.timePicker.setIs24HourView(true)
         val cal = Calendar.getInstance()
-        val timeFormat = SimpleDateFormat("hh:mm")
+        val timeFormat = SimpleDateFormat("HH:mm")
         //alertBinding.timePicker.currentHour = cal.time.hours
         //alertBinding.timePicker.currentMinute = cal.time.minutes
 
@@ -162,8 +157,14 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
             alertBinding.countEditText.setText(editData.dose_taken.toString())
         }
 
-        dialog.setPositiveButton("Ок")
-        { dialog, curI ->
+        val alertDialogBuilder = AlertDialog.Builder(this)
+            .setPositiveButton("Ок", null)
+            .setNegativeButton("Отмена", null)
+            .setView(alertBinding.root)
+            .show()
+
+        var posBtn = alertDialogBuilder.getButton(AlertDialog.BUTTON_POSITIVE)
+        posBtn.setOnClickListener(){
             var alertStr:String = ""
             val gotCountString = alertBinding.countEditText.text.toString()
             if(gotCountString == ""){
@@ -172,9 +173,7 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
 
             cal.set(Calendar.HOUR_OF_DAY, alertBinding.timePicker.currentHour)
             cal.set(Calendar.MINUTE, alertBinding.timePicker.currentMinute)
-            val gotTimeString =
-                timeFormat.format(cal.time)
-
+            val gotTimeString = timeFormat.format(cal.time)
             copyOfMutableList.forEach(){
                 val curTimeString = timeFormat.format(it.taking_time.time)
                 if(curTimeString == gotTimeString && editData == null){
@@ -192,17 +191,16 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
                 )
                 copyOfMutableList.add(data)
                 myDatamodel.allTakingTimeForFoodAdditive.value = copyOfMutableList
-                dialog.dismiss()
+                alertDialogBuilder.dismiss()
             }
             else{
                 Toast.makeText(this, alertStr, Toast.LENGTH_SHORT).show()
             }
         }
-        dialog.setNegativeButton("Отмена"){ dialog, curI ->
-            dialog.dismiss()
-        }
-        dialog.setView(alertBinding.root)
 
-        dialog.show()
+        var negBtn = alertDialogBuilder.getButton(AlertDialog.BUTTON_NEGATIVE)
+        negBtn.setOnClickListener(){
+            alertDialogBuilder.dismiss()
+        }
     }
 }

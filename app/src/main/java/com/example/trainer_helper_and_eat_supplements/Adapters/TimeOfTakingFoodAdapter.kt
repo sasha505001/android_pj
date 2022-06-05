@@ -55,7 +55,7 @@ class TimeOfTakingFoodAdapter(
 
         fun bind(data:TakingTimeData, pos:Int){
             binding.countText.setText(data.dose_taken.toString())
-            val dataFormatter = SimpleDateFormat("hh:mm")
+            val dataFormatter = SimpleDateFormat("HH:mm")
             val resString = dataFormatter.format(data.taking_time.time)
             binding.timeText.setText(resString)
             binding.btnPopupMenu.setOnClickListener(){

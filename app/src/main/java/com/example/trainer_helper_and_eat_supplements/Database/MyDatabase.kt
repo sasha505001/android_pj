@@ -120,7 +120,7 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
             }
             if(mesureOfFoodAdditiveDao.getAllFoodAdditiveMesuresObj().size == 0){
                 mesureOfFoodAdditiveDao.insertAllFoodAdditiveMesures(
-                    MeasureOfFoodAdditiveData("капсул"),
+                    MeasureOfFoodAdditiveData("табл."),
                     MeasureOfFoodAdditiveData("мл."),
                     MeasureOfFoodAdditiveData("гр."),
                 )
@@ -130,7 +130,6 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
                     ScheduleData("Каждый день"),
                     ScheduleData("В определенный день"),
                     ScheduleData("По определенным дням недели"),
-                    ScheduleData("Интервал в днях"),
                 )
             }
         }
