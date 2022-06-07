@@ -93,4 +93,12 @@
     <!-- Для alert диалога -->
     <string name="default_alert_dialog_ok">Ок</string>
     <string name="default_alert_dialog_cancle">Отмена</string>
+
+    <!-- Для выбора определенного дня -->
+    <string name="header_of_taking_spec_day">День принятия</string>
+    <string name="default_value_of_taking_spec_day_text">Не выбран</string>
+    
+    <!-- Для выбора дней недели -->
+    <string name="header_of_choose_day_of_week">Дни недели</string>
+    <string name="default_value_of_choose_day_of_week_text">Не выбран</string>
 </resources>
