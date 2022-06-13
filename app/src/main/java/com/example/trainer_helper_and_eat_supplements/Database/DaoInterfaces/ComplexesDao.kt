@@ -37,7 +37,7 @@ interface ComplexesDao {
 
     // Обновление в бд
     @Transaction
-    open suspend fun updateOldComplex(oldComplexName: String,
+    suspend fun updateOldComplex(oldComplexName: String,
                                       complex: ComplexesData,
                                       namesOfExercises:List<String>
     ){

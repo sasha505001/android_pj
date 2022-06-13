@@ -1,12 +1,14 @@
 package com.example.trainer_helper_and_eat_supplements
 
 import android.content.Intent
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -58,7 +60,32 @@ class EditAddFoodAdditiveActivity : AppCompatActivity() {
                 ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, scheduleNames)
             mesureSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.scheduleSpinner.adapter = mesureSpinAdapter
+
+            binding.scheduleSpinner.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    when(scheduleNames[p2]){
+                        "Каждый день" -> {
+                            binding.dayOfWeekCard.visibility = View.GONE
+                            binding.dateOfTakingCard.visibility = View.GONE
+                        }
+                        "В определенный день" -> {
+                            binding.dayOfWeekCard.visibility = View.GONE
+                            binding.dateOfTakingCard.visibility = View.VISIBLE
+                        }
+                        "По определенным дням недели" -> {
+                            binding.dayOfWeekCard.visibility = View.VISIBLE
+                            binding.dateOfTakingCard.visibility = View.GONE
+                        }
+                    }
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
+
+            }
         }
+
+
 
         // Кнопка возвращения на прошлое меню
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
