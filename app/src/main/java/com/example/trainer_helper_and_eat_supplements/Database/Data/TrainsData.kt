@@ -8,10 +8,6 @@ import java.util.*
 
 
 @Entity(tableName = "train",
-    indices = [androidx.room.Index(
-        value = ["name"],
-        unique = true
-    )],
     foreignKeys = [
         ForeignKey(
             entity = ComplexesData::class,
