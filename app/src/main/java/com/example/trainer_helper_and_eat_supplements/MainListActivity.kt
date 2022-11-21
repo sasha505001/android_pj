@@ -109,7 +109,8 @@ class MainListActivity : AppCompatActivity() {
                     startActivity(curIntent)
                 }
                 CONSTANTS.NavMenuBtns.TRAINING_STORY->{
-                    Intent(this, EditTrainActivity::class.java)
+                    val curIntent = Intent(this, TrainActivity::class.java)
+                    startActivity(curIntent)
                 }
                 CONSTANTS.NavMenuBtns.FOOD_ADDITIVES->{
                     val curIntent = Intent(this, EditAddFoodAdditiveActivity::class.java)
@@ -158,7 +159,7 @@ class MainListActivity : AppCompatActivity() {
                 }
             }
             CONSTANTS.NavMenuBtns.TRAINING_STORY -> {
-
+                supportActionBar?.title = getStringTitle(currentList)
             }
             CONSTANTS.NavMenuBtns.FOOD_ADDITIVES -> {
                 myDatamodel.allFoodAdditiveNames.observe(this){
