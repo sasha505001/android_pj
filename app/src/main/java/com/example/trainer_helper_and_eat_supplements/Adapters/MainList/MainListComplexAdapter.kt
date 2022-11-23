@@ -29,31 +29,37 @@ class MainListComplexAdapter (
 
         var binding = MainListItemBinding.bind(item)
         val myDataModel = itemModel
-
+        val curContext = context
             fun bind(str:String){
-            binding.textView.text = str
+                binding.textView.text = str
 
-            binding.imageButton.setOnClickListener(){
-                val popupMenu = PopupMenu(parent.context,it)
-                popupMenu.inflate(R.menu.popup_menu)
-                popupMenu.setOnMenuItemClickListener {
-                    when(it.itemId){
-                        R.id.menu_delete_btn -> {
-                            myDataModel.deleteFullComplex(str)
-                            Log.d("MyLog", "delete")
-                        }
-                        R.id.menu_edit_btn ->{
-                            val intent = Intent(parent.context, EditAddComplexActivity::class.java)
-                            intent.putExtra(CONSTANTS.NAMEOFEDITOBJ, str)
-                            parent.context.startActivity(intent)
-                            Log.d("MyLog", "edit")
-                        }
-                    }
-                    true
+                binding.itemConstraint.setOnClickListener(){
+                    val intent = Intent(curContext, ObserverOfComplexActivity::class.java)
+                    intent.putExtra(CONSTANTS.NAMEOFOBSERVE, str)
+                    curContext.startActivity(intent)
                 }
-                popupMenu.show()
+
+                binding.imageButton.setOnClickListener(){
+                    val popupMenu = PopupMenu(parent.context,it)
+                    popupMenu.inflate(R.menu.popup_menu)
+                    popupMenu.setOnMenuItemClickListener {
+                        when(it.itemId){
+                            R.id.menu_delete_btn -> {
+                                myDataModel.deleteFullComplex(str)
+                                Log.d("MyLog", "delete")
+                            }
+                            R.id.menu_edit_btn ->{
+                                val intent = Intent(parent.context, EditAddComplexActivity::class.java)
+                                intent.putExtra(CONSTANTS.NAMEOFEDITOBJ, str)
+                                parent.context.startActivity(intent)
+                                Log.d("MyLog", "edit")
+                            }
+                        }
+                        true
+                    }
+                    popupMenu.show()
+                }
             }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComplexesHolder {

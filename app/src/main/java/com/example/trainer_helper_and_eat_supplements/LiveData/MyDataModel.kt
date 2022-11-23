@@ -21,20 +21,19 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
         myRep.insertExercise(exercisesData)
     }
 
-    // Добавление упражнения полностью со всеми связями
+    // Добавление упражнения полностью со всеми связями(меры)
     fun addFullyExercise(exerciseData: ExercisesData, measureNames:List<String>) =
         viewModelScope.launch {
             myRep.addFullyExercise(exerciseData, measureNames)
         }
 
-    // Фуникция редактирования
+    // Фуникция редактирования упражнения
     fun updateOldExercise(nameOfOldExercise:String,
                           exercise: ExercisesData,
                           measureNames:List<String>) =
         viewModelScope.launch {
             myRep.updateExercise(nameOfOldExercise, exercise, measureNames)
         }
-
 
     // Удаление упражнения(без связей)
     fun deleteExerciseByName(exerciseName:String) = viewModelScope.launch {
@@ -117,7 +116,6 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
                       namesOfExercises:List<String>) = viewModelScope.launch {
                           myRep.updateComplex(oldComplexName, complex, namesOfExercises)
     }
-
     // TODO ---------------------------------- Тренировки  ------------------------------
     // TODO ---------------------------------- Пищ. добавки  ------------------------------
     val allFoodAdditiveNames = myRep.allFoodAdditiveNames
