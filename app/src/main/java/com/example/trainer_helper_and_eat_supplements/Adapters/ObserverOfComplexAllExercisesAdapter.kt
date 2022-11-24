@@ -1,12 +1,15 @@
 package com.example.trainer_helper_and_eat_supplements.Adapters
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.trainer_helper_and_eat_supplements.CONSTANTS
 import com.example.trainer_helper_and_eat_supplements.MyDataModel
+import com.example.trainer_helper_and_eat_supplements.ObserverOfExerciseActivity
 import com.example.trainer_helper_and_eat_supplements.R
 import com.example.trainer_helper_and_eat_supplements.databinding.ItemExerciseFromComplexBinding
 
@@ -32,7 +35,11 @@ class ObserverOfComplexAllExercisesAdapter(
 
             fun bind(str:String){
                 binding.nameOfExerciseText.text = str
-
+                binding.infoOfExerciseBtn.setOnClickListener(){
+                    val intent = Intent(curContext, ObserverOfExerciseActivity::class.java)
+                    intent.putExtra(CONSTANTS.NAMEOFOBSERVE, str)
+                    curContext.startActivity(intent)
+                }
             }
         }
 
