@@ -179,7 +179,7 @@ class EditAddExerciseActivity : AppCompatActivity() {
         // получение выбранных мер
         myDatamodel.allMesuresName.observe(this){ choices->
             // Результирующая строка
-            var resultStr:String = getString(R.string.default_value_of_measures)
+                var resultStr:String = getString(R.string.default_value_of_measures)
 
             // текущие меры
             var checkedItemsArray = BooleanArray(choices.size){false}
@@ -197,6 +197,7 @@ class EditAddExerciseActivity : AppCompatActivity() {
 
             // Заголовок
             builder.setTitle("Выберете меру:")
+
             // Меняю при нажатии выборов bools
             builder.setMultiChoiceItems(array, checkedItemsArray){
                     dialog, which, choice ->

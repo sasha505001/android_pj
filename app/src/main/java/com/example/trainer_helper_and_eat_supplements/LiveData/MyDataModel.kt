@@ -141,6 +141,10 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
     val editTime:MutableLiveData<TakingTimeData> by lazy{
         MutableLiveData<TakingTimeData>()
     }
+
+    // TODO ------------------------------- Дни недели ---------------------------------
+    val allDayOfWeekNames = myRep.allDaysOfWeekNames
+
 }
 
 class MyDataModelFactory(private val repository: MyRepository) : ViewModelProvider.Factory {

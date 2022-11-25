@@ -17,6 +17,7 @@ import androidx.room.PrimaryKey
     ]
 )
 data class PartOfDoneExercisesData(
+// Описывается 1 подход в тренировки
 
     @ColumnInfo(name = "measure_id")
     var mesure:Int,

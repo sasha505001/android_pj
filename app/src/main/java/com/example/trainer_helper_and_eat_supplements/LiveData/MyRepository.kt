@@ -175,4 +175,7 @@ class MyRepository(
 
     // TODO ---------------------------------- Расписания  ------------------------------
     val allScheduleNames = scheduleDao.liveGetAllScheduleNames()
+
+    // TODO ---------------------------------- Дни недели ---------------------------------
+    val allDaysOfWeekNames = weekDaysDao.getAllWeekDaysNames()
 }

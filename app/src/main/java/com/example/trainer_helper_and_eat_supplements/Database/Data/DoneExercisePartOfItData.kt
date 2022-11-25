@@ -22,6 +22,7 @@ import androidx.room.PrimaryKey
         )
     ])
 class DoneExercisePartOfItData (
+    // Связывает подход с упрожнением
     @ColumnInfo(name = "approach_id")
     val approach_id:Int,
     @ColumnInfo(name = "part_of_done_exercise")

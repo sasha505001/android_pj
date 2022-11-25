@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.databinding.EditAddComplexActivityBinding
 import com.example.trainer_helper_and_eat_supplements.databinding.EditAddFoodAdditiveActivityBinding
@@ -23,6 +24,8 @@ class EditAddFoodAdditiveActivity : AppCompatActivity() {
     private val myDatamodel:MyDataModel by viewModels{
         MyDataModelFactory((MyApplication(this)).myRep)
     }
+
+    var selectedDaysOfWeek:BooleanArray? = null
 
     // Для выбора элементов
     lateinit var binding: EditAddFoodAdditiveActivityBinding
@@ -52,7 +55,7 @@ class EditAddFoodAdditiveActivity : AppCompatActivity() {
             mesureSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.mesureFoodAdditiveSpinner.adapter = mesureSpinAdapter
         }
-        //
+
 
         myDatamodel.allScheduleNames.observe(this){ scheduleNames ->
 
@@ -61,16 +64,21 @@ class EditAddFoodAdditiveActivity : AppCompatActivity() {
             mesureSpinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.scheduleSpinner.adapter = mesureSpinAdapter
 
+
             binding.scheduleSpinner.onItemSelectedListener = object:AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     when(scheduleNames[p2]){
                         "Каждый день" -> {
                             binding.dayOfWeekCard.visibility = View.GONE
                             binding.dateOfTakingCard.visibility = View.GONE
+                            selectedDaysOfWeek = null
+                            binding.dayOfWeekText.text = "Дни недели не выбраны"
                         }
                         "В определенный день" -> {
                             binding.dayOfWeekCard.visibility = View.GONE
                             binding.dateOfTakingCard.visibility = View.VISIBLE
+                            selectedDaysOfWeek = null
+                            binding.dayOfWeekText.text = "Дни недели не выбраны"
                         }
                         "По определенным дням недели" -> {
                             binding.dayOfWeekCard.visibility = View.VISIBLE
@@ -129,13 +137,70 @@ class EditAddFoodAdditiveActivity : AppCompatActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
         if (result.resultCode == RESULT_OK) {
-            val exerciseString = result.data?.getStringExtra(CONSTANTS.RESULT_MANY_TIME_COUNT_STRING)
-            if(exerciseString != ""){
-                binding.timeOfTakingText.setText(exerciseString)
+            val takingOfFoodAdditiveTimes = result.data?.getStringExtra(CONSTANTS.RESULT_MANY_TIME_COUNT_STRING)
+            if(takingOfFoodAdditiveTimes != ""){
+                binding.timeOfTakingText.setText(takingOfFoodAdditiveTimes)
             }else{
                 binding.timeOfTakingText.setText(getString(R.string.default_text_of_taking_time))
             }
 
+        }
+    }
+
+    // При нажатии выбора дней недели
+    fun onDayOfWeekClicked(view: View){
+        Log.d("MyLog", "haha")
+        myDatamodel.allDayOfWeekNames.observe(this){ namesDaysOfWeek->
+
+            // Результирующая строка
+            var resultStr:String = "Дни недели не выбраны"
+
+            // выбранные дни недели
+            var checkedDaysOfWeek = BooleanArray(namesDaysOfWeek.size){false}
+
+            // Если до этого было что то выбрано
+            if(selectedDaysOfWeek!= null){
+                checkedDaysOfWeek = selectedDaysOfWeek!!.clone()
+            }
+
+            // Создаю последовательность char(setMultiChoiceItems требует)
+            val array = namesDaysOfWeek.toTypedArray()
+
+            // Создаваемый alertDialog
+            val builder = AlertDialog.Builder(this)
+
+            // Заголовок
+            builder.setTitle("Выберете дни недели:")
+
+            // Меняю при нажатии выборов bools
+            builder.setMultiChoiceItems(array, checkedDaysOfWeek){
+                    dialog, which, choice ->
+                checkedDaysOfWeek[which] = choice
+            }
+
+            // При нажатии кнопики отмены
+            builder.setNegativeButton("Отмена"){ dialog, id->
+                dialog.dismiss()
+            }
+
+            // При нажатии ок
+            builder.setPositiveButton("Ок") { dialog, id->
+                for((index, item) in checkedDaysOfWeek.withIndex()){
+                    if(item){
+                        if (resultStr != "Дни недели не выбраны") {
+                            resultStr = resultStr + ",\n" + namesDaysOfWeek[index]
+                        }
+                        else{
+                            resultStr = namesDaysOfWeek[index]
+                        }
+                    }
+                }
+                selectedDaysOfWeek = checkedDaysOfWeek
+                binding.dayOfWeekText.text = resultStr
+                dialog.dismiss()
+            }
+
+            builder.show()
         }
     }
 

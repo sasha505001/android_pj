@@ -12,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.Serializable
+import java.time.DayOfWeek
 
 @Database(entities = [
     ComplexesData::class,
@@ -107,6 +108,7 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
                     MeasuresData("Расстояние (м)")
                 )
             }
+
             if(weekDaysDao.getAllWeekDaysObj().size == 0){
                 weekDaysDao.insertAllWeekDays(
                     WeekDaysData("Понедельник"),

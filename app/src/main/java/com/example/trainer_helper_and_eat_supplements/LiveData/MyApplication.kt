@@ -38,11 +38,6 @@ class MyApplication(context: Context) {
 
         )
     }
-
-
-
-
-
 }
 
 
