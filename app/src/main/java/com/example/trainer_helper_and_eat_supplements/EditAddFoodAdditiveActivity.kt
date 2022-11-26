@@ -1,5 +1,6 @@
 package com.example.trainer_helper_and_eat_supplements
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.DatePicker
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -17,6 +19,7 @@ import androidx.appcompat.app.AlertDialog
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.databinding.EditAddComplexActivityBinding
 import com.example.trainer_helper_and_eat_supplements.databinding.EditAddFoodAdditiveActivityBinding
+import java.util.*
 
 class EditAddFoodAdditiveActivity : AppCompatActivity() {
 
@@ -73,6 +76,7 @@ class EditAddFoodAdditiveActivity : AppCompatActivity() {
                             binding.dateOfTakingCard.visibility = View.GONE
                             selectedDaysOfWeek = null
                             binding.dayOfWeekText.text = "Дни недели не выбраны"
+                            binding.dateOfTakingText.text = "Не выбран"
                         }
                         "В определенный день" -> {
                             binding.dayOfWeekCard.visibility = View.GONE
@@ -83,6 +87,7 @@ class EditAddFoodAdditiveActivity : AppCompatActivity() {
                         "По определенным дням недели" -> {
                             binding.dayOfWeekCard.visibility = View.VISIBLE
                             binding.dateOfTakingCard.visibility = View.GONE
+                            binding.dateOfTakingText.text = "Не выбран"
                         }
                     }
                 }
@@ -202,6 +207,37 @@ class EditAddFoodAdditiveActivity : AppCompatActivity() {
 
             builder.show()
         }
+    }
+
+    // При выборе определённого дня из месяца
+    fun choosingTheDayOfTaking(view: View){
+        // Календарь
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        // Вызываю DatePicker
+        val dpd = DatePickerDialog(this,
+            DatePickerDialog.OnDateSetListener{view, mYear, mMonth, mDay ->
+                binding.dateOfTakingText.text = "" + mDay + "." + mMonth + "." + mYear
+            }, year, month, day
+        )
+        dpd.show()
+    }
+
+    private fun saveInDatabase(){
+        // Сообщение об ошибки
+        var alertStr:String = ""
+
+        // Проверка задано ли имя пищевой добавки
+        // Проверка существуют ли другие одноимённые пищ. добавки
+
+        // (?В определённый день) задан ли день принятия
+        // (?По определённым дням недели) заданы ли дни недели
+        // Проверка задано ли время приёма и количество дозы
+
+
     }
 
 }

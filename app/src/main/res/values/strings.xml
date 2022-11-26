@@ -101,8 +101,10 @@
     <!-- Для выбора дней недели -->
     <string name="header_of_choose_day_of_week">Дни недели</string>
     <string name="default_value_of_choose_day_of_week_text">Дни недели не выбраны</string>
-
-
+    
+    <!-- Для интервала в днях -->
+    <string name="header_interval_in_days">Интервал в днях</string>
+    <string name="hint_interval_in_days_text">Введите интервал в днях</string>
     <!-- Упражнения комплексов -->
     <string name="header_for_exercise_observe_complex">Упражнения комлпекса</string>
 
