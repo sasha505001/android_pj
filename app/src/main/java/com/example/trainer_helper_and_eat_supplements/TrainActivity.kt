@@ -7,7 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.example.trainer_helper_and_eat_supplements.databinding.ActivityTrainBinding
-import com.example.trainer_helper_and_eat_supplements.databinding.EditTrainActivityBinding
+
 
 class TrainActivity : AppCompatActivity() {
 
@@ -17,6 +17,14 @@ class TrainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTrainBinding.inflate(layoutInflater)
+
+        // Получение аргументов
+        var arguments = intent.extras
+        if(arguments!=null){
+            var nameOfTrain = arguments.getString(CONSTANTS.NAME_OF_TRAIN)
+            binding
+        }
+
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

@@ -3,6 +3,7 @@ package com.example.trainer_helper_and_eat_supplements
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -71,7 +72,7 @@ class MainListActivity : AppCompatActivity() {
         }
 
         // TODO начинаю с определенного листа
-        currentList = CONSTANTS.NavMenuBtns.FOOD_ADDITIVES
+        currentList = CONSTANTS.NavMenuBtns.TRAINING_STORY
         // Обзервер для текущего листа
         /*
         myDatamodel.curList.observe(this){
@@ -96,7 +97,26 @@ class MainListActivity : AppCompatActivity() {
 
         }
     }
+    val prepareForTrain = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()){
+            result: ActivityResult ->
+        if(result.resultCode == RESULT_OK){
+            // Узнаю название упражнения и выбранный комплекс
+            val intent = result.data
+            val nameOfTrain = intent?.getStringExtra(CONSTANTS.NAME_OF_TRAIN)
+            val nameOfComplex = intent?.getStringExtra(CONSTANTS.CHOOSEN_COMPLEX_FOR_TRAIN)
+            Log.d("MyLog", nameOfTrain!!)
+            Log.d("MyLog", nameOfComplex!!)
+            // Вызываю окно начала тренировки
 
+            var trainIntent = Intent(this, TrainActivity::class.java)
+            trainIntent.putExtra(CONSTANTS.NAME_OF_TRAIN, nameOfTrain)
+            trainIntent.putExtra(CONSTANTS.CHOOSEN_COMPLEX_FOR_TRAIN, nameOfComplex)
+            startActivity(trainIntent)
+
+        }
+
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.add_btn){
             when(currentList){ // TODO сделать добавления для каждого
@@ -109,8 +129,18 @@ class MainListActivity : AppCompatActivity() {
                     startActivity(curIntent)
                 }
                 CONSTANTS.NavMenuBtns.TRAINING_STORY->{
-                    val curIntent = Intent(this, TrainActivity::class.java)
-                    startActivity(curIntent)
+
+                    // Выясняю название и комплекс для тренировки
+
+
+                    var intent = Intent(this, PrepareForTrainActivity::class.java)
+                    //startActivity(intent)
+                    // Запускаю процесс
+                    prepareForTrain.launch(intent)
+                    //val curIntent = Intent(this, TrainActivity::class.java)
+                    //startActivity(curIntent)
+
+
                 }
                 CONSTANTS.NavMenuBtns.FOOD_ADDITIVES->{
                     val curIntent = Intent(this, EditAddFoodAdditiveActivity::class.java)

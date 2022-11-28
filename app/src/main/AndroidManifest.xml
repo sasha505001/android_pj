@@ -35,7 +35,7 @@
             android:name=".ObserverOfExerciseActivity"
             android:exported="false" />
         <activity
-            android:name=".EditTrainActivity"
+            android:name=".PrepareForTrainActivity"
             android:exported="false" />
         <activity
             android:name=".EditAddFoodAdditiveActivity"

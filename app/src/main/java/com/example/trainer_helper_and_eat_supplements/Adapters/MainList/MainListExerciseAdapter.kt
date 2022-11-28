@@ -46,6 +46,8 @@ class MainListExerciseAdapter(
                         R.id.menu_delete_btn -> {
                             // TODO удаление из ExerciseMesure
                             myDataModel.deleteFullyExerciseByName(str)
+                            // TODO Удаление всех пустых комлпексов
+
                             Log.d("MyLog", "delete")
                         }
                         R.id.menu_edit_btn ->{

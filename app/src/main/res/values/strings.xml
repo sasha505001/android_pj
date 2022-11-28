@@ -109,6 +109,9 @@
     <string name="header_for_exercise_observe_complex">Упражнения комлпекса</string>
 
 
-
+    <string name="header_of_choose_complex">Существующие комплексы</string>
+    <string name="header_name_of_train">Название тренировки</string>
+    <string name="hint_name_of_train">Введите название тренировки</string>
+    <string name="describe_of_info_complex_btn">Информация о комлексе</string>
 
 </resources>

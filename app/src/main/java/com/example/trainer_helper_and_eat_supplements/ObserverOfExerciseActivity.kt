@@ -2,6 +2,7 @@ package com.example.trainer_helper_and_eat_supplements
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.activity.viewModels
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication

@@ -19,5 +19,7 @@ object CONSTANTS {
     val RESULT_MANY_TIME_COUNT_STRING = "result_many_time_count_string"
     val OLD_TIME_AND_COUNT = "old_time_and_count"
 
-
+    // Подготовка к тренировке
+    val NAME_OF_TRAIN = "name_of_train"
+    val CHOOSEN_COMPLEX_FOR_TRAIN = "choosen_complex_for_train"
 }
