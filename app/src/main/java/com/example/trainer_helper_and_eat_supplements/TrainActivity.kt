@@ -56,7 +56,13 @@ class TrainActivity : AppCompatActivity() {
             selectSingleExericse.launch(intent)
         }
 
-        
+        binding.infoBtnExercise.setOnClickListener(){
+            val intent = Intent(this, ObserverOfExerciseActivity::class.java)
+            val nameOfExercise = binding.currentExercise.text.toString()
+            intent.putExtra(CONSTANTS.NAMEOFOBSERVE, nameOfExercise)
+            startActivity(intent)
+        }
+
         myDatamodel.getExercisesNamesByComplexName(nameOfTrainComplex).observe(this){
             nameOfCurrentExercise = it.get(0)
             binding.currentExercise.text = nameOfCurrentExercise
