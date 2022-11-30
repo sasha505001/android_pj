@@ -2,7 +2,6 @@ package com.example.trainer_helper_and_eat_supplements.Adapters
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,7 +59,6 @@ class ObserverOfComplexAllExercisesAdapter(
 
     override fun onBindViewHolder(holder: ObserverOfComplexAllExercisesHolder, position: Int) {
         holder.bind(exercisesList.get(position))
-        Log.d("MyLog", exercisesList.size.toString())
     }
 
     override fun getItemCount(): Int {

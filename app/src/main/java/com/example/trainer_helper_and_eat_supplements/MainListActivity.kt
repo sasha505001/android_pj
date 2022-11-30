@@ -3,7 +3,6 @@ package com.example.trainer_helper_and_eat_supplements
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -105,8 +104,6 @@ class MainListActivity : AppCompatActivity() {
             val intent = result.data
             val nameOfTrain = intent?.getStringExtra(CONSTANTS.NAME_OF_TRAIN)
             val nameOfComplex = intent?.getStringExtra(CONSTANTS.CHOOSEN_COMPLEX_FOR_TRAIN)
-            Log.d("MyLog", nameOfTrain!!)
-            Log.d("MyLog", nameOfComplex!!)
             // Вызываю окно начала тренировки
 
             var trainIntent = Intent(this, TrainActivity::class.java)

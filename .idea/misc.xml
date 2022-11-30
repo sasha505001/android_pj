@@ -6,11 +6,13 @@
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.32" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_accessibility_24.xml" value="0.32" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.2585" />
+        <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_alarm_24.xml" value="0.1455" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_calendar_month_24.xml" value="0.32" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.32" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_done_24.xml" value="0.32" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.32" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_emoji_flags_24.xml" value="0.32" />
+        <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_folder_24.xml" value="0.1455" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.141" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_local_dining_24.xml" value="0.32" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_menu_book_24.xml" value="0.32" />
@@ -34,6 +36,7 @@
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/item_exercise_from_complex.xml" value="0.23645833333333333" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/item_part_of_approach.xml" value="0.4" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/item_select_complex_for_train.xml" value="0.4" />
+        <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/item_select_single_exercise_for_train.xml" value="0.4" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/main_activity_list.xml" value="0.365625" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/main_list_activity.xml" value="0.25" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/main_list_fragment.xml" value="0.253125" />
@@ -44,6 +47,7 @@
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/select_from_list_activity.xml" value="0.13072916666666667" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/select_many_exercise_item.xml" value="0.4" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/select_many_exercises_activity.xml" value="0.3276762402088773" />
+        <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/select_single_exercise_from_complex_activity.xml" value="0.16799999999999998" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/single_edit_add_taking_time.xml" value="0.264" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/time_of_taking_edit_add_activity.xml" value="0.4" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/time_of_taking_food_additive_item.xml" value="0.4" />

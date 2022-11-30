@@ -57,6 +57,7 @@ class SelectSingleComplexAdapter(
 
     override fun onBindViewHolder(holder: SelectSingleComplexHolder, position: Int) {
         holder.bind(allComplexesNames.get(position), position)
+
         holder.binding.radioButton.isChecked = position == selectedItem
         if(position == selectedItem){
             nameOfSelectedItem = allComplexesNames.get(position)

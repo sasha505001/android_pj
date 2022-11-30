@@ -71,7 +71,6 @@ class PrepareForTrainActivity : AppCompatActivity() {
         var nameOfTrain = binding.nameOfTrain.text.toString()
         var choosenComplexName = adapter.nameOfSelectedItem
 
-        Log.d("MyLog", nameOfTrain+"2")
         // Предупреждение
         var alertString:String = ""
         if(nameOfTrain == ""){
