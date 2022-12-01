@@ -101,4 +101,11 @@ interface ExercisesDao {
     @Query("SELECT * FROM Measure WHERE name = :name")
     suspend fun getMeasureByName(name:String):MeasuresData
 
+    // Получение мер из упражнения благодаря имени
+    @Query("SELECT measure.name FROM measure " +
+            "JOIN exercise_measure ON measure_id = measure.id " +
+            "JOIN Exercise on exercise_id = exercise.id " +
+            "where :name = exercise.name ")
+    suspend fun getMesuresFromExerciseName(name: String):List<String>
+
 }

@@ -178,4 +178,12 @@ class MyRepository(
 
     // TODO ---------------------------------- Дни недели ---------------------------------
     val allDaysOfWeekNames = weekDaysDao.getAllWeekDaysNames()
+
+    // Получение мер из упражнения(используя имя)
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getMesuresFromExerciseName(exerciseName: String):List<String>{
+        return exercisesDao.getMesuresFromExerciseName(exerciseName)
+    }
+
 }

@@ -117,4 +117,7 @@
     <!-- Описание для кнопок на упражнении -->
     <string name="description_list_of_exercise_btn">Выбор упражнения</string>
     <string name="description_info_of_exercise_btn">Информация об упражнении</string>
+    
+    
+    <string name="value_of_mesure_in_approach_hint">Введите значение</string>
 </resources>

@@ -83,6 +83,15 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
         return result
     }
 
+    fun getMesuresFromExerciseName(exerciseName: String):LiveData<List<String>>{
+        val result = MutableLiveData<List<String>>()
+        viewModelScope.launch {
+            val returnRepo = myRep.getMesuresFromExerciseName(exerciseName)
+            result.postValue(returnRepo)
+        }
+        return result
+    }
+
     // TODO --------------------------------------- Мера - упражнение -----------------------------
     // Добавление меры
     fun insertExerciseMeasure(data:ExerciseMeasuresData)= viewModelScope.launch(){

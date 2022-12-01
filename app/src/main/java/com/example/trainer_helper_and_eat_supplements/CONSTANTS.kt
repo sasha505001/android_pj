@@ -23,4 +23,5 @@ object CONSTANTS {
     val NAME_OF_TRAIN = "name_of_train"
     val CHOOSEN_COMPLEX_FOR_TRAIN = "choosen_complex_for_train"
     val CURRENT_EXERCISE_OF_TRAIN = "current_exercise_of_train"
+    val MEASURE_VALUE_OF_APPROACH = "measure_value_of_approach"
 }
