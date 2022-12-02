@@ -8,6 +8,11 @@ import kotlinx.coroutines.launch
 
 class MyDataModel(private val myRep: MyRepository): ViewModel(){
 
+    // Для хранения данных
+    var myApproachesOfTrain = MutableLiveData<MutableMap<String, ArrayList<HashMap<String, Float>>>>()
+
+
+
     // TODO сделать чтобы вид текущего листа запоминался
 
     // TODO -----------------------------  Упражнения  --------------------------------------------

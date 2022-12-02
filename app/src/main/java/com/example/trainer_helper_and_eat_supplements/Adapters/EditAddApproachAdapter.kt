@@ -67,8 +67,6 @@ class EditAddApproachAdapter(
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                //Log.d("MyLog", p0.toString())
-                Log.d("MyLog", holder.adapterPosition.toString())
                 listOfValuesOfMesures.set(holder.adapterPosition, p0.toString())
                 mesureValueList.put(allMesuresOfExercise.get(holder.adapterPosition), p0.toString())
             }

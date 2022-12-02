@@ -97,8 +97,12 @@ class EditAddApproach : AppCompatActivity() {
             alertDialog.show()
         }
         else{
+            var dataFromApproach = hashMapOf<String, Float>()
+            for((key, value) in listOfValuesOfMesures){
+                dataFromApproach.put(key, value.toFloat())
+            }
             val result = Intent()
-            result.putExtra(CONSTANTS.MEASURE_VALUE_OF_APPROACH, listOfValuesOfMesures)
+            result.putExtra(CONSTANTS.MEASURE_VALUE_OF_APPROACH, dataFromApproach)
             setResult(RESULT_OK, result)
             finish()
         }

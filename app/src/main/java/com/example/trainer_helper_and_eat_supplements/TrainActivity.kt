@@ -10,6 +10,8 @@ import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.trainer_helper_and_eat_supplements.Adapters.Approach.ApproachAdapter
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.databinding.ActivityTrainBinding
 
@@ -21,10 +23,21 @@ class TrainActivity : AppCompatActivity() {
         MyDataModelFactory((MyApplication(this)).myRep)
     }
 
+    // Для выбора элементов
     lateinit var binding: ActivityTrainBinding
+    // Имя комплекса тренировки
     lateinit var nameOfTrainComplex:String
+    // Название тренировки
     lateinit var nameOfTrain:String
+    // Название текущего упражнения
     lateinit var nameOfCurrentExercise:String
+
+    // Адаптер для отображения подходов упражнения
+    lateinit var curAdapter: ApproachAdapter
+
+
+    // Массив данных о подходах
+    //var dataOfTrain = mutableMapOf<String, ArrayList<HashMap<String, Float>>>()
 
     // Выбор текущего упражнения
     val selectSingleExericse =
@@ -36,6 +49,7 @@ class TrainActivity : AppCompatActivity() {
                 val nameOfExercise = intent!!.getStringExtra(CONSTANTS.CURRENT_EXERCISE_OF_TRAIN)
                 nameOfCurrentExercise = nameOfExercise!!
                 binding.currentExercise.text = nameOfExercise
+                setAdapter(nameOfCurrentExercise)
             }
 
     }
@@ -46,19 +60,17 @@ class TrainActivity : AppCompatActivity() {
         if(result.resultCode == RESULT_OK){
             // Получаю массив значений подхода
             val result = result.data
-            var listMeasureValue =
+            var dataOfApproach =
                 result!!.getSerializableExtra(CONSTANTS.MEASURE_VALUE_OF_APPROACH)
-                        as HashMap<String, String>
-
-            for((key, value) in listMeasureValue ){
-                Log.d("MyLog", key + ": " + value)
-            }
+                        as HashMap<String, Float>
+            myDatamodel.myApproachesOfTrain.value!!.get(nameOfCurrentExercise)!!.add(dataOfApproach)
+            setAdapter(nameOfCurrentExercise)
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTrainBinding.inflate(layoutInflater)
-
+        myDatamodel.myApproachesOfTrain.value = mutableMapOf<String, ArrayList<HashMap<String, Float>>>()
         // Получение аргументов
         var arguments = intent.extras
         // Получаю информацию о тренировке
@@ -67,6 +79,26 @@ class TrainActivity : AppCompatActivity() {
             binding.nameOfTrainText.text = nameOfTrain
             nameOfTrainComplex = arguments.getString(CONSTANTS.CHOOSEN_COMPLEX_FOR_TRAIN)!!
         }
+
+        // Выбираю текущее упражнение комплекса
+        myDatamodel.getExercisesNamesByComplexName(nameOfTrainComplex).observe(this){ exercises->
+            exercises.forEach(){ singleExercise->
+                myDatamodel.myApproachesOfTrain.value!!.put(singleExercise, arrayListOf<HashMap<String, Float>>())
+            }
+            nameOfCurrentExercise = exercises.get(0)
+            binding.currentExercise.text = nameOfCurrentExercise
+
+            myDatamodel.myApproachesOfTrain
+            setAdapter(nameOfCurrentExercise)
+            myDatamodel.myApproachesOfTrain.observe(this){
+                setAdapter(nameOfCurrentExercise)
+            }
+        }
+
+
+
+
+
 
         // Выбор текущего упражнения
         binding.selectFromList.setOnClickListener(){
@@ -92,11 +124,7 @@ class TrainActivity : AppCompatActivity() {
             addNewApproach.launch(intent)
         }
 
-        // Выбираю текущее упражнение комплекса
-        myDatamodel.getExercisesNamesByComplexName(nameOfTrainComplex).observe(this){
-            nameOfCurrentExercise = it.get(0)
-            binding.currentExercise.text = nameOfCurrentExercise
-        }
+
 
         // Кнопка возврата
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -118,8 +146,14 @@ class TrainActivity : AppCompatActivity() {
         return true
     }
 
-    fun onAddApproachClicked(view: View){
-        val myIntent = Intent(this, EditAddApproach::class.java)
-        startActivity(myIntent)
+    fun setAdapter(nameOfExercise:String){
+        // Инициализирую адаптер
+        myDatamodel.myApproachesOfTrain.observe(this){ dataOfTrain->
+            curAdapter = ApproachAdapter(dataOfTrain.get(nameOfExercise)!!, myDatamodel, this)
+            binding.listOfApproaches.layoutManager = LinearLayoutManager(this)
+            binding.listOfApproaches.adapter = curAdapter
+            //curAdapter.notifyDataSetChanged()
+        }
     }
+
 }
