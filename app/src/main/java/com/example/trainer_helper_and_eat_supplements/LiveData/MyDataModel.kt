@@ -1,5 +1,6 @@
 package com.example.trainer_helper_and_eat_supplements
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.trainer_helper_and_eat_supplements.Database.Data.*
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyRepository
@@ -9,8 +10,15 @@ import kotlinx.coroutines.launch
 class MyDataModel(private val myRep: MyRepository): ViewModel(){
 
     // Для хранения данных
+    // Данные о тренировки
     var myApproachesOfTrain = MutableLiveData<MutableMap<String, ArrayList<HashMap<String, Float>>>>()
 
+    // Удаление подхода
+    fun deleteApproachOfTrain(exerciseName: String, idOfApproach:Int) = viewModelScope.launch {
+        Log.d("MyLog", myApproachesOfTrain.value!!.get(exerciseName)!!.size.toString())
+        myApproachesOfTrain.value!!.get(exerciseName)!!.removeAt(idOfApproach)
+        Log.d("MyLog", myApproachesOfTrain.value!!.get(exerciseName)!!.size.toString())
+    }
 
 
     // TODO сделать чтобы вид текущего листа запоминался

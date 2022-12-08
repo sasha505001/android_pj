@@ -5,6 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trainer_helper_and_eat_supplements.MyDataModel
 import com.example.trainer_helper_and_eat_supplements.R
@@ -53,7 +56,6 @@ class PartOfApproachAdapter(
 
     override fun onBindViewHolder(holder: PartOfApproachHolder, position: Int) {
         var curKey = keysArray.get(position)
-        Log.d("MyLog", curDataOfApproach.get(curKey)!!.toString())
         var myVal = curDataOfApproach.get(curKey)!!
         holder.bind(curKey, myVal)
     }
@@ -61,4 +63,5 @@ class PartOfApproachAdapter(
     override fun getItemCount(): Int {
         return curDataOfApproach.size
     }
+
 }

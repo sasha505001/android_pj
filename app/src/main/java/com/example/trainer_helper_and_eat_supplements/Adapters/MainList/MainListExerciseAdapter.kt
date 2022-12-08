@@ -47,14 +47,11 @@ class MainListExerciseAdapter(
                             // TODO удаление из ExerciseMesure
                             myDataModel.deleteFullyExerciseByName(str)
                             // TODO Удаление всех пустых комлпексов
-
-                            Log.d("MyLog", "delete")
                         }
                         R.id.menu_edit_btn ->{
                             val intent = Intent(parent.context, EditAddExerciseActivity::class.java)
                             intent.putExtra(CONSTANTS.NAMEOFEDITOBJ, str)
                             parent.context.startActivity(intent)
-                            Log.d("MyLog", "edit")
                         }
                     }
                     true

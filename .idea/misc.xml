@@ -13,6 +13,7 @@
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.32" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_emoji_flags_24.xml" value="0.32" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_folder_24.xml" value="0.1455" />
+        <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_format_list_bulleted_24.xml" value="0.2595" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.141" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_local_dining_24.xml" value="0.32" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/drawable/ic_baseline_menu_book_24.xml" value="0.32" />
@@ -26,6 +27,8 @@
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/activity_edit_train.xml" value="0.253125" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/activity_list.xml" value="0.365625" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/activity_train.xml" value="0.264" />
+        <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/custom_time_picker.xml" value="0.253125" />
+        <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/edit_add_approach_activity.xml" value="0.264" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/edit_add_complex_activity.xml" value="0.4" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/edit_add_exercise_activity.xml" value="0.2" />
         <entry key="..\:/Astr_desktop/Trainer_helper_and_eat_supplements/app/src/main/res/layout/edit_add_food_additive_activity.xml" value="0.4" />

@@ -81,6 +81,4 @@ class EditAddApproachAdapter(
     override fun getItemCount(): Int {
         return allMesuresOfExercise.size
     }
-
-
 }

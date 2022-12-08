@@ -74,7 +74,7 @@
                 app:srcCompat="@drawable/ic_baseline_play_circle_outline_24" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/timeOfRest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -87,7 +87,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/imageButton3"
+                android:id="@+id/changeTimeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -95,6 +95,7 @@
                 android:layout_marginBottom="16dp"
                 android:contentDescription="Кнопка окна секундомера"
                 android:minHeight="48dp"
+                android:onClick="changeTimeInTrain"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

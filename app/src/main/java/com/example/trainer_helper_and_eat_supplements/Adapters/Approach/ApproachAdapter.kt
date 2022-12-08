@@ -1,9 +1,11 @@
 package com.example.trainer_helper_and_eat_supplements.Adapters.Approach
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trainer_helper_and_eat_supplements.MyDataModel
@@ -11,16 +13,19 @@ import com.example.trainer_helper_and_eat_supplements.R
 import com.example.trainer_helper_and_eat_supplements.databinding.ItemApproachOfTrainBinding
 
 class ApproachAdapter(
+    nameOfExercise:String,
     apprachesOfExercise: ArrayList<HashMap<String, Float>>,
     datamodel: MyDataModel,
     context: Context
 ): RecyclerView.Adapter<ApproachAdapter.ApproachHolder> (){
-    var approaches = apprachesOfExercise
     val curDataModel = datamodel
-    val curContext = context
+    var approaches = datamodel.myApproachesOfTrain.value!!.get(nameOfExercise)!!
 
-    class ApproachHolder(
-        item: View,
+    val curContext = context
+    val curExercise = nameOfExercise
+
+    inner class ApproachHolder(
+        item: View, var parent: ViewGroup,
         holdDatamodel:MyDataModel,
         holdContext:Context
     ): RecyclerView.ViewHolder(item){
@@ -29,7 +34,31 @@ class ApproachAdapter(
         var curContext = holdContext
 
         fun bind(mesuresAndValues:HashMap<String, Float>, position: Int){
-            binding.curNumber.text = position.toString()
+
+            // Порядковый номер
+            binding.curNumber.text = (position + 1).toString()
+
+            // Кнопка для редактирования / удаления
+            binding.popupBtn.setOnClickListener(){
+                val popupMenu = PopupMenu(parent.context,it)
+                popupMenu.inflate(R.menu.popup_menu)
+                popupMenu.setOnMenuItemClickListener {
+                    when(it.itemId){
+                        R.id.menu_delete_btn -> {
+                            curDataModel.deleteApproachOfTrain(curExercise, position)
+                            notifyDataSetChanged()
+                        }
+                        R.id.menu_edit_btn ->{
+
+                        }
+                    }
+
+                    true
+                }
+                popupMenu.show()
+            }
+
+            // Инфа о подходе
             var adapter = PartOfApproachAdapter(mesuresAndValues,curDataModel, curContext)
             binding.mesuresAndValues.layoutManager =  LinearLayoutManager(curContext)
             binding.mesuresAndValues.adapter = adapter
@@ -43,6 +72,7 @@ class ApproachAdapter(
         val binding = ItemApproachOfTrainBinding.bind(view)
         return ApproachHolder(
             binding.root,
+            parent,
             curDataModel,
             curContext
         )

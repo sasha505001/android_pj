@@ -28,7 +28,7 @@ class EditAddApproach : AppCompatActivity() {
 
     lateinit var  listOfValuesOfMesures:HashMap<String, String>
 
-        override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Заголовок
