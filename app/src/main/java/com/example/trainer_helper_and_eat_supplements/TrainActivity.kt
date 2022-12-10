@@ -1,13 +1,20 @@
 package com.example.trainer_helper_and_eat_supplements
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.graphics.fonts.SystemFonts
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.SystemClock
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -17,6 +24,11 @@ import com.example.trainer_helper_and_eat_supplements.Adapters.Approach.Approach
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.databinding.ActivityTrainBinding
 import com.example.trainer_helper_and_eat_supplements.databinding.CustomTimePickerBinding
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import kotlin.concurrent.scheduleAtFixedRate
+import kotlin.math.roundToInt
 
 
 class TrainActivity : AppCompatActivity() {
@@ -35,11 +47,11 @@ class TrainActivity : AppCompatActivity() {
     // Название текущего упражнения
     lateinit var nameOfCurrentExercise:String
 
-
-
     // Адаптер для отображения подходов упражнения
     lateinit var curAdapter: ApproachAdapter
 
+    var timeOfTrain = 0.0
+    var timer = Timer()
 
     // Массив данных о подходах
     //var dataOfTrain = mutableMapOf<String, ArrayList<HashMap<String, Float>>>()
@@ -48,9 +60,7 @@ class TrainActivity : AppCompatActivity() {
     val editApproach =
     registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         result: ActivityResult ->
-        if(result.resultCode == RESULT_OK){
 
-        }
 
     }
 
@@ -70,7 +80,7 @@ class TrainActivity : AppCompatActivity() {
     }
 
     // Добавления подхода упражнения
-    val addNewApproach = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+    val addNewApproach = registerForActivityResult  (ActivityResultContracts.StartActivityForResult()){
             result: ActivityResult ->
         if(result.resultCode == RESULT_OK){
             // Получаю массив значений подхода
@@ -83,19 +93,45 @@ class TrainActivity : AppCompatActivity() {
         }
     }
 
+    val editExistingApproach = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()){
+            result: ActivityResult ->
+        if(result.resultCode == RESULT_OK){
+            // Узнаю название выбранного упражнения
+            val intent = result.data
+
+            // имя упражнения
+            val nameOfExercise = intent!!.getStringExtra(CONSTANTS.CURRENT_EXERCISE_OF_TRAIN)!!
+            // порядковый номер
+            val idOfApproach = intent!!.getIntExtra(CONSTANTS.ID_OF_APPROACH, 0)
+            // Загружаемый массив
+            val mesuaresAndValues = intent!!.getSerializableExtra(CONSTANTS.MEASURE_VALUE_OF_APPROACH) as HashMap<String, Float>
+
+            myDatamodel.editSingleApproach(nameOfExercise, idOfApproach, mesuaresAndValues)
+            setAdapter(nameOfCurrentExercise)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTrainBinding.inflate(layoutInflater)
-        myDatamodel.myApproachesOfTrain.value = mutableMapOf<String, ArrayList<HashMap<String, Float>>>()
+
+        if(myDatamodel.myApproachesOfTrain.value==null){
+            myDatamodel.myApproachesOfTrain.value =
+                mutableMapOf<String, ArrayList<HashMap<String, Float>>>()
+        }
+
         // Получение аргументов
         var arguments = intent.extras
+
         // Получаю информацию о тренировке
         if(arguments!=null){
             nameOfTrain = arguments.getString(CONSTANTS.NAME_OF_TRAIN)!!
             binding.nameOfTrainText.text = nameOfTrain
             nameOfTrainComplex = arguments.getString(CONSTANTS.CHOOSEN_COMPLEX_FOR_TRAIN)!!
         }
+        binding.timeOfTrain.base = SystemClock.elapsedRealtime()
+        binding.timeOfTrain.start()
 
         // Выбираю текущее упражнение комплекса
         myDatamodel.getExercisesNamesByComplexName(nameOfTrainComplex).observe(this){ exercises->
@@ -112,46 +148,49 @@ class TrainActivity : AppCompatActivity() {
             }
         }
 
-
-
-
-
-
-        // Выбор текущего упражнения
-        binding.selectFromList.setOnClickListener(){
-            val intent = Intent(this, SelectSingleExerciseFromComplex::class.java)
-            intent.putExtra(CONSTANTS.CURRENT_EXERCISE_OF_TRAIN, nameOfCurrentExercise)
-            intent.putExtra(CONSTANTS.CHOOSEN_COMPLEX_FOR_TRAIN, nameOfTrainComplex)
-            selectSingleExericse.launch(intent)
-        }
-
-        // Информация об упражнении
-        binding.infoBtnExercise.setOnClickListener(){
-            val intent = Intent(this, ObserverOfExerciseActivity::class.java)
-            val nameOfExercise = binding.currentExercise.text.toString()
-            intent.putExtra(CONSTANTS.NAMEOFOBSERVE, nameOfExercise)
-            startActivity(intent)
-        }
-
-        // Добавление нового подхода
-        binding.addNewApproach.setOnClickListener(){
-            val intent = Intent(this, EditAddApproach::class.java)
-            val curNameOfExercise = binding.currentExercise.text.toString()
-            intent.putExtra(CONSTANTS.CURRENT_EXERCISE_OF_TRAIN, curNameOfExercise)
-            addNewApproach.launch(intent)
-        }
-
         // Кнопка возврата
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Тренировка"
         setContentView(binding.root)
     }
 
+
+
+
+
+    private fun getTimeStringFromDouble(time: Double): String
+    {
+        val resultInt = time.roundToInt()
+        val hours = resultInt % 86400 / 3600
+        val minutes = resultInt % 86400 % 3600 / 60
+        val seconds = resultInt % 86400 % 3600 % 60
+
+        return makeTimeString(hours, minutes, seconds)
+    }
+
+    private fun makeTimeString(hour: Int, min: Int, sec: Int): String = String.format("%02d:%02d:%02d", hour, min, sec)
+
+
+    // Меню сверху при нажатии кнопок
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if(item.itemId == android.R.id.home){
             // TODO сделать предупрежающий алерт диалог
-            finish()
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Внимание!!!")
+            builder.setMessage("Вы точно хотите завершить тренировку, " +
+            "несохранённые данные будут удалены")
+            builder.setNegativeButton("No"){ dialog, i ->
+                dialog.dismiss()
+            }
+            builder.setPositiveButton("Yes"){ dialog, i ->
+                dialog.dismiss()
+                finish()
+            }
+            builder.show()
+        }
+        if(item.itemId == R.id.finish_btn){
+            Toast.makeText(this, "Сохранение в бд", Toast.LENGTH_LONG).show()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -161,13 +200,16 @@ class TrainActivity : AppCompatActivity() {
         return true
     }
 
+    // Ставлю список подходов исходя из того какое выбрано упражнение
     fun setAdapter(nameOfExercise:String){
         // Инициализирую адаптер
         myDatamodel.myApproachesOfTrain.observe(this){ dataOfTrain->
-            curAdapter = ApproachAdapter(nameOfExercise, dataOfTrain.get(nameOfExercise)!!, myDatamodel, this)
+            curAdapter = ApproachAdapter(
+                nameOfExercise, dataOfTrain.get(nameOfExercise)!!, myDatamodel, this,
+            editExistingApproach)
             binding.listOfApproaches.layoutManager = LinearLayoutManager(this)
             binding.listOfApproaches.adapter = curAdapter
-            //curAdapter.notifyDataSetChanged()
+            curAdapter.notifyDataSetChanged()
         }
     }
 
@@ -221,5 +263,54 @@ class TrainActivity : AppCompatActivity() {
             alertDialog.dismiss()
         }
     }
+
+    // Получаю информацию о текущему упражнении
+    fun getInfoFromCurrentExerciseOnClick(view: View){
+        val intent = Intent(this, ObserverOfExerciseActivity::class.java)
+        val nameOfExercise = binding.currentExercise.text.toString()
+        intent.putExtra(CONSTANTS.NAMEOFOBSERVE, nameOfExercise)
+        startActivity(intent)
+    }
+
+
+
+
+    // Выбираю упражнение из комплекса
+    fun selectExerciseFromComplexOnClick(view: View){
+        val intent = Intent(this, SelectSingleExerciseFromComplex::class.java)
+        intent.putExtra(CONSTANTS.CURRENT_EXERCISE_OF_TRAIN, nameOfCurrentExercise)
+        intent.putExtra(CONSTANTS.CHOOSEN_COMPLEX_FOR_TRAIN, nameOfTrainComplex)
+        selectSingleExericse.launch(intent)
+    }
+
+    // Добавляю новый подход
+    fun addNewApproachOnClick(view: View){
+        val intent = Intent(this, EditAddApproach::class.java)
+        // Имя упражнения
+        val curNameOfExercise = binding.currentExercise.text.toString()
+        intent.putExtra(CONSTANTS.CURRENT_EXERCISE_OF_TRAIN, curNameOfExercise)
+
+        // номер подхода
+        var idOfApproach = myDatamodel.myApproachesOfTrain.value!!.get(curNameOfExercise)!!.size
+        intent.putExtra(CONSTANTS.ID_OF_APPROACH, idOfApproach)
+        addNewApproach.launch(intent)
+    }
+
+    // Таймер отдыха
+    var restTimerStarted = false
+    var curRestTimeSeconds:Double = 0.0
+
+    // Запуск таймера отдыха
+    fun startRestTimerOfTrain(view: View){
+        if (restTimerStarted){
+            binding.startRestTimerBtn.setImageResource(R.drawable.ic_baseline_play_circle_outline_24)
+            restTimerStarted = !restTimerStarted
+        }
+        else{
+            binding.startRestTimerBtn.setImageResource(R.drawable.ic_baseline_pause_circle_24)
+            restTimerStarted = !restTimerStarted
+        }
+    }
+
 
 }

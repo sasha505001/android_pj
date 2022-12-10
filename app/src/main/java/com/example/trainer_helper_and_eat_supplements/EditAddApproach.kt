@@ -28,6 +28,10 @@ class EditAddApproach : AppCompatActivity() {
 
     lateinit var  listOfValuesOfMesures:HashMap<String, String>
 
+    lateinit var valAndMesures:HashMap<String, Float>
+
+    var idOfApproach = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,13 +45,32 @@ class EditAddApproach : AppCompatActivity() {
         // Получение аргументов
         var arguments = intent.extras
 
+
         if(arguments != null){
+            // получаю имя упражнения
             nameOfExercise = arguments.getString(CONSTANTS.CURRENT_EXERCISE_OF_TRAIN)!!
+
+            // При редактировании
+            var curHash  = arguments.getSerializable(CONSTANTS.EDIT_APPROACH_VALUE)
+            if (curHash != null){
+                valAndMesures = curHash as HashMap<String, Float>
+            }
+            else{
+                valAndMesures = hashMapOf<String, Float>()
+            }
+
+            // Получаю номер в списке
+            idOfApproach = arguments.getInt(CONSTANTS.ID_OF_APPROACH)
         }
 
         myDatamodel.getMesuresFromExerciseName(nameOfExercise).observe(this){ mesures->
-
-            adapter = EditAddApproachAdapter(mesures, myDatamodel, this)
+            if(valAndMesures.size == 0){
+                mesures.forEach(){
+                    valAndMesures.put(it, 0.0f)
+                }
+            }
+            adapter = EditAddApproachAdapter(valAndMesures as HashMap<String, Float>
+                /* = java.util.HashMap<kotlin.String, kotlin.Float> */, myDatamodel, this)
             binding.mesureValuesList.layoutManager = LinearLayoutManager(this)
             binding.mesureValuesList.adapter = adapter
         }
@@ -103,6 +126,8 @@ class EditAddApproach : AppCompatActivity() {
             }
             val result = Intent()
             result.putExtra(CONSTANTS.MEASURE_VALUE_OF_APPROACH, dataFromApproach)
+            result.putExtra(CONSTANTS.ID_OF_APPROACH, idOfApproach)
+            result.putExtra(CONSTANTS.CURRENT_EXERCISE_OF_TRAIN, nameOfExercise)
             setResult(RESULT_OK, result)
             finish()
         }

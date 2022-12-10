@@ -32,12 +32,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/textView7"
+            <Chronometer
+                android:id="@+id/timeOfTrain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="00:00:00"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@+id/nameOfTrainText"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +59,7 @@
             android:layout_height="match_parent">
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/startRestTimerBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -68,6 +67,7 @@
                 android:layout_marginBottom="8dp"
                 android:contentDescription="Кнопка запуска таймера отдыха"
                 android:minHeight="48dp"
+                android:onClick="startRestTimerOfTrain"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -83,7 +83,7 @@
                 android:text="01:30"
                 android:textSize="28sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageButton2"
+                app:layout_constraintStart_toEndOf="@+id/startRestTimerBtn"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
@@ -137,6 +137,7 @@
                 android:layout_marginBottom="8dp"
                 android:contentDescription="@string/description_list_of_exercise_btn"
                 android:minHeight="48dp"
+                android:onClick="selectExerciseFromComplexOnClick"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -150,6 +151,7 @@
                 android:layout_marginEnd="8dp"
                 android:contentDescription="@string/description_info_of_exercise_btn"
                 android:minHeight="48dp"
+                android:onClick="getInfoFromCurrentExerciseOnClick"
                 app:layout_constraintBottom_toBottomOf="@+id/selectFromList"
                 app:layout_constraintEnd_toStartOf="@+id/selectFromList"
                 app:layout_constraintTop_toTopOf="@+id/selectFromList"
@@ -227,6 +229,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:contentDescription="Добавление подхода"
+        android:onClick="addNewApproachOnClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_add_24" />

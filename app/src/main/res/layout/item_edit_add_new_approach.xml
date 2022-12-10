@@ -38,7 +38,7 @@
                 android:layout_marginBottom="8dp"
                 android:ems="10"
                 android:hint="@string/value_of_mesure_in_approach_hint"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:minHeight="48dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

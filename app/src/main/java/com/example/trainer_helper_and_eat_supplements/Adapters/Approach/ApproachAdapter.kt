@@ -1,13 +1,22 @@
 package com.example.trainer_helper_and_eat_supplements.Adapters.Approach
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.trainer_helper_and_eat_supplements.CONSTANTS
+import com.example.trainer_helper_and_eat_supplements.EditAddApproach
 import com.example.trainer_helper_and_eat_supplements.MyDataModel
 import com.example.trainer_helper_and_eat_supplements.R
 import com.example.trainer_helper_and_eat_supplements.databinding.ItemApproachOfTrainBinding
@@ -16,13 +25,16 @@ class ApproachAdapter(
     nameOfExercise:String,
     apprachesOfExercise: ArrayList<HashMap<String, Float>>,
     datamodel: MyDataModel,
-    context: Context
+    context: Context,
+    editCallback: ActivityResultLauncher<Intent>
 ): RecyclerView.Adapter<ApproachAdapter.ApproachHolder> (){
     val curDataModel = datamodel
     var approaches = datamodel.myApproachesOfTrain.value!!.get(nameOfExercise)!!
-
+    val curEditCallback = editCallback
     val curContext = context
     val curExercise = nameOfExercise
+
+
 
     inner class ApproachHolder(
         item: View, var parent: ViewGroup,
@@ -33,7 +45,10 @@ class ApproachAdapter(
         var curDataModel = holdDatamodel
         var curContext = holdContext
 
-        fun bind(mesuresAndValues:HashMap<String, Float>, position: Int){
+
+
+
+        fun bind(nameOfExercise: String, mesuresAndValues:HashMap<String, Float>, position: Int){
 
             // Порядковый номер
             binding.curNumber.text = (position + 1).toString()
@@ -49,7 +64,23 @@ class ApproachAdapter(
                             notifyDataSetChanged()
                         }
                         R.id.menu_edit_btn ->{
+                            // Открывать новое окно с переданным hashMap
+                            var editIntent = Intent(curContext, EditAddApproach::class.java)
 
+
+                            // Имя упражнения
+
+                            editIntent.putExtra(CONSTANTS.CURRENT_EXERCISE_OF_TRAIN, nameOfExercise)
+
+
+                            // HashMap<String, Float>
+                            editIntent.putExtra(CONSTANTS.EDIT_APPROACH_VALUE, mesuresAndValues)
+
+                            // позиция в адаптере
+                            editIntent.putExtra(CONSTANTS.ID_OF_APPROACH, position)
+
+                            curEditCallback.launch(editIntent)
+                            // Обновлять текущий список
                         }
                     }
 
@@ -79,7 +110,7 @@ class ApproachAdapter(
     }
 
     override fun onBindViewHolder(holder: ApproachHolder, position: Int) {
-        holder.bind(approaches.get(position), position)
+        holder.bind(curExercise ,approaches.get(position), position)
     }
 
     override fun getItemCount(): Int {

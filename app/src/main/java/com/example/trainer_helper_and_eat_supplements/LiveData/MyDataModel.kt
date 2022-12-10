@@ -15,9 +15,11 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
 
     // Удаление подхода
     fun deleteApproachOfTrain(exerciseName: String, idOfApproach:Int) = viewModelScope.launch {
-        Log.d("MyLog", myApproachesOfTrain.value!!.get(exerciseName)!!.size.toString())
         myApproachesOfTrain.value!!.get(exerciseName)!!.removeAt(idOfApproach)
-        Log.d("MyLog", myApproachesOfTrain.value!!.get(exerciseName)!!.size.toString())
+    }
+
+    fun editSingleApproach(exerciseName:String, idOfApproach:Int, newApproach:HashMap<String, Float>) = viewModelScope.launch {
+        myApproachesOfTrain.value!!.get(exerciseName)!!.set(idOfApproach, newApproach)
     }
 
 
