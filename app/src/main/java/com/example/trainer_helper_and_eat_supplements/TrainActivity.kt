@@ -306,7 +306,8 @@ class TrainActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-
+                binding.startRestTimerBtn.setImageResource(R.drawable.ic_baseline_play_circle_outline_24)
+                binding.timeOfRest.text = timeOfRestStr
             }
         }
         if (restTimerStarted){
