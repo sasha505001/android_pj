@@ -51,7 +51,7 @@ class TrainActivity : AppCompatActivity() {
     lateinit var curAdapter: ApproachAdapter
 
     var timeOfTrain = 0.0
-    var timer = Timer()
+
 
     // Массив данных о подходах
     //var dataOfTrain = mutableMapOf<String, ArrayList<HashMap<String, Float>>>()
@@ -158,17 +158,7 @@ class TrainActivity : AppCompatActivity() {
 
 
 
-    private fun getTimeStringFromDouble(time: Double): String
-    {
-        val resultInt = time.roundToInt()
-        val hours = resultInt % 86400 / 3600
-        val minutes = resultInt % 86400 % 3600 / 60
-        val seconds = resultInt % 86400 % 3600 % 60
 
-        return makeTimeString(hours, minutes, seconds)
-    }
-
-    private fun makeTimeString(hour: Int, min: Int, sec: Int): String = String.format("%02d:%02d:%02d", hour, min, sec)
 
 
     // Меню сверху при нажатии кнопок
@@ -253,8 +243,13 @@ class TrainActivity : AppCompatActivity() {
                 if(secondsInt!!<10){
                     secondsStr = "0" + secondsStr
                 }
+                millsOfTimer = ((minutesInt * 60 + secondsInt) * 1000).toLong()
                 var result = minutesStr + ":" + secondsStr
                 binding.timeOfRest.text = result
+                timeOfRestStr = result
+                myTimer?.cancel()
+                binding.startRestTimerBtn.setImageResource(R.drawable.ic_baseline_play_circle_outline_24)
+                restTimerStarted = false
                 alertDialog.dismiss()
             }
         }
@@ -298,19 +293,48 @@ class TrainActivity : AppCompatActivity() {
 
     // Таймер отдыха
     var restTimerStarted = false
-    var curRestTimeSeconds:Double = 0.0
+    var millsOfTimer:Long = 90000
+    var timeOfRestStr = "01:30"
+    var myTimer:CountDownTimer? = null
 
     // Запуск таймера отдыха
     fun startRestTimerOfTrain(view: View){
+        myTimer?.cancel()
+        myTimer = object : CountDownTimer(millsOfTimer, 1000){
+            override fun onTick(p0: Long) {
+                binding.timeOfRest.text = getTimeStringFromLong(p0)
+            }
+
+            override fun onFinish() {
+
+            }
+        }
         if (restTimerStarted){
             binding.startRestTimerBtn.setImageResource(R.drawable.ic_baseline_play_circle_outline_24)
             restTimerStarted = !restTimerStarted
+            binding.timeOfRest.text = timeOfRestStr
+            myTimer!!.cancel()
         }
         else{
             binding.startRestTimerBtn.setImageResource(R.drawable.ic_baseline_pause_circle_24)
             restTimerStarted = !restTimerStarted
+            myTimer!!.start()
         }
     }
+
+
+    private fun getTimeStringFromLong(time: Long): String
+    {
+        val resultInt = time.toInt()
+        //Log.d("MyLog", resultInt.toString())
+        val minutes = resultInt / 1000  / 60
+
+        val seconds = resultInt / 1000  % 60
+
+        return makeTimeString(minutes, seconds)
+    }
+
+    private fun makeTimeString(min: Int, sec: Int): String = String.format("%02d:%02d", min, sec)
 
 
 }
