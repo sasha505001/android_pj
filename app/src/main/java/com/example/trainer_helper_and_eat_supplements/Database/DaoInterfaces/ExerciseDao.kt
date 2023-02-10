@@ -2,66 +2,72 @@ package com.example.trainer_helper_and_eat_supplements.Database.DaoInterfaces
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.trainer_helper_and_eat_supplements.Database.Data.ExerciseMeasuresData
-import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
-import com.example.trainer_helper_and_eat_supplements.Database.Data.MeasuresData
+import com.example.trainer_helper_and_eat_supplements.Database.Data.ExerciseMeasureData
+import com.example.trainer_helper_and_eat_supplements.Database.Data.ExerciseData
+import com.example.trainer_helper_and_eat_supplements.Database.Data.MeasureData
 
+// DAO(упражнение) TODO описание
 @Dao
-interface ExercisesDao {
+interface ExerciseDao {
 
     // Получение всех упражнений
     @Query("SELECT * FROM exercise")
-    fun getAllExercises(): LiveData<List<ExercisesData>>
+    fun getAllExercises(): LiveData<List<ExerciseData>>
 
+    // Получить имена всех мер принадлежащих упражнению
     @Query("Select name From EXERCISE_MEASURE JOIN measure on id = measure_id where exercise_id = :id ")
-    suspend fun getAllMesureNamesFromExerciseId(id:Int):List<String>
+    suspend fun getAllMeasureNamesFromExerciseId(id:Int):List<String>
 
     // Получение списка названий всех упражнений
     @Query("SELECT name FROM exercise")
     fun getAllNames():LiveData<List<String>>
 
+    // Получить id упражнения по имени
     @Query("SELECT ID FROM EXERCISE WHERE NAME = :name")
     suspend fun getExerciseIdByName(name: String):Int
 
     // Получения упражнения по имени
     @Query("SELECT * FROM exercise WHERE name = :name")
-    suspend fun getExerciseByName(name:String):ExercisesData
+    suspend fun getExerciseByName(name:String):ExerciseData
 
     // Добавление упражнения
     @Insert
-    suspend fun insertAllExercises(vararg exercises: ExercisesData)
+    suspend fun insertAllExercises(vararg objs: ExerciseData)
 
+    // Обновить упражнение
     @Update
-    suspend fun updateExercise(exercises: ExercisesData)
+    suspend fun updateExercise(exercises: ExerciseData)
 
     // Удаление упражнения
     @Delete
-    fun deleteExercise(exercises: ExercisesData)
+    fun deleteExercise(exercises: ExerciseData)
 
     // Очищение таблицы
     @Query("DELETE FROM exercise")
     fun deleteAllExercises()
 
+    // Удалить упражнение по имени
     @Query("DELETE FROM exercise WHERE name = :name")
     suspend fun deleteExerciseByName(name: String)
 
+    // Добавить новое упражнение
     @Transaction
-    open suspend fun insertNewExercise(exercise: ExercisesData, measureNames:List<String>){
+    open suspend fun insertNewExercise(exercise: ExerciseData, measureNames:List<String>){
         this.insertAllExercises(exercise)
         val exerciseId = getExerciseByName(exercise.name).id
         for (item in measureNames){
             val mesureData = getMeasureByName(item)
             insertAllExerciseMesureData(
-                ExerciseMeasuresData(exerciseId, mesureData.id)
+                ExerciseMeasureData(exerciseId, mesureData.id)
             )
         }
     }
 
 
-    // Обновление в бд
+    // Обновление упражнения в бд
     @Transaction
     open suspend fun updateOldExercise(nameOfOldExercise:String,
-                                       exercise: ExercisesData,
+                                       exercise: ExerciseData,
                                        measureNames:List<String>
     ){
         val updatingExerciseId = getExerciseIdByName(nameOfOldExercise)
@@ -72,11 +78,12 @@ interface ExercisesDao {
         for (item in measureNames){
             val mesureData = getMeasureByName(item)
             insertAllExerciseMesureData(
-                ExerciseMeasuresData(updatingExerciseId, mesureData.id)
+                ExerciseMeasureData(updatingExerciseId, mesureData.id)
             )
         }
     }
 
+    // Удаление полностью упражнения TODO доделать(тренировка)
     @Transaction
     open suspend fun deleteFullyExercise(name:String){
         val oldExerciseId = getExerciseIdByName(name)
@@ -95,11 +102,11 @@ interface ExercisesDao {
 
     // Добавение мера - упражнение
     @Insert
-    suspend fun insertAllExerciseMesureData(vararg exerciseMeasuresData: ExerciseMeasuresData)
+    suspend fun insertAllExerciseMesureData(vararg exerciseMeasuresData: ExerciseMeasureData)
 
     // Получение меры измерения по имени
     @Query("SELECT * FROM Measure WHERE name = :name")
-    suspend fun getMeasureByName(name:String):MeasuresData
+    suspend fun getMeasureByName(name:String):MeasureData
 
     // Получение мер из упражнения благодаря имени
     @Query("SELECT measure.name FROM measure " +

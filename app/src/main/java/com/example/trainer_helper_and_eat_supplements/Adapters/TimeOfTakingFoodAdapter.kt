@@ -1,28 +1,22 @@
 package com.example.trainer_helper_and_eat_supplements.Adapters
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.trainer_helper_and_eat_supplements.*
-import com.example.trainer_helper_and_eat_supplements.Database.Data.TakingTimeData
-import com.example.trainer_helper_and_eat_supplements.databinding.MainListItemBinding
-import com.example.trainer_helper_and_eat_supplements.databinding.SelectManyExerciseItemBinding
+import com.example.trainer_helper_and_eat_supplements.Database.Data.TakingTimeAndDoseData
 import com.example.trainer_helper_and_eat_supplements.databinding.TimeOfTakingFoodAdditiveItemBinding
 import java.text.SimpleDateFormat
 
 class TimeOfTakingFoodAdapter(
-    takingTimes:MutableList<TakingTimeData>,
+    takingTimes:MutableList<TakingTimeAndDoseData>,
     datamodel: MyDataModel,
     context: Context,
-    allTimeOfTaking:MutableList<TakingTimeData>
+    allTimeOfTaking:MutableList<TakingTimeAndDoseData>
 
 ): RecyclerView.Adapter<TimeOfTakingFoodAdapter.TimeOfTakingFoodHolder>() {
     val allTakingTimes = takingTimes
@@ -40,7 +34,7 @@ class TimeOfTakingFoodAdapter(
         var parent: ViewGroup,
         holdDatamodel:MyDataModel,
         holdContext:Context,
-        allTimeOfTaking:MutableList<TakingTimeData>
+        allTimeOfTaking:MutableList<TakingTimeAndDoseData>
     ): RecyclerView.ViewHolder(item){
         var binding = TimeOfTakingFoodAdditiveItemBinding.bind(item)
         val myDataModel = holdDatamodel
@@ -53,7 +47,7 @@ class TimeOfTakingFoodAdapter(
             }
         }
 
-        fun bind(data:TakingTimeData, pos:Int){
+        fun bind(data:TakingTimeAndDoseData, pos:Int){
             binding.countText.setText(data.dose_taken.toString())
             val dataFormatter = SimpleDateFormat("HH:mm")
             val resString = dataFormatter.format(data.taking_time.time)

@@ -12,45 +12,46 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.Serializable
-import java.time.DayOfWeek
 
 @Database(entities = [
-    ComplexesData::class,
-    ComplexesExercisesData::class,
-    DoneExercisePartOfItData::class,
-    ExerciseMeasuresData::class,
-    ExercisesData::class,
+    ApproachData::class,
+    ApproachPartOfApproachData::class,
+    ComplexData::class,
+    ComplexExerciseData::class,
+    ExerciseData::class,
+    ExerciseMeasureData::class,
     FoodAdditiveData::class,
+    FoodAdditiveTakingTimeAndDoseData::class,
+    MeasureData::class,
     MeasureOfFoodAdditiveData::class,
-    MeasuresData::class,
-    PartOfDoneExercisesData::class,
+    PartOfApproachData::class,
     ScheduleData::class,
-    TakingTimeData::class,
-    TakingTimeFoodAdditiveData::class,
-    TrainsData::class,
-    TrainsDoneExerciseData::class,
-    WeekDaysData::class,
-    WeekDaysFoodAdditiveData::class
+    TakingTimeAndDoseData::class,
+    TrainData::class,
+    TrainExerciseData::class,
+    WeekDayData::class,
+    WeekDayFoodAdditiveData::class
 ],
 version = 3, exportSchema = false)
-@TypeConverters(Converters::class)
+@TypeConverters(Converters::class)// TODO доделать(сделать правильный вызов
 abstract class MyDatabase : RoomDatabase(), Serializable{
-    abstract fun ComplexesDao():ComplexesDao
-    abstract fun ComplexesExercisesDao(): ComplexesExercisesDao
-    abstract fun DoneExercisePartOfItDao():DoneExercisePartOfItDao
-    abstract fun ExerciseMeasuresDao():ExerciseMeasuresDao
-    abstract fun ExercisesDao(): ExercisesDao
+    abstract fun ApproachDao():ApproachDao
+    abstract fun ApproachPartOfApproachDao():ApproachPartOfApproachDao
+    abstract fun ComplexDao():ComplexDao
+    abstract fun ComplexExerciseDao(): ComplexExerciseDao
+    abstract fun ExerciseDao(): ExerciseDao
+    abstract fun ExerciseMeasureDao():ExerciseMeasureDao
     abstract fun FoodAdditiveDao(): FoodAdditiveDao
+    abstract fun FoodAdditiveTakingTimeAndDoseDao(): FoodAdditiveTakingTimeAndDoseDao
+    abstract fun MeasureDao(): MeasureDao
     abstract fun MeasureOfFoodAdditiveDao(): MeasureOfFoodAdditiveDao
-    abstract fun MeasuresDao(): MeasuresDao
-    abstract fun PartOfDoneExercisesDao(): PartOfDoneExercisesDao
+    abstract fun PartOfApproachDao(): PartOfApproachDao
     abstract fun ScheduleDao(): ScheduleDao
-    abstract fun TakingTimeDao(): TakingTimeDao
-    abstract fun TakingTimeFoodAdditiveDao(): TakingTimeFoodAdditiveDao
-    abstract fun TrainsDao(): TrainsDao
-    abstract fun TrainsDoneExercisesDao(): TrainsDoneExercisesDao
-    abstract fun WeekDaysDao(): WeekDaysDao
-    abstract fun WeekDaysFoodAdditiveDao(): WeekDaysFoodAdditiveDao
+    abstract fun TakingTimeAndDoseDao(): TakingTimeAndDoseDao
+    abstract fun TrainDao(): TrainDao
+    abstract fun TrainExerciseDao(): TrainExerciseDao
+    abstract fun WeekDayDao(): WeekDayDao
+    abstract fun WeekDayFoodAdditiveDao(): WeekDayFoodAdditiveDao
 
 
     companion object{
@@ -84,8 +85,8 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
                         populateDatabase(
-                            database.MeasuresDao(),
-                            database.WeekDaysDao(),
+                            database.MeasureDao(),
+                            database.WeekDayDao(),
                             database.MeasureOfFoodAdditiveDao(),
                             database.ScheduleDao()
                         )
@@ -95,29 +96,29 @@ abstract class MyDatabase : RoomDatabase(), Serializable{
 
         }
         suspend fun populateDatabase(
-            mesureDao: MeasuresDao,
-            weekDaysDao: WeekDaysDao,
+            mesureDao: MeasureDao,
+            weekDaysDao: WeekDayDao,
             mesureOfFoodAdditiveDao: MeasureOfFoodAdditiveDao,
             scheduleDao: ScheduleDao
         ) {
             if(mesureDao.getAllMeasures().size == 0) {
                 mesureDao.addAllMeasure(
-                    MeasuresData("Вес (кг)"),
-                    MeasuresData("Время (с)"),
-                    MeasuresData("Повторения (раз)"),
-                    MeasuresData("Расстояние (м)")
+                    MeasureData("Вес (кг)"),
+                    MeasureData("Время (с)"),
+                    MeasureData("Повторения (раз)"),
+                    MeasureData("Расстояние (м)")
                 )
             }
 
             if(weekDaysDao.getAllWeekDaysObj().size == 0){
                 weekDaysDao.insertAllWeekDays(
-                    WeekDaysData("Понедельник"),
-                    WeekDaysData("Вторник"),
-                    WeekDaysData("Среда"),
-                    WeekDaysData("Четверг"),
-                    WeekDaysData("Пятница"),
-                    WeekDaysData("Суббота"),
-                    WeekDaysData("Воскресенье"),
+                    WeekDayData("Понедельник"),
+                    WeekDayData("Вторник"),
+                    WeekDayData("Среда"),
+                    WeekDayData("Четверг"),
+                    WeekDayData("Пятница"),
+                    WeekDayData("Суббота"),
+                    WeekDayData("Воскресенье"),
                 )
             }
             if(mesureOfFoodAdditiveDao.getAllFoodAdditiveMesuresObj().size == 0){

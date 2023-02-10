@@ -1,23 +1,15 @@
 package com.example.trainer_helper_and_eat_supplements
 
-import android.content.DialogInterface
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import com.example.trainer_helper_and_eat_supplements.Database.Data.ExerciseMeasuresData
-import com.example.trainer_helper_and_eat_supplements.Database.Data.ExercisesData
-import com.example.trainer_helper_and_eat_supplements.Database.Data.MeasuresData
-import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
+import com.example.trainer_helper_and_eat_supplements.Database.Data.ExerciseData
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.databinding.EditAddExerciseActivityBinding
-import com.example.trainer_helper_and_eat_supplements.databinding.MainListActivityBinding
 
 class EditAddExerciseActivity : AppCompatActivity() {
 
@@ -153,7 +145,7 @@ class EditAddExerciseActivity : AppCompatActivity() {
                 if(binding.timerRestEditText.text.toString() != ""){
                     restTime = binding.timerRestEditText.text.toString().toInt()
                 }
-                val data = ExercisesData(
+                val data = ExerciseData(
                     binding.nameOfExercise.text.toString(),
                     "",// TODO сделать для картинки
                     binding.linkEditText.text.toString(),

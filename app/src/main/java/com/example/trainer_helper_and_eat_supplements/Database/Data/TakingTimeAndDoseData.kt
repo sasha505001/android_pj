@@ -5,16 +5,19 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity(tableName = "taking_time")
-class TakingTimeData(
-
+// Принятие таблеток
+@Entity(tableName = "taking_time_and_count")
+class TakingTimeAndDoseData(
+    // Принимаемая доза
     @ColumnInfo(name = "dose_taken")
     val dose_taken:Float,
 
+    // Время принятия таблеток
     @ColumnInfo(name = "taking_time")
     val taking_time: Date
 
 ) {
+    // ID
     @PrimaryKey(autoGenerate = true)
     var id:Int = 0
 

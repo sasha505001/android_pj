@@ -3,17 +3,15 @@ package com.example.trainer_helper_and_eat_supplements
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.trainer_helper_and_eat_supplements.Adapters.TimeOfTakingFoodAdapter
-import com.example.trainer_helper_and_eat_supplements.Database.Data.TakingTimeData
+import com.example.trainer_helper_and_eat_supplements.Database.Data.TakingTimeAndDoseData
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.databinding.SingleEditAddTakingTimeBinding
 import com.example.trainer_helper_and_eat_supplements.databinding.TimeOfTakingFoodAdditivesActivityBinding
@@ -29,7 +27,7 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
 
     var lastFoodAdditive:String? = null
 
-    var copyOfMutableList:MutableList<TakingTimeData> = mutableListOf<TakingTimeData>()
+    var copyOfMutableList:MutableList<TakingTimeAndDoseData> = mutableListOf<TakingTimeAndDoseData>()
 
     // Для выбора элементов
     lateinit var binding: TimeOfTakingFoodAdditivesActivityBinding
@@ -64,7 +62,7 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
                 cal.set(Calendar.MINUTE, time[1].toInt())
 
                 copyOfMutableList.add(
-                    TakingTimeData(
+                    TakingTimeAndDoseData(
                         mySplitedObj[1].toFloat(),
                         cal.time
                     )
@@ -141,7 +139,7 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
         addEditTakingTimeData(null)
     }
 
-    fun addEditTakingTimeData(editData:TakingTimeData?){
+    fun addEditTakingTimeData(editData:TakingTimeAndDoseData?){
 
         val alertBinding = SingleEditAddTakingTimeBinding.inflate(layoutInflater)
 
@@ -185,7 +183,7 @@ class TimeOfTakingFoodAdditives : AppCompatActivity() {
                     copyOfMutableList.removeAt(editData.id)
                     myDatamodel.allTakingTimeForFoodAdditive.value = copyOfMutableList
                 }
-                val data = TakingTimeData(
+                val data = TakingTimeAndDoseData(
                     gotCountString.toFloat(),
                     cal.time
                 )

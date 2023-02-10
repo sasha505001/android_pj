@@ -6,25 +6,26 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "part_of_done_exercises",
+    tableName = "part_of_approach",
     foreignKeys = [
         ForeignKey(
-            entity = MeasuresData::class,
+            entity = MeasureData::class,
             parentColumns = ["id"],
             childColumns = ["measure_id"],
             onDelete = ForeignKey.NO_ACTION
         )
     ]
 )
-data class PartOfDoneExercisesData(
-// Описывается 1 подход в тренировки
-
+data class PartOfApproachData(
+    // Мера
     @ColumnInfo(name = "measure_id")
     var mesure:Int,
 
+    // Количество
     @ColumnInfo(name = "count")
     var count:Float,
 ) {
+    // Id
     @PrimaryKey(autoGenerate = true)
     var id:Int = 0
 }

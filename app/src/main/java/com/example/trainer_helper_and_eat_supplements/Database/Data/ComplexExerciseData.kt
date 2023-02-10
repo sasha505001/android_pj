@@ -3,33 +3,33 @@ package com.example.trainer_helper_and_eat_supplements.Database.Data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.ForeignKey.CASCADE
-import androidx.room.ForeignKey.SET_NULL
-import androidx.room.PrimaryKey
 
+// Связывает комплексы и упражнения
 @Entity(
     tableName = "complex_exercise",
     primaryKeys = ["exercise_id", "complex_id"],
     foreignKeys = [
         ForeignKey(
-            entity = ComplexesData::class,
+            entity = ComplexData::class,
             parentColumns = ["id"],
             childColumns = ["complex_id"],
             onDelete = ForeignKey.NO_ACTION
         ),
         ForeignKey(
-            entity = ExercisesData::class,
+            entity = ExerciseData::class,
             parentColumns = ["id"],
             childColumns = ["exercise_id"],
             onDelete = ForeignKey.NO_ACTION
         )
     ]
 )
-data class ComplexesExercisesData(
+data class ComplexExerciseData(
+    // Id упражнения
     @ColumnInfo(name = "exercise_id")
-    var exercise:Int,
+    var exercise_id:Int,
 
+    // Id комплекса
     @ColumnInfo(name = "complex_id")
-    var complex:Int,
+    var complex_id:Int,
 ) {
 }

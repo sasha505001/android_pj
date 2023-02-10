@@ -4,8 +4,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+// Расписание
 @Entity(tableName = "schedule")
 class ScheduleData(
+    // Название
     @ColumnInfo(name = "name")
     val name:String,
 ) {

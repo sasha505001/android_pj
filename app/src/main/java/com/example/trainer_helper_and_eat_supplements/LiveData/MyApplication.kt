@@ -1,10 +1,6 @@
 package com.example.trainer_helper_and_eat_supplements.LiveData
 
-import android.app.Application
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.example.trainer_helper_and_eat_supplements.CONSTANTS
 import com.example.trainer_helper_and_eat_supplements.Database.MyDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -19,23 +15,23 @@ class MyApplication(context: Context) {
     // Все на счет упражнений
     val myRep by lazy{
         MyRepository(
-            database.ComplexesDao(),
-            database.ComplexesExercisesDao(),
-            database.DoneExercisePartOfItDao(),
-            database.ExerciseMeasuresDao(),
-            database.ExercisesDao(),
+            database.ApproachDao(),
+            database.ApproachPartOfApproachDao(),
+            database.ComplexDao(),
+            database.ComplexExerciseDao(),
+            database.ExerciseDao(),
+            database.ExerciseMeasureDao(),
             database.FoodAdditiveDao(),
+            database.FoodAdditiveTakingTimeAndDoseDao(),
+            database.MeasureDao(),
             database.MeasureOfFoodAdditiveDao(),
-            database.MeasuresDao(),
-            database.PartOfDoneExercisesDao(),
+            database.PartOfApproachDao(),
             database.ScheduleDao(),
-            database.TakingTimeDao(),
-            database.TakingTimeFoodAdditiveDao(),
-            database.TrainsDao(),
-            database.TrainsDoneExercisesDao(),
-            database.WeekDaysDao(),
-            database.WeekDaysFoodAdditiveDao()
-
+            database.TakingTimeAndDoseDao(),
+            database.TrainDao(),
+            database.TrainExerciseDao(),
+            database.WeekDayDao(),
+            database.WeekDayFoodAdditiveDao()
         )
     }
 }

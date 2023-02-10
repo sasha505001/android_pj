@@ -6,6 +6,8 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.example.trainer_helper_and_eat_supplements.Database.Data.ScheduleData
 
+
+// DAO(расписания)
 @Dao
 interface ScheduleDao {
     @Query("SELECT name FROM schedule")

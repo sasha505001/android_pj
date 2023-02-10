@@ -6,27 +6,31 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.util.*
 
-
+// Тренировка
 @Entity(tableName = "train",
     foreignKeys = [
         ForeignKey(
-            entity = ComplexesData::class,
+            entity = ComplexData::class,
             childColumns = ["complex_id"],
             parentColumns = ["id"],
             onDelete = ForeignKey.NO_ACTION
         )
     ]
 )
-data class TrainsData(
+data class TrainData(
+    // Название
     @ColumnInfo(name = "name")
     var name:String,
 
+    // Комплекс
     @ColumnInfo(name = "complex_id")
-    var complex:Int,
+    var complex_id:Int,
 
-    @ColumnInfo(name = "date_of_train")
-    var daytime: Date,
+    // Дата начала тренировки
+    @ColumnInfo(name = "datetime_start_of_train")
+    var datetime_start_of_train: Date,
     ) {
+    // Id
     @PrimaryKey(autoGenerate = true)
     var id:Int = 0
 }

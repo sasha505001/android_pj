@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 
-// Уникальна по имени
+// Пищевая добавка
 @Entity(tableName = "food_additive",
         indices = [androidx.room.Index(
                 value = ["name"],
@@ -16,7 +16,7 @@ import java.util.*
         foreignKeys = [
                 ForeignKey(
                         entity = MeasureOfFoodAdditiveData::class,
-                        childColumns = ["mesure_id"],
+                        childColumns = ["measure_id"],
                         parentColumns = ["id"],
                         onDelete = ForeignKey.NO_ACTION
                 ),
@@ -29,13 +29,13 @@ import java.util.*
         ])
 class FoodAdditiveData (
 
-        // Название Пищевой добавки
+        // Название
         @ColumnInfo(name = "name")
         val name: String,
 
-        // Мера пищевой добавки(ссылка)
-        @ColumnInfo(name = "mesure_id")
-        val mesure_id: Int,
+        // Мера пищевой добавки
+        @ColumnInfo(name = "measure_id")
+        val measure_id: Int,
 
         // Расписание(тип расписания(каждый день..)
         @ColumnInfo(name = "schedule_id")

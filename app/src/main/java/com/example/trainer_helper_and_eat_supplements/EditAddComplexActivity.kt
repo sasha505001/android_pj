@@ -10,7 +10,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import com.example.trainer_helper_and_eat_supplements.Database.Data.ComplexesData
+import com.example.trainer_helper_and_eat_supplements.Database.Data.ComplexData
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyApplication
 import com.example.trainer_helper_and_eat_supplements.databinding.EditAddComplexActivityBinding
 
@@ -150,7 +150,7 @@ class EditAddComplexActivity : AppCompatActivity() {
             alertDialog.show()
         }
         else{
-            val data = ComplexesData(nameOfCreatingComplex)
+            val data = ComplexData(nameOfCreatingComplex)
             val exercisesNames = chosenExercisesNames.split(",\n")
             if(nameOfEditObject==null){
                 myDatamodel.insertFullComplex(data, exercisesNames)

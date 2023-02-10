@@ -3,28 +3,26 @@ package com.example.trainer_helper_and_eat_supplements.Database.Data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.ForeignKey.CASCADE
-import androidx.room.ForeignKey.SET_NULL
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "train_done_exercise",
+    tableName = "train_exercise",
     foreignKeys = [
         ForeignKey(
-            entity = TrainsData::class,
+            entity = TrainData::class,
             childColumns = ["train_id"],
             parentColumns = ["id"],
             onDelete = ForeignKey.NO_ACTION
         ),
         ForeignKey(
-            entity = ExercisesData::class,
+            entity = ExerciseData::class,
             childColumns = ["exercise_id"],
             parentColumns = ["id"],
             onDelete = ForeignKey.NO_ACTION
         )
     ]
 )
-data class TrainsDoneExerciseData (
+data class TrainExerciseData (
     @ColumnInfo(name = "train_id")
     var train_id:Int,
 
@@ -32,5 +30,5 @@ data class TrainsDoneExerciseData (
     var exercise_id:Int,
     ){
     @PrimaryKey(autoGenerate = true)
-    var approach:Int = 0
+    var id:Int = 0
 }

@@ -7,49 +7,50 @@ import com.example.trainer_helper_and_eat_supplements.Database.Data.*
 
 
 class MyRepository(
-    private val complexesDao: ComplexesDao,
-    private val complexesExercisesDao: ComplexesExercisesDao,
-    private val doneExercisePartOfItDao: DoneExercisePartOfItDao,
-    private val exerciseMeasuresDao: ExerciseMeasuresDao,
-    private val exercisesDao: ExercisesDao,
+    private  val approachDao: ApproachDao,
+    private val approachPartOfApproachDao: ApproachPartOfApproachDao,
+    private val complexDao: ComplexDao,
+    private val complexExerciseDao: ComplexExerciseDao,
+    private val exerciseDao: ExerciseDao,
+    private val exerciseMeasureDao: ExerciseMeasureDao,
     private val foodAdditiveDao: FoodAdditiveDao,
+    private val foodAdditiveTakingTimeAndDoseDao: FoodAdditiveTakingTimeAndDoseDao,
+    private val measureDao: MeasureDao,
     private val measureOfFoodAdditiveDao: MeasureOfFoodAdditiveDao,
-    private val measuresDao: MeasuresDao,
-    private val partOfDoneExercisesDao: PartOfDoneExercisesDao,
+    private val partOfApproachDao: PartOfApproachDao,
     private val scheduleDao: ScheduleDao,
-    private val takingTimeDao: TakingTimeDao,
-    private val takingTimeFoodAdditiveDao: TakingTimeFoodAdditiveDao,
-    private val trainsDao: TrainsDao,
-    private val trainsDoneExercisesDao: TrainsDoneExercisesDao,
-    private val weekDaysDao: WeekDaysDao,
-    private val weekDaysFoodAdditiveDao: WeekDaysFoodAdditiveDao,
+    private val takingTimeAndDoseDao: TakingTimeAndDoseDao,
+    private val trainDao: TrainDao,
+    private val trainExerciseDao: TrainExerciseDao,
+    private val weekDayDao: WeekDayDao,
+    private val weekDayFoodAdditiveDao: WeekDayFoodAdditiveDao,
 ) {
     // TODO ------------------------------  Упражнения  ---------------------------------
     // Все объекты упражнений
-    val allExercises: LiveData<List<ExercisesData>> = exercisesDao.getAllExercises()
+    val allExercises: LiveData<List<ExerciseData>> = exerciseDao.getAllExercises()
     // Все имена упражнений
-    val allExerciseName : LiveData<List<String>> = exercisesDao.getAllNames()
+    val allExerciseName : LiveData<List<String>> = exerciseDao.getAllNames()
 
     // Добавление упражнения
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insertExercise(exercisesData: ExercisesData){
-        exercisesDao.insertAllExercises(exercisesData)
+    suspend fun insertExercise(exercisesData: ExerciseData){
+        exerciseDao.insertAllExercises(exercisesData)
     }
 
     /* Добавление упражнения(упражнения-мера)*/
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun addFullyExercise(exerciseData: ExercisesData, measureNames:List<String>){
-        exercisesDao.insertNewExercise(exerciseData, measureNames)
+    suspend fun addFullyExercise(exerciseData: ExerciseData, measureNames:List<String>){
+        exerciseDao.insertNewExercise(exerciseData, measureNames)
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun updateExercise(nameOfOldExercise:String,
-                               exercise: ExercisesData,
+                               exercise: ExerciseData,
                                measureNames:List<String>){
-        exercisesDao.updateOldExercise(nameOfOldExercise, exercise, measureNames)
+        exerciseDao.updateOldExercise(nameOfOldExercise, exercise, measureNames)
     }
 
 
@@ -58,7 +59,7 @@ class MyRepository(
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun deleteExerciseByName(exerciseName: String){
-        exercisesDao.deleteExerciseByName(exerciseName)
+        exerciseDao.deleteExerciseByName(exerciseName)
     }
 
 
@@ -66,45 +67,45 @@ class MyRepository(
     // Получение объекта упражнения по имени
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getExerciseByName(exerciseName: String): ExercisesData{
-        return exercisesDao.getExerciseByName(exerciseName)
+    suspend fun getExerciseByName(exerciseName: String): ExerciseData{
+        return exerciseDao.getExerciseByName(exerciseName)
     }
 
     // Получение объекта упражнения по имени
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun deleteFullyExerciseByName(exerciseName: String){
-        exercisesDao.deleteFullyExercise(exerciseName)
+        exerciseDao.deleteFullyExercise(exerciseName)
     }
 
     // Получение объекта упражнения по имени
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun getMesureOfExerciseById(exerciseId:Int):List<String>{
-        return exercisesDao.getAllMesureNamesFromExerciseId(exerciseId)
+        return exerciseDao.getAllMeasureNamesFromExerciseId(exerciseId)
     }
 
     // TODO -----------------------------  Меры  -------------------------------------
     // Получение названия всех мер
     // Объекты
-    val allMesureData:LiveData<List<MeasuresData>> = measuresDao.liveGetAllMeasures()
+    val allMesureData:LiveData<List<MeasureData>> = measureDao.liveGetAllMeasures()
     // Названия
-    val allMesuresName:LiveData<List<String>> = measuresDao.getAllMeasuresNames()
+    val allMesuresName:LiveData<List<String>> = measureDao.getAllMeasuresNames()
 
 
     // Добавление меры
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insertMesure(mesure:MeasuresData){
-        measuresDao.addAllMeasure(mesure)
+    suspend fun insertMesure(mesure:MeasureData){
+        measureDao.addAllMeasure(mesure)
     }
 
 
     // Получение объекта меры по имени
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun getMesureByName(name: String):MeasuresData{
-        return measuresDao.getMeasureByName(name)
+    suspend fun getMesureByName(name: String):MeasureData{
+        return measureDao.getMeasureByName(name)
     }
 
 
@@ -113,25 +114,25 @@ class MyRepository(
     // Добавление
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insertMesureExercise(data:ExerciseMeasuresData){
-        exerciseMeasuresDao.insertAll(data)
+    suspend fun insertMesureExercise(data:ExerciseMeasureData){
+        exerciseMeasureDao.insertAll(data)
     }
 
 
     // TODO ---------------------------------- Комплексы  ------------------------------
-    val allComplexesNames:LiveData<List<String>> = complexesDao.LiveGetAllComplexesNames()
-    val allComplexes:LiveData<List<ComplexesData>> = complexesDao.liveGetAllComplexes()
+    val allComplexesNames:LiveData<List<String>> = complexDao.LiveGetAllComplexesNames()
+    val allComplexes:LiveData<List<ComplexData>> = complexDao.liveGetAllComplexes()
 
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insertFullComplex(complex: ComplexesData, namesOfExercises:List<String>){
-        complexesDao.insertAll(complex)
-        val curComplex = complexesDao.getComplexByName(complex.name)
+    suspend fun insertFullComplex(complex: ComplexData, namesOfExercises:List<String>){
+        complexDao.insertAll(complex)
+        val curComplex = complexDao.getComplexByName(complex.name)
         namesOfExercises.forEach(){ exerciseName ->
-            val exerciseId = exercisesDao.getExerciseIdByName(exerciseName)
-            complexesExercisesDao.insertAll(
-                ComplexesExercisesData(
+            val exerciseId = exerciseDao.getExerciseIdByName(exerciseName)
+            complexExerciseDao.insertAll(
+                ComplexExerciseData(
                     exerciseId,
                     curComplex.id
                 )
@@ -143,26 +144,26 @@ class MyRepository(
     @WorkerThread
     suspend fun fullDeleteComplex(complexName: String){
         // Получаю комлпекс
-        val complex = complexesDao.getComplexByName(complexName)
+        val complex = complexDao.getComplexByName(complexName)
         // Удаляю связи
-        complexesExercisesDao.deleteObjWithComplex(complex.id)
+        complexExerciseDao.deleteObjWithComplex(complex.id)
         // Удаляю сам комлпекс
-        complexesDao.delete(complex)
+        complexDao.delete(complex)
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun getAllExercisesNamesByComplexName(complexName: String):List<String>{
-        return complexesExercisesDao.getAllExerciseNamesWithComplexName(complexName)
+        return complexExerciseDao.getAllExerciseNamesWithComplexName(complexName)
     }
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun updateComplex(
         oldComplexName: String,
-        complex: ComplexesData,
+        complex: ComplexData,
         namesOfExercises:List<String>){
-        complexesDao.updateOldComplex(oldComplexName, complex, namesOfExercises)
+        complexDao.updateOldComplex(oldComplexName, complex, namesOfExercises)
     }
 
     // TODO ---------------------------------- Тренировки  ------------------------------
@@ -177,13 +178,13 @@ class MyRepository(
     val allScheduleNames = scheduleDao.liveGetAllScheduleNames()
 
     // TODO ---------------------------------- Дни недели ---------------------------------
-    val allDaysOfWeekNames = weekDaysDao.getAllWeekDaysNames()
+    val allDaysOfWeekNames = weekDayDao.getAllWeekDaysNames()
 
     // Получение мер из упражнения(используя имя)
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun getMesuresFromExerciseName(exerciseName: String):List<String>{
-        return exercisesDao.getMesuresFromExerciseName(exerciseName)
+        return exerciseDao.getMesuresFromExerciseName(exerciseName)
     }
 
 }

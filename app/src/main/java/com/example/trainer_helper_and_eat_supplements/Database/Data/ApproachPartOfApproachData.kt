@@ -6,27 +6,29 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "done_exercise_and_part",
+    tableName = "approach_part_of_approach",
     foreignKeys = [
         ForeignKey(
-            entity = TrainsDoneExerciseData::class,
-            parentColumns = ["approach"],
+            entity = ApproachData::class,
+            parentColumns = ["id"],
             childColumns = ["approach_id"],
             onDelete = ForeignKey.NO_ACTION
         ),
         ForeignKey(
-            entity = PartOfDoneExercisesData::class,
+            entity = PartOfApproachData::class,
             parentColumns = ["id"],
-            childColumns = ["part_of_done_exercise"],
+            childColumns = ["part_of_approach_id"],
             onDelete = ForeignKey.CASCADE
         )
     ])
-class DoneExercisePartOfItData (
-    // Связывает подход с упрожнением
+class ApproachPartOfApproachData (
+    // подход
     @ColumnInfo(name = "approach_id")
     val approach_id:Int,
-    @ColumnInfo(name = "part_of_done_exercise")
-    val part_of_done_exercise:Int
+
+    // часть данных о подходе
+    @ColumnInfo(name = "part_of_approach_id")
+    val part_of_approach_id:Int
 ){
     @PrimaryKey(autoGenerate = true)
     var id:Int = 0

@@ -6,12 +6,13 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+// Упражнение
 @Entity(tableName = "exercise",
     indices = [Index(
         value = ["name"],
         unique = true
     )])
-data class ExercisesData (
+data class ExerciseData (
 
     // Название упражнения
     @ColumnInfo(name = "name")
@@ -25,6 +26,7 @@ data class ExercisesData (
     @ColumnInfo(name = "link")
     val link: String = "",
 
+    // Время отдыха(возможно ненужно)
     @ColumnInfo(name = "rest_time")
     val rest_time:Int = 90
     ){

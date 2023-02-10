@@ -4,8 +4,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+// День недели
 @Entity(tableName = "week_days")
-class WeekDaysData (
+class WeekDayData (
+    // Название дня недели
     @ColumnInfo(name = "name")
     val name:String,
 ){

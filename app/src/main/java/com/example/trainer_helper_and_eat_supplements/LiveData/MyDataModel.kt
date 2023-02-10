@@ -1,6 +1,5 @@
 package com.example.trainer_helper_and_eat_supplements
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.trainer_helper_and_eat_supplements.Database.Data.*
 import com.example.trainer_helper_and_eat_supplements.LiveData.MyRepository
@@ -27,24 +26,24 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
 
     // TODO -----------------------------  Упражнения  --------------------------------------------
     // Все объекты упражнений
-    val allExercisesData: LiveData<List<ExercisesData>> = myRep.allExercises
+    val allExercisesData: LiveData<List<ExerciseData>> = myRep.allExercises
     // Все имена упражнений
     val allExercisesName: LiveData<List<String>> = myRep.allExerciseName
 
     // Добавление упражнения(без связей)
-    fun insertExercise(exercisesData: ExercisesData) = viewModelScope.launch(){
+    fun insertExercise(exercisesData: ExerciseData) = viewModelScope.launch(){
         myRep.insertExercise(exercisesData)
     }
 
     // Добавление упражнения полностью со всеми связями(меры)
-    fun addFullyExercise(exerciseData: ExercisesData, measureNames:List<String>) =
+    fun addFullyExercise(exerciseData: ExerciseData, measureNames:List<String>) =
         viewModelScope.launch {
             myRep.addFullyExercise(exerciseData, measureNames)
         }
 
     // Фуникция редактирования упражнения
     fun updateOldExercise(nameOfOldExercise:String,
-                          exercise: ExercisesData,
+                          exercise: ExerciseData,
                           measureNames:List<String>) =
         viewModelScope.launch {
             myRep.updateExercise(nameOfOldExercise, exercise, measureNames)
@@ -61,8 +60,8 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
     }
 
     // Получение упражнения по имени
-    fun getExerciseByName(exerciseName: String):LiveData<ExercisesData>{
-        val result = MutableLiveData<ExercisesData>()
+    fun getExerciseByName(exerciseName: String):LiveData<ExerciseData>{
+        val result = MutableLiveData<ExerciseData>()
         viewModelScope.launch {
             val returnRepo = myRep.getExerciseByName(exerciseName)
             result.postValue(returnRepo)
@@ -74,13 +73,13 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
 
     // TODO --------------------------------- Меры ----------------------------------------------
     // Все объекты мер
-    val allMesures:LiveData<List<MeasuresData>> = myRep.allMesureData
+    val allMesures:LiveData<List<MeasureData>> = myRep.allMesureData
     // Список всех мер
     val allMesuresName: LiveData<List<String>> = myRep.allMesuresName
 
     // Получение меры по имени
-    fun getMesureByName(name:String): LiveData<MeasuresData>{
-        val result = MutableLiveData<MeasuresData>()
+    fun getMesureByName(name:String): LiveData<MeasureData>{
+        val result = MutableLiveData<MeasureData>()
         viewModelScope.launch {
             val returnRepo = myRep.getMesureByName(name)
             result.postValue(returnRepo)
@@ -109,7 +108,7 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
 
     // TODO --------------------------------------- Мера - упражнение -----------------------------
     // Добавление меры
-    fun insertExerciseMeasure(data:ExerciseMeasuresData)= viewModelScope.launch(){
+    fun insertExerciseMeasure(data:ExerciseMeasureData)= viewModelScope.launch(){
         myRep.insertMesureExercise(data)
     }
 
@@ -117,7 +116,7 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
     val allComplexesNames = myRep.allComplexesNames
     val allComplexes = myRep.allComplexes
 
-    fun insertFullComplex(complex: ComplexesData, namesOfExercises:List<String>)
+    fun insertFullComplex(complex: ComplexData, namesOfExercises:List<String>)
     = viewModelScope.launch {
         myRep.insertFullComplex(complex, namesOfExercises)
     }
@@ -136,7 +135,7 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
     }
 
     fun updateComplex(oldComplexName: String,
-                      complex: ComplexesData,
+                      complex: ComplexData,
                       namesOfExercises:List<String>) = viewModelScope.launch {
                           myRep.updateComplex(oldComplexName, complex, namesOfExercises)
     }
@@ -158,12 +157,12 @@ class MyDataModel(private val myRep: MyRepository): ViewModel(){
     }
 
     // TODO специально для времени
-    val allTakingTimeForFoodAdditive:MutableLiveData<MutableList<TakingTimeData>> by lazy{
-        MutableLiveData<MutableList<TakingTimeData>>()
+    val allTakingTimeForFoodAdditive:MutableLiveData<MutableList<TakingTimeAndDoseData>> by lazy{
+        MutableLiveData<MutableList<TakingTimeAndDoseData>>()
     }
 
-    val editTime:MutableLiveData<TakingTimeData> by lazy{
-        MutableLiveData<TakingTimeData>()
+    val editTime:MutableLiveData<TakingTimeAndDoseData> by lazy{
+        MutableLiveData<TakingTimeAndDoseData>()
     }
 
     // TODO ------------------------------- Дни недели ---------------------------------
